@@ -43,7 +43,7 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue } from "vue-property-decorator";
-import NotebookBar from "@/components/NotebookBar";
+import NotebookBar from "@/components/NotebookBar.vue";
 
 @Component({
   components: { NotebookBar },

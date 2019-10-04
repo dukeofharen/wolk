@@ -3,7 +3,7 @@
   conditions:
     method: GET
     url:
-      path: /api/v1/notebooks
+      path: ^/api/v1/notebooks$
   response:
     json: |
       [{

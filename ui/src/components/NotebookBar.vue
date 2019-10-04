@@ -4,7 +4,7 @@
       <v-list-item
         @click="notebookClick(notebook)"
         v-for="notebook of notebooks"
-        v-bind:key="notebook.id"
+        :key="notebook.id"
       >
         <v-list-item-action>
           <v-icon>mdi-notebook</v-icon>
@@ -33,7 +33,9 @@ export default class NotebookBar extends Vue {
     this.$store.dispatch("loadNotebooks");
   }
 
-  notebookClick(notebook: Notebook) {}
+  notebookClick(notebook: Notebook) {
+    this.$router.push({ name: "notesList", params: <any>{ id: notebook.id } });
+  }
 }
 </script>
 
