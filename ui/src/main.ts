@@ -5,11 +5,14 @@ import store from './store';
 import './registerServiceWorker';
 import vuetify from './plugins/vuetify';
 
+// Fonts
+import 'typeface-roboto';
+
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
   vuetify,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app');
