@@ -1,0 +1,16 @@
+- id: notebooks-get-all
+  tenant: Wolk
+  conditions:
+    method: GET
+    url:
+      path: /api/v1/notebooks
+  response:
+    json: |
+      [{
+        "id": 1,
+        "name": "Home"
+      },
+      {
+        "id": 2,
+        "name": "Gardening"
+      }]

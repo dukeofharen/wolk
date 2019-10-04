@@ -1,37 +1,36 @@
 <template>
-  <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
+  <v-app id="keep">
+    <v-app-bar app clipped-left color="amber">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <span class="title ml-3 mr-5">
+        Wolk&nbsp;
+        <span class="font-weight-light">Notes</span>
+      </span>
+      <v-text-field solo-inverted flat hide-details label="Search" prepend-inner-icon="mdi-magnify"></v-text-field>
+      <div class="flex-grow-1"></div>
     </v-app-bar>
 
+    <v-navigation-drawer v-model="drawer" app clipped color="grey lighten-4">
+      <NotebookBar></NotebookBar>
+    </v-navigation-drawer>
+
     <v-content>
-      <HelloWorld/>
+      <v-container fluid class="lighten-4">
+        <router-view></router-view>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+<script>
+import NotebookBar from '@/components/NotebookBar';
+export default {
 
-export default Vue.extend({
-  name: 'App',
   components: {
-    HelloWorld,
+      NotebookBar
   },
   data: () => ({
-    //
-  }),
-});
+    drawer: null
+  })
+};
 </script>
