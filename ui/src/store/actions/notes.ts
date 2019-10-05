@@ -1,4 +1,4 @@
-import { StateModel } from '@/models/stateModel';
+import { StateModel } from '@/models/store/stateModel';
 import { ActionContext } from 'vuex';
 import urls from '@/urls';
 import axios from 'axios';

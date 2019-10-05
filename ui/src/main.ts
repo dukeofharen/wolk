@@ -5,8 +5,14 @@ import store from './store/store';
 import './registerServiceWorker';
 import vuetify from './plugins/vuetify';
 
+// Axios interceptors
+import '@/interceptors/unauthorizedInterceptor';
+
 // Fonts
 import 'typeface-roboto';
+
+// Toastr
+import 'toastr/build/toastr.css';
 
 Vue.config.productionTip = false;
 

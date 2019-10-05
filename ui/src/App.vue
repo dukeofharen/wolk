@@ -37,6 +37,7 @@
         <router-view></router-view>
       </v-container>
     </v-content>
+    <ToastMessages></ToastMessages>
   </v-app>
 </template>
 
@@ -44,9 +45,10 @@
 import { mapState } from "vuex";
 import { Component, Vue } from "vue-property-decorator";
 import NotebookBar from "@/components/NotebookBar.vue";
+import ToastMessages from "@/components/ToastMessages.vue";
 
 @Component({
-  components: { NotebookBar },
+  components: { NotebookBar, ToastMessages },
   computed: mapState(["notebooks"])
 })
 export default class App extends Vue {
