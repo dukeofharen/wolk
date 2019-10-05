@@ -5,11 +5,11 @@
         <v-card-text>
           <v-form>
             <v-text-field
-              label="Login"
-              name="login"
+              label="Email address"
+              name="email"
               prepend-icon="mdi-account"
               type="text"
-              v-model="username"
+              v-model="authenticateModel.email"
             ></v-text-field>
             <v-text-field
               id="password"
@@ -17,12 +17,15 @@
               name="password"
               prepend-icon="mdi-lock"
               type="password"
-              v-model="password"
+              v-model="authenticateModel.password"
             ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="logIn">Login</v-btn>
+          <v-btn
+            color="primary"
+            @click="logIn"
+          >Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -32,25 +35,41 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import { AuthenticateModel } from "../models/api/authenticateModel";
+import { SignedInModel } from "../models/api/signedInModel";
 
 @Component({
-  components: {}
+  components: {},
+  computed: mapState(["signedInUser"])
 })
 export default class Login extends Vue {
+  signedInUser!: SignedInModel;
+  authenticateModel: AuthenticateModel = {
+    email: "",
+    password: ""
+  };
+
   constructor() {
     super();
   }
 
-  data() {
-    return {
-      username: '',
-      password: ''
-    };
+  mounted() {
+    this.handleLogin();
+  }
+
+  @Watch("signedInUser")
+  userChanged(user: SignedInModel) {
+    this.handleLogin();
   }
 
   logIn() {
-    console.log('LOGIN')
+    this.$store.dispatch("authenticate", this.authenticateModel);
+  }
+
+  private handleLogin() {
+    if (this.signedInUser.token !== "") {
+      console.log('OK!');
+    }
   }
 }
-</script>
 </script>

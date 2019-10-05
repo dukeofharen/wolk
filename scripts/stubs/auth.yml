@@ -10,7 +10,7 @@
     url:
       path: ^/api/v1/users$
     body:
-      - \bduco@duco.example\b
+      - \ba@a.nl\b
       - \bpasss\b
   response:
     json: |
