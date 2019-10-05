@@ -4,6 +4,8 @@
     method: GET
     url:
       path: /api/v1/notebooks/2/notes
+    headers:
+      Authorization: Bearer secrettoken
   response:
     json: |
       [{

@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import urls from '@/urls';
+
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import { StateModel } from '@/models/stateModel';
-import Notebook from '@/models/api/notebook';
-import Note from '@/models/api/note';
+import { SET_NOTEBOOKS } from '@/store/mutations/notebooks';
+import { SET_NOTES } from '@/store/mutations/notes';
+import { loadNotebooks } from '@/store/actions/notebooks';
+import { loadNotes } from '@/store/actions/notes';
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -19,27 +21,11 @@ const state: StateModel = {
 export default new Vuex.Store({
   state,
   mutations: {
-    SET_NOTEBOOKS(state: StateModel, notebooks: Notebook[]) {
-      state.notebooks = notebooks;
-    },
-    SET_NOTES(state: StateModel, notes: Note[]) {
-      state.notes = notes;
-    }
+    SET_NOTEBOOKS,
+    SET_NOTES
   },
   actions: {
-    loadNotebooks({ commit }) {
-      axios.get(`${urls.rootUrl}api/v1/notebooks`)
-        .then(r => r.data)
-        .then((notebooks: Notebook[]) => {
-          commit('SET_NOTEBOOKS', notebooks)
-        });
-    },
-    loadNotes({ commit }, notebookId: number) {
-      axios.get(`${urls.rootUrl}api/v1/notebooks/${notebookId}/notes`)
-        .then(r => r.data)
-        .then((notes: Note[]) => {
-          commit('SET_NOTES', notes)
-        });
-    }
+    loadNotebooks,
+    loadNotes
   },
 });
