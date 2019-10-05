@@ -12,5 +12,10 @@ export default new Router({
       name: 'notesList',
       component: () => import(/* webpackChunkName: "notesList" */ './views/NotesList.vue'),
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue'),
+    },
   ],
 });

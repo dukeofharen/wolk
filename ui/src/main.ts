@@ -14,6 +14,9 @@ import 'typeface-roboto';
 // Toastr
 import 'toastr/build/toastr.css';
 
+// Style
+import '@/css/style.css';
+
 Vue.config.productionTip = false;
 
 new Vue({

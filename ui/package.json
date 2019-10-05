@@ -22,6 +22,7 @@
     "@mdi/font": "^4.4.95",
     "@types/chai": "^4.1.0",
     "@types/mocha": "^5.2.4",
+    "@types/toastr": "^2.1.37",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-pwa": "^3.11.0",
     "@vue/cli-plugin-typescript": "^3.11.0",
