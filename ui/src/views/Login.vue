@@ -50,7 +50,6 @@ export default class Login extends Vue {
 
   constructor() {
     super();
-    this.handleLogin();
   }
 
   mounted() {
@@ -68,8 +67,7 @@ export default class Login extends Vue {
 
   private handleLogin() {
     if (this.$store.getters.isSignedIn) {
-      console.log('OK!');
-      // TODO redirect
+      this.$router.push({ name: "overview" });
     }
   }
 }
