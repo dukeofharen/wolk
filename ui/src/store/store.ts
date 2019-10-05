@@ -16,7 +16,7 @@ import { loadNotebooks } from '@/store/actions/notebooks';
 import { loadNotes } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
 
-import { signedInUser } from '@/store/getters/users';
+import { signedInUser, isSignedIn } from '@/store/getters/users';
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -30,7 +30,6 @@ const state: StateModel = {
   },
   notebooks: [],
   notes: [],
-  authenticated: false,
   signedInUser: {
     email: '',
     id: 0,
@@ -52,6 +51,7 @@ export default new Vuex.Store({
     authenticate
   },
   getters: {
-    signedInUser
+    signedInUser,
+    isSignedIn
   },
 });

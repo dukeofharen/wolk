@@ -22,7 +22,7 @@ import Notebook from "../models/api/notebook";
 
 @Component({
   components: {},
-  computed: mapState(["notebooks", "authenticated"])
+  computed: mapState(["notebooks", "signedInUser"])
 })
 export default class NotebookBar extends Vue {
   constructor() {
@@ -33,7 +33,7 @@ export default class NotebookBar extends Vue {
     this.loadNotebooks();
   }
 
-  @Watch("authenticated")
+  @Watch("signedInUser")
   loginChanged() {
     this.loadNotebooks();
   }

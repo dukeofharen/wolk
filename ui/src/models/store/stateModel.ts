@@ -8,5 +8,4 @@ export interface StateModel {
     notebooks: Notebook[];
     notes: Note[];
     signedInUser: SignedInModel;
-    authenticated: boolean;
 }
