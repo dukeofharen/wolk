@@ -7,6 +7,7 @@ import vuetify from './plugins/vuetify';
 
 // Axios interceptors
 import '@/interceptors/unauthorizedInterceptor';
+import '@/interceptors/addTokenToRequestInterceptor';
 
 // Fonts
 import 'typeface-roboto';

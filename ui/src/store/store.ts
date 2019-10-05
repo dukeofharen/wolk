@@ -3,15 +3,20 @@ import Vuex from 'vuex';
 
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+
 import { StateModel } from '@/models/store/stateModel';
+import { MessageType } from '@/models/store/messageModel';
+
 import { SET_NOTEBOOKS } from '@/store/mutations/notebooks';
 import { SET_NOTES } from '@/store/mutations/notes';
 import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER } from '@/store/mutations/users';
+
 import { loadNotebooks } from '@/store/actions/notebooks';
 import { loadNotes } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
-import { MessageType } from '@/models/store/messageModel';
+
+import { signedInUser } from '@/store/getters/users';
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -25,6 +30,7 @@ const state: StateModel = {
   },
   notebooks: [],
   notes: [],
+  authenticated: false,
   signedInUser: {
     email: '',
     id: 0,
@@ -44,5 +50,8 @@ export default new Vuex.Store({
     loadNotebooks,
     loadNotes,
     authenticate
+  },
+  getters: {
+    signedInUser
   },
 });

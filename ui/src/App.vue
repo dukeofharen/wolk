@@ -52,6 +52,6 @@ import ToastMessages from "@/components/ToastMessages.vue";
   computed: mapState(["notebooks"])
 })
 export default class App extends Vue {
-  drawer: boolean? = null;
+  drawer: boolean = true;
 }
 </script>

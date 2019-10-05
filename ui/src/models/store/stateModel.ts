@@ -4,8 +4,9 @@ import { MessageModel } from './messageModel';
 import { SignedInModel } from '../api/signedInModel';
 
 export interface StateModel {
-    message: MessageModel,
-    notebooks: Notebook[],
-    notes: Note[]
-    signedInUser: SignedInModel
+    message: MessageModel;
+    notebooks: Notebook[];
+    notes: Note[];
+    signedInUser: SignedInModel;
+    authenticated: boolean;
 }

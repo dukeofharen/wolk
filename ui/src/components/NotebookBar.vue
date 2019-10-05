@@ -17,12 +17,12 @@
 
 <script lang="ts">
 import { mapState } from "vuex";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Notebook from "../models/api/notebook";
 
 @Component({
   components: {},
-  computed: mapState(["notebooks"])
+  computed: mapState(["notebooks", "authenticated"])
 })
 export default class NotebookBar extends Vue {
   constructor() {
@@ -30,11 +30,20 @@ export default class NotebookBar extends Vue {
   }
 
   mounted() {
-    this.$store.dispatch("loadNotebooks");
+    this.loadNotebooks();
+  }
+
+  @Watch("authenticated")
+  loginChanged() {
+    this.loadNotebooks();
   }
 
   notebookClick(notebook: Notebook) {
     this.$router.push({ name: "notesList", params: <any>{ id: notebook.id } });
+  }
+
+  private loadNotebooks() {
+    this.$store.dispatch("loadNotebooks");
   }
 }
 </script>

@@ -6,7 +6,7 @@ import router from '@/router';
 axios.interceptors.response.use(
     response => response,
     error => {
-        if (error.response.status === 401) {
+        if (error && error.response && error.response.status === 401) {
             errorMessage(resources.unauthorized);
             router.push({ name: 'login' });
             return Promise.reject(error);

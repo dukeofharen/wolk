@@ -40,10 +40,10 @@ import { SignedInModel } from "../models/api/signedInModel";
 
 @Component({
   components: {},
-  computed: mapState(["signedInUser"])
+  computed: mapState(["authenticated"])
 })
 export default class Login extends Vue {
-  signedInUser!: SignedInModel;
+  authenticated!: boolean;
   authenticateModel: AuthenticateModel = {
     email: "",
     password: ""
@@ -57,8 +57,8 @@ export default class Login extends Vue {
     this.handleLogin();
   }
 
-  @Watch("signedInUser")
-  userChanged(user: SignedInModel) {
+  @Watch("authenticated")
+  loginChanged() {
     this.handleLogin();
   }
 
@@ -67,8 +67,9 @@ export default class Login extends Vue {
   }
 
   private handleLogin() {
-    if (this.signedInUser.token !== "") {
+    if (this.authenticated) {
       console.log('OK!');
+      // TODO redirect
     }
   }
 }
