@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Ducode.Wolk.Application;
+using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Infrastructure;
 using Ducode.Wolk.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -50,6 +52,11 @@ namespace Ducode.Wolk.Api
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+
+            // Ensure the database is created.
+            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            var context = (WolkDbContext)scope.ServiceProvider.GetRequiredService<IWolkDbContext>();
+            context.Database.Migrate();
         }
     }
 }
