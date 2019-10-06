@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Notebooks.Commands.CreateNotebook;
+using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
 using Ducode.Wolk.Application.Notebooks.Models;
 using Ducode.Wolk.Application.Notebooks.Queries.GetAllNotebooks;
 using Ducode.Wolk.Application.Notebooks.Queries.GetNotebook;
@@ -35,6 +36,16 @@ namespace Ducode.Wolk.Api.Controllers
         {
             var notebook = await Mediator.Send(command);
             return CreatedAtAction(nameof(Get), new { id = notebook.Id}, notebook);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Update([FromBody] UpdateNotebookCommand command, [FromRoute]long id)
+        {
+            command.Id = id;
+            await Mediator.Send(command);
+            return NoContent();
         }
     }
 }
