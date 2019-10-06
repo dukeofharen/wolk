@@ -7,6 +7,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Ducode.Wolk.Application\Ducode.Wolk.Application.csproj" />
       <ProjectReference Include="..\Ducode.Wolk.Infrastructure\Ducode.Wolk.Infrastructure.csproj" />
+      <ProjectReference Include="..\Ducode.Wolk.Persistence\Ducode.Wolk.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

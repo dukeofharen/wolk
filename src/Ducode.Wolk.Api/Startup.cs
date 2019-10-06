@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Infrastructure;
+using Ducode.Wolk.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,7 @@ namespace Ducode.Wolk.Api
             services.AddControllers();
             services.AddApplicationModule();
             services.AddInfrastructureModule();
+            services.AddPersistenceModule(Configuration);
             services.AddAutoMapper(
                 config => config.AllowNullCollections = true,
                 typeof(Startup).Assembly,
