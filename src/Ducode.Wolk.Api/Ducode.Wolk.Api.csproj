@@ -6,8 +6,14 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Ducode.Wolk.Application\Ducode.Wolk.Application.csproj" />
+      <ProjectReference Include="..\Ducode.Wolk.Configuration\Ducode.Wolk.Configuration.csproj" />
       <ProjectReference Include="..\Ducode.Wolk.Infrastructure\Ducode.Wolk.Infrastructure.csproj" />
       <ProjectReference Include="..\Ducode.Wolk.Persistence\Ducode.Wolk.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
     </ItemGroup>
 
 </Project>

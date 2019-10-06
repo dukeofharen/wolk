@@ -6,3 +6,4 @@ API:
 - Unit integration tests
 - Note contents preview
 - Save changes handler for updating "updated" column.
+- NSwag
