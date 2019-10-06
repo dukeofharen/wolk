@@ -1,0 +1,6 @@
+API:
+- Exception handling
+- Authorization / authentication
+- Endpoints for notes
+- Unit tests
+- Unit integration tests
