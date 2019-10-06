@@ -7,12 +7,12 @@ import VueAxios from 'vue-axios';
 import { StateModel } from '@/models/store/stateModel';
 import { MessageType } from '@/models/store/messageModel';
 
-import { SET_NOTEBOOKS } from '@/store/mutations/notebooks';
+import { SET_NOTEBOOKS, SET_CURRENT_NOTEBOOK } from '@/store/mutations/notebooks';
 import { SET_NOTES } from '@/store/mutations/notes';
 import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER } from '@/store/mutations/users';
 
-import { loadNotebooks } from '@/store/actions/notebooks';
+import { loadNotebooks, loadNotebook } from '@/store/actions/notebooks';
 import { loadNotes } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
 
@@ -29,6 +29,10 @@ const state: StateModel = {
     type: MessageType.NOT_SET
   },
   notebooks: [],
+  currentNotebook: {
+    id: 0,
+    name: ''
+  },
   notes: [],
   signedInUser: {
     email: '',
@@ -41,12 +45,14 @@ export default new Vuex.Store({
   state,
   mutations: {
     SET_NOTEBOOKS,
+    SET_CURRENT_NOTEBOOK,
     SET_NOTES,
     SET_MESSAGE,
     SET_SIGNED_IN_USER
   },
   actions: {
     loadNotebooks,
+    loadNotebook,
     loadNotes,
     authenticate
   },

@@ -11,3 +11,11 @@ export function loadNotebooks({ commit }: ActionContext<StateModel, StateModel>)
             commit('SET_NOTEBOOKS', notebooks)
         });
 }
+
+export function loadNotebook({ commit }: ActionContext<StateModel, StateModel>, notebookId: string) {
+    axios.get(`${urls.rootUrl}api/v1/notebooks/${notebookId}`)
+        .then(r => r.data)
+        .then((notebooks: Notebook[]) => {
+            commit('SET_CURRENT_NOTEBOOK', notebooks)
+        });
+}

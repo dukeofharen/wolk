@@ -1,13 +1,8 @@
 <template>
   <v-row>
     <v-col>
-      <v-card
-        v-for="note of notes"
-        :key="note.id"
-      >
-        <v-card-title>{{note.title}}</v-card-title>
-        <v-card-text>{{note.preview}}</v-card-text>
-      </v-card>
+      <h1>{{currentNotebook.name}}</h1>
+      <OverviewNote v-for="note of notes" :key="note.id" v-bind:note="note"></OverviewNote>
     </v-col>
   </v-row>
 </template>
@@ -15,28 +10,32 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import OverviewNote from "@/components/OverviewNote.vue";
 import Notebook from "../models/api/notebook";
 
 @Component({
-  components: {},
-  computed: mapState(["notes"])
+  components: { OverviewNote },
+  computed: mapState(["notes", "currentNotebook"])
 })
 export default class NotesList extends Vue {
+  currentNotebook!: Notebook;
+
   constructor() {
     super();
   }
 
   mounted() {
-    this.loadNotes();
+    this.reloadData();
   }
 
   @Watch("$route")
   onPropertyChanged(value: any, oldValue: any) {
-    this.loadNotes();
+    this.reloadData();
   }
 
-  private loadNotes() {
+  private reloadData() {
     this.$store.dispatch("loadNotes", this.$route.params.id);
+    this.$store.dispatch("loadNotebook", this.$route.params.id);
   }
 }
 </script>

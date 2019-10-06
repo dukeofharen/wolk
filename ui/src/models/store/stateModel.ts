@@ -6,6 +6,7 @@ import { SignedInModel } from '../api/signedInModel';
 export interface StateModel {
     message: MessageModel;
     notebooks: Notebook[];
+    currentNotebook: Notebook;
     notes: Note[];
     signedInUser: SignedInModel;
 }

@@ -1,14 +1,12 @@
 <template>
   <v-row>
     <v-col>
-        OVERVIEW
-      <!-- <v-card
+      <h1>Overview</h1>
+      <OverviewNote
         v-for="note of notes"
         :key="note.id"
-      >
-        <v-card-title>{{note.title}}</v-card-title>
-        <v-card-text>{{note.preview}}</v-card-text>
-      </v-card> -->
+        v-bind:note="note"
+      ></OverviewNote>
     </v-col>
   </v-row>
 </template>
@@ -16,14 +14,23 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import OverviewNote from "@/components/OverviewNote.vue";
 
 @Component({
-  components: {},
-//   computed: mapState(["notes"])
+  components: { OverviewNote },
+  computed: mapState(["notes"])
 })
 export default class Overview extends Vue {
   constructor() {
     super();
+  }
+
+  mounted() {
+    this.loadNotes();
+  }
+
+  private loadNotes() {
+    this.$store.dispatch("loadNotes");
   }
 }
 </script>

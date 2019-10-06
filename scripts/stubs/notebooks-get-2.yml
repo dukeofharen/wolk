@@ -1,0 +1,14 @@
+- id: notebooks-get-1
+  tenant: Wolk
+  conditions:
+    method: GET
+    url:
+      path: ^/api/v1/notebooks/2$
+    headers:
+      Authorization: Bearer secrettoken
+  response:
+    json: |
+      {
+        "id": 2,
+        "name": "Gardening"
+      }
