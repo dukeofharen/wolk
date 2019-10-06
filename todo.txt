@@ -4,3 +4,4 @@ API:
 - Endpoints for notes
 - Unit tests
 - Unit integration tests
+- Note contents preview

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ducode.Wolk.Application.Notebooks.Commands.CreateNotebook;
 using Ducode.Wolk.Application.Notebooks.Models;
 using Ducode.Wolk.Application.Notebooks.Queries.GetAllNotebooks;
 using Ducode.Wolk.Application.Notebooks.Queries.GetNotebook;
@@ -26,5 +27,14 @@ namespace Ducode.Wolk.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<NoteDto>> GetNotesInNotebook(long id) =>
             Ok(await Mediator.Send(new GetNotesQuery {NotebookId = id}));
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<NotebookDto>> Create([FromBody] CreateNotebookCommand command)
+        {
+            var notebook = await Mediator.Send(command);
+            return CreatedAtAction(nameof(Get), new { id = notebook.Id}, notebook);
+        }
     }
 }

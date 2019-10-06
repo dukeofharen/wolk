@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using ValidationException = Ducode.Wolk.Application.Exceptions.ValidationException;
 
 namespace Ducode.Wolk.Application.Infrastructure.MediatR
 {
