@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Notebooks.Commands.CreateNotebook;
+using Ducode.Wolk.Application.Notebooks.Commands.DeleteNotebook;
 using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
 using Ducode.Wolk.Application.Notebooks.Models;
 using Ducode.Wolk.Application.Notebooks.Queries.GetAllNotebooks;
@@ -21,12 +22,13 @@ namespace Ducode.Wolk.Api.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NotebookDto>> Get(long id) =>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<NotebookDto>> Get([FromRoute]long id) =>
             Ok(await Mediator.Send(new GetNotebookQuery(id)));
 
         [HttpGet("{id}/notes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NoteDto>> GetNotesInNotebook(long id) =>
+        public async Task<ActionResult<NoteDto>> GetNotesInNotebook([FromRoute]long id) =>
             Ok(await Mediator.Send(new GetNotesQuery {NotebookId = id}));
 
         [HttpPost]
@@ -41,10 +43,20 @@ namespace Ducode.Wolk.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Update([FromBody] UpdateNotebookCommand command, [FromRoute]long id)
         {
             command.Id = id;
             await Mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Delete([FromRoute] long id)
+        {
+            await Mediator.Send(new DeleteNotebookCommand(id));
             return NoContent();
         }
     }
