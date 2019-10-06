@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ducode.Wolk.Api.Controllers
 {
+    [Route("api/[controller]")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ApiController]
     public abstract class BaseApiController : Controller
