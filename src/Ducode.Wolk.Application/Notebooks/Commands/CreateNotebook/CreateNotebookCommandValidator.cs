@@ -7,6 +7,7 @@ namespace Ducode.Wolk.Application.Notebooks.Commands.CreateNotebook
         public CreateNotebookCommandValidator()
         {
             RuleFor(c => c.Name)
+                .NotEmpty()
                 .MaximumLength(200);
         }
     }

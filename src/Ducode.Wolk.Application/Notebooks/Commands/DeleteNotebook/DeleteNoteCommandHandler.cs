@@ -8,25 +8,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ducode.Wolk.Application.Notebooks.Commands.DeleteNotebook
 {
-    public class DeleteNotebookCommandHandler : IRequestHandler<DeleteNotebookCommand>
+    public class DeleteNoteCommandHandler : IRequestHandler<DeleteNotebookCommand>
     {
         private readonly IWolkDbContext _wolkDbContext;
 
-        public DeleteNotebookCommandHandler(IWolkDbContext wolkDbContext)
+        public DeleteNoteCommandHandler(IWolkDbContext wolkDbContext)
         {
             _wolkDbContext = wolkDbContext;
         }
 
         public async Task<Unit> Handle(DeleteNotebookCommand request, CancellationToken cancellationToken)
         {
-            var notebook =
-                await _wolkDbContext.Notebooks.FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
-            if (notebook == null)
+            var note =
+                await _wolkDbContext.Notes.FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
+            if (note == null)
             {
                 throw new NotFoundException(nameof(Notebook), request.Id);
             }
 
-            _wolkDbContext.Notebooks.Remove(notebook);
+            _wolkDbContext.Notes.Remove(note);
             await _wolkDbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
