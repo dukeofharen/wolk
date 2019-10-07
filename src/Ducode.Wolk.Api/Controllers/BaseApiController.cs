@@ -1,4 +1,5 @@
 using AutoMapper;
+using Ducode.Wolk.Api.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace Ducode.Wolk.Api.Controllers
     [Route("api/[controller]")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ApiController]
+    [JwtAuthorize]
     public abstract class BaseApiController : Controller
     {
         private IMapper _mapper;

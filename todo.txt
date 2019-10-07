@@ -7,3 +7,4 @@ API:
 - Note contents preview
 - Save changes handler for updating "updated" column.
 - NSwag
+- Optionally enable user registration
