@@ -1,4 +1,5 @@
 using AutoMapper;
+using Ducode.Wolk.Api.Attributes;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Identity;
@@ -25,15 +26,17 @@ namespace Ducode.Wolk.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(o => o.Filters.Add(typeof(CustomExceptionFilterAttribute)));
             services.AddControllers();
-            services.AddApplicationModule();
-            services.AddInfrastructureModule();
-            services.AddPersistenceModule(Configuration);
-            services.AddIdentityModule(Configuration);
-            services.AddAutoMapper(
-                config => config.AllowNullCollections = true,
-                typeof(Startup).Assembly,
-                typeof(ApplicationModule).Assembly);
+            services
+                .AddApplicationModule()
+                .AddInfrastructureModule()
+                .AddPersistenceModule(Configuration)
+                .AddIdentityModule(Configuration)
+                .AddAutoMapper(
+                    config => config.AllowNullCollections = true,
+                    typeof(Startup).Assembly,
+                    typeof(ApplicationModule).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
