@@ -1,10 +1,9 @@
 API:
-- Exception handling
-- Authorization / authentication
-- Endpoints for notes
+- Authorization
 - Unit tests
 - Unit integration tests
 - Note contents preview
 - Save changes handler for updating "updated" column.
 - NSwag
 - Optionally enable user registration
+- Code coverage
