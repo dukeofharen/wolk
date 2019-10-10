@@ -5,6 +5,7 @@ using Ducode.Wolk.Application.Interfaces.Identity;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
 using Ducode.Wolk.Identity.Impl;
+using Ducode.Wolk.Identity.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,7 @@ namespace Ducode.Wolk.Identity
             services.AddTransient<IJwtManager, JwtManager>();
             services.AddTransient<IRegistrationManager, RegistrationManager>();
             services.AddTransient<ISignInManager, SignInManager>();
+            services.AddTransient<IUserManager, UserManagerWrapper>();
 
             // Add authentication
             var identityConfig = configuration.GetSection(nameof(IdentityConfiguration)).Get<IdentityConfiguration>();

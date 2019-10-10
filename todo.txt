@@ -8,3 +8,4 @@ API:
 - Optionally enable user registration
 - Code coverage
 - Meerdere API versies.
+- Handle rehashing.

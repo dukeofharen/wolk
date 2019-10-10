@@ -14,7 +14,7 @@ namespace Ducode.Wolk.Identity.Tests
     [TestClass]
     public class JwtManagerTests
     {
-        private readonly Mock<IOptions<IdentityConfiguration>> _optionsMock =
+        private readonly Mock<IOptions<IdentityConfiguration>> _mockOptions =
             new Mock<IOptions<IdentityConfiguration>>();
 
         private readonly IdentityConfiguration _configuration = new IdentityConfiguration
@@ -27,12 +27,12 @@ namespace Ducode.Wolk.Identity.Tests
         [TestInitialize]
         public void Setup()
         {
-            _optionsMock.Setup(m => m.Value).Returns(_configuration);
-            _manager = new JwtManager(_optionsMock.Object);
+            _mockOptions.Setup(m => m.Value).Returns(_configuration);
+            _manager = new JwtManager(_mockOptions.Object);
         }
 
         [TestCleanup]
-        public void Cleanup() => _optionsMock.VerifyAll();
+        public void Cleanup() => _mockOptions.VerifyAll();
 
         [TestMethod]
         public void CreateJwt_ShouldCreateJwtSuccessfully()

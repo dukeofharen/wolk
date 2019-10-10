@@ -4,18 +4,19 @@ using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Application.Interfaces.Identity;
 using Ducode.Wolk.Domain.Entities;
+using Ducode.Wolk.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ducode.Wolk.Identity.Impl
 {
-    public class RegistrationManager : IRegistrationManager
+    internal class RegistrationManager : IRegistrationManager
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IUserManager _userManager;
         private readonly IWolkDbContext _wolkDbContext;
 
         public RegistrationManager(
-            UserManager<User> userManager,
+            IUserManager userManager,
             IWolkDbContext wolkDbContext)
         {
             _userManager = userManager;
@@ -24,7 +25,7 @@ namespace Ducode.Wolk.Identity.Impl
 
         public async Task RegisterUserAsync(string email, string password)
         {
-            if (await _wolkDbContext.Users.AnyAsync(u => u.Email == email))
+            if (await _wolkDbContext.Users.AnyAsync(u => u.NormalizedEmail == email.ToUpper()))
             {
                 throw new ConflictException(nameof(User), email);
             }
