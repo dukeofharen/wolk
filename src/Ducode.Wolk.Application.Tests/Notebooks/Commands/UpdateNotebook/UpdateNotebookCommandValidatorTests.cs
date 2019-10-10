@@ -1,19 +1,19 @@
 using System.Linq;
-using Ducode.Wolk.Application.Notebooks.Commands.CreateNotebook;
+using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ducode.Wolk.Application.Tests.Notebooks.Commands.CreateNotebook
+namespace Ducode.Wolk.Application.Tests.Notebooks.Commands.UpdateNotebook
 {
     [TestClass]
-    public class CreateNotebookCommandValidatorTests
+    public class UpdateNotebookCommandValidatorTests
     {
-        private readonly CreateNotebookCommandValidator _validator = new CreateNotebookCommandValidator();
+        private readonly UpdateNotebookCommandValidator _validator = new UpdateNotebookCommandValidator();
 
         [TestMethod]
         public void Validate_ValidationErrors()
         {
             // Arrange
-            var command = new CreateNotebookCommand {Name = new string('a', 201)};
+            var command = new UpdateNotebookCommand {Id = 1, Name = new string('a', 201)};
 
             // Act
             var result = _validator.Validate(command);
@@ -26,7 +26,7 @@ namespace Ducode.Wolk.Application.Tests.Notebooks.Commands.CreateNotebook
         public void Validate_NoValidationErrors()
         {
             // Arrange
-            var command = new CreateNotebookCommand {Name = new string('a', 199)};
+            var command = new UpdateNotebookCommand {Id = 1, Name = new string('a', 199)};
 
             // Act
             var result = _validator.Validate(command);
