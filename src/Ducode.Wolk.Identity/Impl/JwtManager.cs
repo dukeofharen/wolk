@@ -26,8 +26,9 @@ namespace Ducode.Wolk.Identity.Impl
             {
                 Subject = new ClaimsIdentity(new[] {new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())}),
                 Expires = DateTime.Now.AddSeconds(_config.ExpirationInSeconds),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes),
-                    SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(keyBytes),
+                    SecurityAlgorithms.HmacSha512Signature)
             };
             var handler = new JwtSecurityTokenHandler();
             var token = handler.CreateToken(tokenDescriptor);

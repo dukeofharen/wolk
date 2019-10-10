@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ducode.Wolk.Application.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ducode.Wolk.TestUtilities", "Ducode.Wolk.TestUtilities\Ducode.Wolk.TestUtilities.csproj", "{23F3FDDE-030C-46A0-8CD1-B09CFBE2C861}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ducode.Wolk.Identity.Tests", "Ducode.Wolk.Identity.Tests\Ducode.Wolk.Identity.Tests.csproj", "{E65D54B1-DBBB-449F-86DF-C67685E832F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{23F3FDDE-030C-46A0-8CD1-B09CFBE2C861}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23F3FDDE-030C-46A0-8CD1-B09CFBE2C861}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23F3FDDE-030C-46A0-8CD1-B09CFBE2C861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E65D54B1-DBBB-449F-86DF-C67685E832F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E65D54B1-DBBB-449F-86DF-C67685E832F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E65D54B1-DBBB-449F-86DF-C67685E832F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E65D54B1-DBBB-449F-86DF-C67685E832F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{45418DBC-76CC-4A42-9982-3F6454F89C5B} = {9E347474-9710-4B9D-AB18-C798B77D37AE}
@@ -94,5 +100,6 @@ Global
 		{9E347474-9710-4B9D-AB18-C798B77D37AE} = {A4287CFC-32EB-4DB0-B55E-696D848058DA}
 		{C110E33D-85D5-49D8-B64D-EC4364D03FC2} = {956438B4-21E3-4EA9-BC1C-9E733EDF6D58}
 		{23F3FDDE-030C-46A0-8CD1-B09CFBE2C861} = {956438B4-21E3-4EA9-BC1C-9E733EDF6D58}
+		{E65D54B1-DBBB-449F-86DF-C67685E832F0} = {956438B4-21E3-4EA9-BC1C-9E733EDF6D58}
 	EndGlobalSection
 EndGlobal
