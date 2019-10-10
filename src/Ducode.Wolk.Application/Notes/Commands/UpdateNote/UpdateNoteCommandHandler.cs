@@ -20,6 +20,11 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
 
         public async Task<Unit> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
         {
+            if (!await _wolkDbContext.Notebooks.AnyAsync(n => n.Id == request.NotebookId, cancellationToken))
+            {
+                throw new NotFoundException(nameof(Notebook), request.NotebookId);
+            }
+
             var note =
                 await _wolkDbContext.Notes.FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
             if (note == null)
