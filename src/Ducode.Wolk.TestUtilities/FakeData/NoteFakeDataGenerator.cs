@@ -10,15 +10,14 @@ namespace Ducode.Wolk.TestUtilities.FakeData
     public static class NoteFakeDataGenerator
     {
         private static readonly Faker _faker = new Faker();
-        private static readonly Random _random = new Random();
 
         public static Note CreateNote(Notebook notebook) =>
             new Note
             {
                 Title = Guid.NewGuid().ToString(),
                 Content = _faker.Lorem.Paragraphs(10),
-                Created = DateTime.Now.AddDays(-_random.Next(0, 100)),
-                Changed = DateTime.Now.AddDays(-_random.Next(0, 100)),
+                Created = _faker.Date.Past(),
+                Changed = _faker.Date.Past(),
                 Notebook = notebook
             };
 
