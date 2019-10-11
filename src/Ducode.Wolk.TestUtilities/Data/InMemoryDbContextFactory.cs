@@ -11,7 +11,7 @@ namespace Ducode.Wolk.TestUtilities.Data
             var options = new DbContextOptionsBuilder<WolkDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
-            var context = new WolkDbContext(options);
+            var context = new TestWolkDbContext(options);
             context.Database.EnsureCreated();
             return context;
         }

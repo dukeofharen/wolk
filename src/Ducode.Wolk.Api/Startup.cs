@@ -1,3 +1,4 @@
+using System.Reflection;
 using AutoMapper;
 using Ducode.Wolk.Api.Attributes;
 using Ducode.Wolk.Application;
@@ -7,6 +8,7 @@ using Ducode.Wolk.Infrastructure;
 using Ducode.Wolk.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,11 +25,12 @@ namespace Ducode.Wolk.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(o => o.Filters.Add(typeof(CustomExceptionFilterAttribute)));
-            services.AddControllers();
+            services.AddMvc(o => o.Filters.Add(typeof(CustomExceptionFilterAttribute)))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddApplicationPart(Assembly.GetExecutingAssembly());
+//            services.AddControllers();
             services
                 .AddApplicationModule()
                 .AddInfrastructureModule()
@@ -39,8 +42,9 @@ namespace Ducode.Wolk.Api
                     typeof(ApplicationModule).Assembly);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => ConfigureInternal(app, env, true);
+
+        internal void ConfigureInternal(IApplicationBuilder app, IWebHostEnvironment env, bool executeMigration)
         {
             if (env.IsDevelopment())
             {
@@ -52,9 +56,12 @@ namespace Ducode.Wolk.Api
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             // Ensure the database is created.
-            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            var context = (WolkDbContext)scope.ServiceProvider.GetRequiredService<IWolkDbContext>();
-            context.Database.Migrate();
+            if (executeMigration)
+            {
+                using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+                var context = (WolkDbContext)scope.ServiceProvider.GetRequiredService<IWolkDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }
