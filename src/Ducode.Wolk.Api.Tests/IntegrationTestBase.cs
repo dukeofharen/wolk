@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -21,7 +20,7 @@ namespace Ducode.Wolk.Api.Tests
 
         protected HttpClient HttpClient;
 
-        protected WolkDbContext WolkDbContext;
+        protected WolkDbContext WolkDbContext => (WolkDbContext)ServiceProvider.GetService<IWolkDbContext>();
 
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
@@ -41,8 +40,8 @@ namespace Ducode.Wolk.Api.Tests
                 .Build();
             var startup = new Startup(config);
 
-            WolkDbContext = InMemoryDbContextFactory.Create();
-            servicesToReplace.Add((typeof(IWolkDbContext), WolkDbContext));
+            var wolkDbContext = InMemoryDbContextFactory.Create();
+            servicesToReplace.Add((typeof(IWolkDbContext), wolkDbContext));
 
             var mockEnvironment = new Mock<IWebHostEnvironment>();
             mockEnvironment
