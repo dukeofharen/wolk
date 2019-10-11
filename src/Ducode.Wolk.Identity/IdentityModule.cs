@@ -45,7 +45,7 @@ namespace Ducode.Wolk.Identity
 
             services
                 .AddOptions<IdentityConfiguration>()
-                .Configure<IConfiguration>((opt, conf) => conf.Bind("IdentityConfiguration", opt));
+                .Configure<IConfiguration>((opt, conf) => configuration.Bind("IdentityConfiguration", opt));
 
             services.AddTransient<IJwtManager, JwtManager>();
             services.AddTransient<IRegistrationManager, RegistrationManager>();

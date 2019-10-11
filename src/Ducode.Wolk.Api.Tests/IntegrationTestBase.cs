@@ -24,6 +24,8 @@ namespace Ducode.Wolk.Api.Tests
 
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
+        protected IServiceProvider ServiceProvider;
+
         protected void InitializeIntegrationTest(IList<(Type, object)> servicesToReplace = null)
         {
             servicesToReplace ??= new List<(Type, object)>();
@@ -81,6 +83,7 @@ namespace Ducode.Wolk.Api.Tests
             }
 
             startup.ConfigureServices(services);
+            ServiceProvider = services.BuildServiceProvider();
         }
     }
 }

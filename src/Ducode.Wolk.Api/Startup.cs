@@ -30,7 +30,6 @@ namespace Ducode.Wolk.Api
             services.AddMvc(o => o.Filters.Add(typeof(CustomExceptionFilterAttribute)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddApplicationPart(Assembly.GetExecutingAssembly());
-//            services.AddControllers();
             services
                 .AddApplicationModule()
                 .AddInfrastructureModule()

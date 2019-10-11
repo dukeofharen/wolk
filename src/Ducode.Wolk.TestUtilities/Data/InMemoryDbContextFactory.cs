@@ -18,7 +18,15 @@ namespace Ducode.Wolk.TestUtilities.Data
 
         public static void Destroy(WolkDbContext context)
         {
-            context.Database.EnsureDeleted();
+            try
+            {
+                context.Database.EnsureDeleted();
+            }
+            catch
+            {
+                // In integration test scenario, the framework might already have disposed the database.
+                // So we don't care about exceptions here.
+            }
 
             context.Dispose();
         }
