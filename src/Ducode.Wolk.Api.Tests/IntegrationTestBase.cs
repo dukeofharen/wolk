@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Ducode.Wolk.Api.Tests
@@ -26,9 +27,10 @@ namespace Ducode.Wolk.Api.Tests
 
         protected IServiceProvider ServiceProvider;
 
-        protected void InitializeIntegrationTest(IList<(Type, object)> servicesToReplace = null)
+        [TestInitialize]
+        public void InitializeIntegrationTest()
         {
-            servicesToReplace ??= new List<(Type, object)>();
+            var servicesToReplace = new List<(Type, object)>();
 
             var config = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
@@ -53,7 +55,8 @@ namespace Ducode.Wolk.Api.Tests
             HttpClient = TestServer.CreateClient();
         }
 
-        protected void CleanupIntegrationTest()
+        [TestCleanup]
+        public void CleanupIntegrationTest()
         {
             WolkDbContext.Destroy();
             TestServer.Dispose();

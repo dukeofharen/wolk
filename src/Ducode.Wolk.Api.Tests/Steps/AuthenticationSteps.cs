@@ -8,7 +8,7 @@ namespace Ducode.Wolk.Api.Tests
 {
     public partial class IntegrationTestBase
     {
-        public async Task<string> GetJwt(User user = null)
+        protected async Task<string> GetJwt(User user = null)
         {
             if (user == null)
             {

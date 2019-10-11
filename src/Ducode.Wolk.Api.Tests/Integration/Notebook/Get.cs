@@ -11,13 +11,13 @@ using static Ducode.Wolk.TestUtilities.Assertions.NotebookAssertions;
 namespace Ducode.Wolk.Api.Tests.Integration.Notebook
 {
     [TestClass]
-    public class GetAll : IntegrationTestBase
+    public class Get : IntegrationTestBase
     {
         [TestMethod]
-        public async Task GetAll_TokenIncorrect_ShouldReturn401()
+        public async Task Get_TokenIncorrect_ShouldReturn401()
         {
             // Arrange
-            var url = "/api/notebook";
+            var url = "/api/notebook/1";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -31,12 +31,29 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
         }
 
         [TestMethod]
-        public async Task GetAll_HappyFlow()
+        public async Task Get_NotebookNotFound_ShouldReturn404()
         {
             // Arrange
-            var notebook1 = await WolkDbContext.CreateAndSaveNotebook();
-            var notebook2 = await WolkDbContext.CreateAndSaveNotebook();
-            var url = "/api/notebook";
+            var notebook = await WolkDbContext.CreateAndSaveNotebook();
+            var url = $"/api/notebook/{notebook.Id + 1}";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var token = await GetJwt();
+            request.AddJwtBearer(token);
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Get_HappyFlow()
+        {
+            // Arrange
+            var notebook = await WolkDbContext.CreateAndSaveNotebook();
+            var url = $"/api/notebook/{notebook.Id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -49,10 +66,9 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notebooks = JsonConvert.DeserializeObject<NotebookDto[]>(content);
+            var returnedNotebook = JsonConvert.DeserializeObject<NotebookDto>(content);
 
-            ShouldBeEqual(notebook1, notebooks[0]);
-            ShouldBeEqual(notebook2, notebooks[1]);
+            ShouldBeEqual(notebook, returnedNotebook);
         }
     }
 }
