@@ -20,7 +20,7 @@ namespace Ducode.Wolk.Application.Tests.Notebooks.Commands.UpdateNotebook
         public void Setup() => _handler = new UpdateNotebookCommandHandler(_wolkDbContext);
 
         [TestCleanup]
-        public void Cleanup() => InMemoryDbContextFactory.Destroy(_wolkDbContext);
+        public void Cleanup() => _wolkDbContext.Destroy();
 
         [TestMethod]
         public async Task Handle_NotebookNotFound_ShouldThrowNotFoundException()

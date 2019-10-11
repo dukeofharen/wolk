@@ -24,7 +24,7 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
         public void Setup() => _handler = new CreateNoteCommandHandler(_mapper, _wolkDbContext);
 
         [TestCleanup]
-        public void Cleanup() => InMemoryDbContextFactory.Destroy(_wolkDbContext);
+        public void Cleanup() => _wolkDbContext.Destroy();
 
         [TestMethod]
         public async Task Handle_NotebookNotFound_ShouldThrowNotFoundException()

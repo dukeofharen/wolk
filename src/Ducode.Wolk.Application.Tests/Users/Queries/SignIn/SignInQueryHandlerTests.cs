@@ -30,7 +30,7 @@ namespace Ducode.Wolk.Application.Tests.Users.Queries.SignIn
         {
             _mockJwtManager.VerifyAll();
             _mockSignInManager.VerifyAll();
-            InMemoryDbContextFactory.Destroy(_wolkDbContext);
+            _wolkDbContext.Destroy();
         }
 
         [TestMethod]

@@ -21,7 +21,7 @@ namespace Ducode.Wolk.Identity.Tests
         public void Setup() => _manager = new SignInManager(_passwordHasher, _wolkDbContext);
 
         [TestCleanup]
-        public void Cleanup() => InMemoryDbContextFactory.Destroy(_wolkDbContext);
+        public void Cleanup() => _wolkDbContext.Destroy();
 
         [TestMethod]
         public async Task CheckCredentialsAsync_UserNotFound_ShouldThrowUnauthorizedException()

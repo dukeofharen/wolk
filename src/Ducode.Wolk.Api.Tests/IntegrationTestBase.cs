@@ -14,7 +14,7 @@ using Moq;
 
 namespace Ducode.Wolk.Api.Tests
 {
-    public abstract class IntegrationTestBase
+    public abstract partial class IntegrationTestBase
     {
         protected TestServer TestServer;
 
@@ -55,7 +55,7 @@ namespace Ducode.Wolk.Api.Tests
 
         protected void CleanupIntegrationTest()
         {
-            InMemoryDbContextFactory.Destroy(WolkDbContext);
+            WolkDbContext.Destroy();
             TestServer.Dispose();
         }
 

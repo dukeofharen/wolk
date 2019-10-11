@@ -27,7 +27,7 @@ namespace Ducode.Wolk.Identity.Tests
         public void Cleanup()
         {
             _mockUserManager.VerifyAll();
-            InMemoryDbContextFactory.Destroy(_wolkDbContext);
+            _wolkDbContext.Destroy();
         }
 
         [TestMethod]
