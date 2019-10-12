@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -25,6 +27,9 @@ namespace Ducode.Wolk.Api.Tests
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
         protected IServiceProvider ServiceProvider;
+
+        protected IdentityConfiguration IdentityConfiguration =>
+            ServiceProvider.GetService<IOptions<IdentityConfiguration>>().Value;
 
         [TestInitialize]
         public void InitializeIntegrationTest()
