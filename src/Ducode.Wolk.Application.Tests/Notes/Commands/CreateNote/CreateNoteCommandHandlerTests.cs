@@ -9,7 +9,7 @@ using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Ducode.Wolk.TestUtilities.Assertions.NoteAssertsions;
+using static Ducode.Wolk.TestUtilities.Assertions.NoteAssertions;
 
 namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
 {

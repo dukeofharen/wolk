@@ -8,16 +8,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using static Ducode.Wolk.TestUtilities.Assertions.NoteAssertions;
 
-namespace Ducode.Wolk.Api.Tests.Integration.Notebook
+namespace Ducode.Wolk.Api.Tests.Integration.Note
 {
     [TestClass]
-    public class GetNotesInNotebook : IntegrationTestBase
+    public class Get : IntegrationTestBase
     {
         [TestMethod]
-        public async Task GetNotesInNotebook_TokenIncorrect_ShouldReturn401()
+        public async Task Get_TokenIncorrect_ShouldReturn401()
         {
             // Arrange
-            var url = "/api/notebook/1/notes";
+            var url = "/api/note/1";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -31,15 +31,29 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
         }
 
         [TestMethod]
-        public async Task GetNotesInNotebook_HappyFlow()
+        public async Task Get_NoteNotFound_ShouldReturn404()
         {
             // Arrange
-            var notebook = await WolkDbContext.CreateAndSaveNotebook();
-            var note1 = await WolkDbContext.CreateAndSaveNote(notebook);
-            await WolkDbContext.CreateAndSaveNote();
-            var note3 = await WolkDbContext.CreateAndSaveNote(notebook);
+            var note = await WolkDbContext.CreateAndSaveNote();
+            var url = $"/api/note/{note.Id + 1}";
 
-            var url = $"/api/notebook/{notebook.Id}/notes";
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var token = await GetJwt();
+            request.AddJwtBearer(token);
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Get_HappyFlow()
+        {
+            // Arrange
+            var note = await WolkDbContext.CreateAndSaveNote();
+            var url = $"/api/note/{note.Id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -52,11 +66,9 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
+            var returnedNote = JsonConvert.DeserializeObject<NoteDto>(content);
 
-            Assert.AreEqual(2, notes.Length);
-            ShouldBeEqual(note1, notes[0]);
-            ShouldBeEqual(note3, notes[1]);
+            ShouldBeEqual(note, returnedNote);
         }
     }
 }

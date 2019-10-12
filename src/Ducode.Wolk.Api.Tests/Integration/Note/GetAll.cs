@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Ducode.Wolk.Application.Notebooks.Models;
 using Ducode.Wolk.Application.Notes.Models;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Utilities;
@@ -8,16 +9,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using static Ducode.Wolk.TestUtilities.Assertions.NoteAssertions;
 
-namespace Ducode.Wolk.Api.Tests.Integration.Notebook
+namespace Ducode.Wolk.Api.Tests.Integration.Note
 {
     [TestClass]
-    public class GetNotesInNotebook : IntegrationTestBase
+    public class GetAll : IntegrationTestBase
     {
         [TestMethod]
-        public async Task GetNotesInNotebook_TokenIncorrect_ShouldReturn401()
+        public async Task GetAll_TokenIncorrect_ShouldReturn401()
         {
             // Arrange
-            var url = "/api/notebook/1/notes";
+            var url = "/api/note";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -31,15 +32,12 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
         }
 
         [TestMethod]
-        public async Task GetNotesInNotebook_HappyFlow()
+        public async Task GetAll_HappyFlow()
         {
             // Arrange
-            var notebook = await WolkDbContext.CreateAndSaveNotebook();
-            var note1 = await WolkDbContext.CreateAndSaveNote(notebook);
-            await WolkDbContext.CreateAndSaveNote();
-            var note3 = await WolkDbContext.CreateAndSaveNote(notebook);
-
-            var url = $"/api/notebook/{notebook.Id}/notes";
+            var note1 = await WolkDbContext.CreateAndSaveNote();
+            var note2 = await WolkDbContext.CreateAndSaveNote();
+            var url = "/api/note";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();
@@ -54,9 +52,8 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             var content = await response.Content.ReadAsStringAsync();
             var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
 
-            Assert.AreEqual(2, notes.Length);
             ShouldBeEqual(note1, notes[0]);
-            ShouldBeEqual(note3, notes[1]);
+            ShouldBeEqual(note2, notes[1]);
         }
     }
 }

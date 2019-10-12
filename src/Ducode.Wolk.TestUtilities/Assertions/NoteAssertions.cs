@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ducode.Wolk.TestUtilities.Assertions
 {
-    public static class NoteAssertsions
+    public static class NoteAssertions
     {
         public static void ShouldBeEqual(Note note, NoteDto noteDto)
         {
