@@ -51,7 +51,7 @@ export default class NotesList extends Vue {
   }
 
   @Watch("$route")
-  onPropertyChanged(value: any, oldValue: any) {
+  onRouteChanged() {
     this.reloadData();
   }
 

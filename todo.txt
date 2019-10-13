@@ -1,12 +1,11 @@
 UI:
-- Page for adding note.
-- Page for updating note.
 - Delete (archive) notebook.
 - Delete (archive) note.
-- Not being logged in, but having JWT set, get user in never ending login loop.
+- Not being logged in, but having JWT set, gets user in never ending login loop.
 - Log out button.
 - Search / filter.
 - Interception handler for HTTP 404.
+- Ctrl + S and other keymappings.
 
 API:
 - Authorization

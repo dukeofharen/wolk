@@ -37,12 +37,17 @@ export default class updateNotebook extends Vue {
   }
 
   @Watch("currentNotebook")
-  onPropertyChanged(value: Notebook) {
+  onCurrentNotebookChanged(value: Notebook) {
     this.notebook = value;
   }
 
+  @Watch("$route")
+  onRouteChanged() {
+    this.reloadData();
+  }
+
   mounted() {
-    this.$store.dispatch("loadNotebook", this.$route.params.id);
+    this.reloadData();
   }
 
   updateNotebook() {
@@ -50,6 +55,10 @@ export default class updateNotebook extends Vue {
       notebook: this.notebook,
       id: this.$route.params.id
     });
+  }
+
+  private reloadData() {
+    this.$store.dispatch("loadNotebook", this.$route.params.id);
   }
 }
 </script>

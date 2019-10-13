@@ -3,6 +3,7 @@ export const resources = {
     notebookCreated: "The notebook was added successfully.",
     notebookUpdated: "The notebook was updated successfully.",
     noteCreated: "The note was added successfully.",
+    noteUpdated: "The note was updated successfully."
 };
 
 export const keys = {
