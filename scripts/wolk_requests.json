@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "a8afb76e-dadd-4c19-bb0c-3520b7b79ad9",
+		"name": "Wolk API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Notebooks",
+			"item": [
+				{
+					"name": "Get all notebooks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get notebook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook/1",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get notes in notebook",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook/1/notes",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook",
+								"1",
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create notebook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test notebook\"\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update notebook",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Updated notebook\"\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook/1",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete notebook",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/notebook/1",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"notebook",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notes",
+			"item": [
+				{
+					"name": "Get all notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get note",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note/1",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"TEST NOTE!\",\n\t\"content\": \"These are the note contents!\",\n\t\"notebookId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update note",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"TEST NOTE!!!1!\",\n\t\"content\": \"These are the note contents!!!!!!!!\",\n\t\"notebookId\": 3\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note/6",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete note",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note/6",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mail@ducode.org\",\n\t\"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/user",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mail@ducode.org\",\n\t\"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/user/authenticate",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"user",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ddc39451-b9a0-4da7-9f5b-99d7beb2eae0",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6326b087-27d1-4589-b08e-eeaa078b7ff3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "ddaebd77-d952-4e1f-955b-42d730b17b3c",
+			"key": "rootUrl",
+			"value": "http://localhost:5010/",
+			"type": "string"
+		},
+		{
+			"id": "558809ae-43a2-49fd-8b38-b34569c5e4d0",
+			"key": "token",
+			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmJmIjoxNTcwOTk4ODYwLCJleHAiOjE1NzEzNTg4NjAsImlhdCI6MTU3MDk5ODg2MH0.wfyfyUihrhh-wbc0C-8TeLezm5SQWBAc1pitrVlA-17iV6st0AdXsY4czSdp0v2ZChGXCwg9U6uU9DlPfOiXTQ",
+			"type": "string"
+		}
+	]
+}
