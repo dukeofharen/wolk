@@ -22,5 +22,10 @@ export default new Router({
       name: 'overview',
       component: () => import(/* webpackChunkName: "overview" */ './views/Overview.vue'),
     },
+    {
+      path: '/addNotebook',
+      name: 'addNotebook',
+      component: () => import(/* webpackChunkName: "addNotebook" */ './views/AddNotebook.vue'),
+    },
   ],
 });

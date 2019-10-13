@@ -33,14 +33,12 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { AuthenticateModel } from "../models/api/authenticateModel";
 import { SignedInModel } from "../models/api/signedInModel";
 
 @Component({
-  components: {},
-  computed: mapState(["signedInUser"])
+  components: {}
 })
 export default class Login extends Vue {
   authenticateModel: AuthenticateModel = {
@@ -54,6 +52,14 @@ export default class Login extends Vue {
 
   mounted() {
     this.handleLogin();
+  }
+
+  get signedInUser(): SignedInModel {
+    return this.$store.state.signedInUser;
+  }
+
+  get isSignedIn(): boolean {
+    return this.$store.getters.isSignedIn;
   }
 
   @Watch("signedInUser")

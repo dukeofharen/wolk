@@ -1,7 +1,17 @@
+UI:
+- Capture generic validation errors.
+- Page for adding notebook.
+- Page for updating notebook.
+- Page for adding note.
+- Page for updating note.
+- Delete (archive) notebook.
+- Delete (archive) note.
+- Not being logged in, but having JWT set, get user in never ending login loop.
+- Log out button.
+- Search / filter.
+
 API:
 - Authorization
-- Unit tests
-- Unit integration tests
 - Note contents preview
 - Save changes handler for updating "updated" column.
 - NSwag
@@ -9,3 +19,5 @@ API:
 - Code coverage
 - Meerdere API versies.
 - Handle rehashing.
+- Search / filter.
+- Don't return content in get all notes calls.

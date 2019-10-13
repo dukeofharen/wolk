@@ -6,8 +6,8 @@ import Note from '@/models/api/note';
 
 export function loadNotes({ commit }: ActionContext<StateModel, StateModel>, notebookId: string) {
   let url = !!notebookId ?
-    `${urls.rootUrl}api/v1/notebooks/${notebookId}/notes` :
-    `${urls.rootUrl}api/v1/notes`;
+    `${urls.rootUrl}api/notebook/${notebookId}/notes` :
+    `${urls.rootUrl}api/note`;
   axios.get(url)
     .then(r => r.data)
     .then((notes: Note[]) => {

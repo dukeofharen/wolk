@@ -8,7 +8,7 @@ import { keys } from './resources';
 import { getLocalValue } from './data/localDataHelper';
 
 // Axios interceptors
-import '@/interceptors/unauthorizedInterceptor';
+import '@/interceptors/errorInterceptor';
 import '@/interceptors/addTokenToRequestInterceptor';
 
 // Fonts
