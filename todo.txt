@@ -1,6 +1,4 @@
 UI:
-- Capture generic validation errors.
-- Page for adding notebook.
 - Page for updating notebook.
 - Page for adding note.
 - Page for updating note.

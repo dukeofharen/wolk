@@ -27,5 +27,10 @@ export default new Router({
       name: 'addNotebook',
       component: () => import(/* webpackChunkName: "addNotebook" */ './views/AddNotebook.vue'),
     },
+    {
+      path: '/updateNotebook/:id',
+      name: 'updateNotebook',
+      component: () => import(/* webpackChunkName: "updateNotebook" */ './views/UpdateNotebook.vue'),
+    },
   ],
 });

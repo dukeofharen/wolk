@@ -2,7 +2,24 @@
   <v-row>
     <v-col>
       <h1>{{currentNotebook.name}}</h1>
-      <OverviewNote v-for="note of notes" :key="note.id" v-bind:note="note"></OverviewNote>
+      <v-row>
+        <v-col class="buttons">
+          <v-btn
+            title="Update notebook"
+            @click="updateNotebook"
+            color="success"
+          >Update notebook</v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <OverviewNote
+            v-for="note of notes"
+            :key="note.id"
+            v-bind:note="note"
+          ></OverviewNote>
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>
@@ -31,6 +48,13 @@ export default class NotesList extends Vue {
   @Watch("$route")
   onPropertyChanged(value: any, oldValue: any) {
     this.reloadData();
+  }
+
+  updateNotebook() {
+    this.$router.push({
+      name: "updateNotebook",
+      params: <any>{ id: this.$route.params.id }
+    });
   }
 
   private reloadData() {

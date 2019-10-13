@@ -3,6 +3,8 @@ import urls from '@/urls';
 import axios from 'axios';
 import { ActionContext } from 'vuex';
 import { StateModel } from '@/models/store/stateModel';
+import store from '@/store/store';
+import router from '@/router';
 
 import { successMessage } from '@/utilities/messenger';
 import { resources } from '@/resources';
@@ -27,8 +29,22 @@ export function createNotebook({ commit }: ActionContext<StateModel, StateModel>
     axios.post(`${urls.rootUrl}api/notebook`, notebook)
         .then(r => r.data)
         .then((addedNotebook: Notebook) => {
-            // TODO redirect to somewhere
-            // TODO re-retrieve notebooks
+            store.dispatch('loadNotebooks');
+            router.push({ name: 'notesList', params: <any>{ id: addedNotebook.id } });
             successMessage(resources.notebookCreated);
+        });
+}
+
+interface UpdateNotebookInput {
+    id: number;
+    notebook: Notebook;
+}
+export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>, input: UpdateNotebookInput) {
+    axios.put(`${urls.rootUrl}api/notebook/${input.id}`, input.notebook)
+        .then(r => r.data)
+        .then(() => {
+            store.dispatch('loadNotebooks');
+            router.push({ name: 'notesList', params: <any>{ id: input.id } });
+            successMessage(resources.notebookUpdated);
         });
 }
