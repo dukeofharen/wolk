@@ -21,6 +21,9 @@ import 'toastr/build/toastr.css';
 import '@/css/style.css';
 import { SignedInModel } from './models/api/signedInModel';
 
+// Filters
+import '@/filters/datetime';
+
 Vue.config.productionTip = false;
 
 // Check local storage if user has already signed in before.

@@ -42,5 +42,10 @@ export default new Router({
       name: 'updateNote',
       component: () => import(/* webpackChunkName: "updateNote" */ './views/UpdateNote.vue'),
     },
+    {
+      path: '/viewNote/:id',
+      name: 'viewNote',
+      component: () => import(/* webpackChunkName: "viewNote" */ './views/ViewNote.vue'),
+    },
   ],
 });

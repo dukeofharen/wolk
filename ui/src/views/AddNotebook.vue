@@ -25,7 +25,9 @@ import Notebook from "../models/api/notebook";
 export default class AddNotebook extends Vue {
   notebook: Notebook = {
       id: 0,
-      name: ""
+      name: "",
+      created: null,
+      updated: null
   };
 
   constructor() {
