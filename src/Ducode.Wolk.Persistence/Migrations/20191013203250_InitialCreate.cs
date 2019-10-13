@@ -14,7 +14,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Created = table.Column<DateTimeOffset>(nullable: false),
-                    Changed = table.Column<DateTimeOffset>(nullable: false),
+                    Changed = table.Column<DateTimeOffset>(nullable: true),
                     Name = table.Column<string>(maxLength: 200, nullable: true)
                 },
                 constraints: table =>
@@ -29,7 +29,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Created = table.Column<DateTimeOffset>(nullable: false),
-                    Changed = table.Column<DateTimeOffset>(nullable: false),
+                    Changed = table.Column<DateTimeOffset>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(maxLength: 256, nullable: true),
@@ -47,7 +47,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Created = table.Column<DateTimeOffset>(nullable: false),
-                    Changed = table.Column<DateTimeOffset>(nullable: false),
+                    Changed = table.Column<DateTimeOffset>(nullable: true),
                     Title = table.Column<string>(maxLength: 200, nullable: true),
                     Content = table.Column<string>(nullable: true),
                     NotebookId = table.Column<long>(nullable: false)

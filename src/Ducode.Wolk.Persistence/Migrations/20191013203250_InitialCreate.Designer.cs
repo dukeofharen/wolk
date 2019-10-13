@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ducode.Wolk.Persistence.Migrations
 {
     [DbContext(typeof(WolkDbContext))]
-    [Migration("20191007172419_InitialCreate")]
+    [Migration("20191013203250_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
@@ -55,7 +55,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("Created")
@@ -78,7 +78,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("Created")

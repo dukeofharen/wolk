@@ -8,6 +8,6 @@ namespace Ducode.Wolk.Domain.Entities
 
         public DateTimeOffset Created { get; set; } = DateTimeOffset.Now;
 
-        public DateTimeOffset Changed { get; set; }
+        public DateTimeOffset? Changed { get; set; }
     }
 }

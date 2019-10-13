@@ -22,7 +22,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
@@ -53,7 +53,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("Created")
@@ -76,7 +76,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("Changed")
+                    b.Property<DateTimeOffset?>("Changed")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTimeOffset>("Created")

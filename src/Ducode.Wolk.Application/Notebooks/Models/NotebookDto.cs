@@ -10,7 +10,7 @@ namespace Ducode.Wolk.Application.Notebooks.Models
 
         public DateTimeOffset Created { get; set; }
 
-        public DateTimeOffset Changed { get; set; }
+        public DateTimeOffset? Changed { get; set; }
 
         public string Name { get; set; }
     }
