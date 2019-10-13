@@ -1,4 +1,7 @@
 UI:
+- Add "add note" button to sidebar.
+- Open note when clicking on it.
+- "Update note" button on note view.
 - Delete (archive) notebook.
 - Delete (archive) note.
 - Not being logged in, but having JWT set, gets user in never ending login loop.
