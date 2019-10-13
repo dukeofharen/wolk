@@ -13,7 +13,7 @@ import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER } from '@/store/mutations/users';
 
 import { loadNotebooks, loadNotebook, createNotebook, updateNotebook } from '@/store/actions/notebooks';
-import { loadNotes } from '@/store/actions/notes';
+import { loadNotes, createNote } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
 
 import { signedInUser, isSignedIn } from '@/store/getters/users';
@@ -56,6 +56,7 @@ export default new Vuex.Store({
     createNotebook,
     updateNotebook,
     loadNotes,
+    createNote,
     authenticate
   },
   getters: {

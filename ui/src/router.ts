@@ -32,5 +32,10 @@ export default new Router({
       name: 'updateNotebook',
       component: () => import(/* webpackChunkName: "updateNotebook" */ './views/UpdateNotebook.vue'),
     },
+    {
+      path: '/addNote',
+      name: 'addNote',
+      component: () => import(/* webpackChunkName: "addNote" */ './views/AddNote.vue'),
+    },
   ],
 });

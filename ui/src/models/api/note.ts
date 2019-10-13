@@ -1,9 +1,9 @@
 export default interface Note {
     id: number;
     title: string;
-    contents: string;
+    content: string;
     preview: string;
-    notebook_id: number;
+    notebookId: number;
     created: Date;
     updated: Date;
 }

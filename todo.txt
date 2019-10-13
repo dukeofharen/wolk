@@ -1,5 +1,4 @@
 UI:
-- Page for updating notebook.
 - Page for adding note.
 - Page for updating note.
 - Delete (archive) notebook.
@@ -7,6 +6,7 @@ UI:
 - Not being logged in, but having JWT set, get user in never ending login loop.
 - Log out button.
 - Search / filter.
+- Interception handler for HTTP 404.
 
 API:
 - Authorization
@@ -19,3 +19,4 @@ API:
 - Handle rehashing.
 - Search / filter.
 - Don't return content in get all notes calls.
+- Update / create note: validation on notebookId (>0).

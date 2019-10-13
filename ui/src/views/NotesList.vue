@@ -5,6 +5,11 @@
       <v-row>
         <v-col class="buttons">
           <v-btn
+            title="Add note"
+            @click="addNote"
+            color="success"
+          >Add note</v-btn>
+          <v-btn
             title="Update notebook"
             @click="updateNotebook"
             color="success"
@@ -54,6 +59,13 @@ export default class NotesList extends Vue {
     this.$router.push({
       name: "updateNotebook",
       params: <any>{ id: this.$route.params.id }
+    });
+  }
+
+  addNote() {
+    this.$router.push({
+      name: "addNote",
+      query: <any>{ notebookId: this.currentNotebook.id }
     });
   }
 

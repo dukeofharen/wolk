@@ -7,7 +7,7 @@
               type="text"
               v-model="notebook.name"
             ></v-text-field>
-        <v-btn color="success" @click="addNotebook">Add notebook</v-btn>
+        <v-btn color="success" @click="addNotebook">Create notebook</v-btn>
     </v-col>
   </v-row>
 </template>
