@@ -15,8 +15,8 @@ namespace Ducode.Wolk.Api.Controllers
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<NoteDto>>> GetAll() =>
-            Ok(await Mediator.Send(new GetNotesQuery()));
+        public async Task<ActionResult<IEnumerable<NoteOverviewDto>>> GetAll() =>
+            Ok(Mapper.Map<IEnumerable<NoteOverviewDto>>(await Mediator.Send(new GetNotesQuery())));
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

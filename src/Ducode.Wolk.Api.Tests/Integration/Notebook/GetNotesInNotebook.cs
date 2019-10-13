@@ -52,7 +52,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
+            var notes = JsonConvert.DeserializeObject<NoteOverviewDto[]>(content);
 
             Assert.AreEqual(2, notes.Length);
             ShouldBeEqual(note1, notes[0]);

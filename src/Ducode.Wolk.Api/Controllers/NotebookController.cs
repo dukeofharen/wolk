@@ -28,8 +28,8 @@ namespace Ducode.Wolk.Api.Controllers
 
         [HttpGet("{id}/notes")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<NoteDto>> GetNotesInNotebook([FromRoute]long id) =>
-            Ok(await Mediator.Send(new GetNotesQuery {NotebookId = id}));
+        public async Task<ActionResult<IEnumerable<NoteOverviewDto>>> GetNotesInNotebook([FromRoute]long id) =>
+            Ok(Mapper.Map<IEnumerable<NoteOverviewDto>>(await Mediator.Send(new GetNotesQuery {NotebookId = id})));
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

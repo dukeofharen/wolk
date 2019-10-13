@@ -50,7 +50,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
+            var notes = JsonConvert.DeserializeObject<NoteOverviewDto[]>(content);
 
             ShouldBeEqual(note1, notes[0]);
             ShouldBeEqual(note2, notes[1]);

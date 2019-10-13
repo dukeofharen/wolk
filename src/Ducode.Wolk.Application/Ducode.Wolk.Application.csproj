@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Ducode.Wolk.Common\Ducode.Wolk.Common.csproj" />
       <ProjectReference Include="..\Ducode.Wolk.Domain\Ducode.Wolk.Domain.csproj" />
     </ItemGroup>
 
