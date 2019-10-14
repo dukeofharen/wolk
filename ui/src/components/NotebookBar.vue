@@ -10,11 +10,6 @@
         </v-list-item-action>
         <v-list-item-title class="grey--text">Add note</v-list-item-title>
       </v-list-item>
-      <v-divider
-        dark
-        class="my-4"
-        v-if="isSignedIn"
-      ></v-divider>
       <v-list-item
         @click="addNotebook"
         v-if="isSignedIn"
@@ -25,6 +20,21 @@
         <v-list-item-title class="grey--text">Add notebook</v-list-item-title>
       </v-list-item>
       <v-list-item
+        @click="logOut"
+        v-if="isSignedIn"
+      >
+        <v-list-item-action>
+          <v-icon>mdi-exit-to-app</v-icon>
+        </v-list-item-action>
+        <v-list-item-title class="grey--text">Log out</v-list-item-title>
+      </v-list-item>
+      <v-divider
+        dark
+        class="my-4"
+        v-if="isSignedIn"
+      ></v-divider>
+      <div v-if="isSignedIn">
+      <v-list-item
         @click="notebookClick(notebook)"
         v-for="notebook of notebooks"
         :key="notebook.id"
@@ -34,6 +44,7 @@
         </v-list-item-action>
         <v-list-item-title class="grey--text">{{notebook.name}}</v-list-item-title>
       </v-list-item>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -75,6 +86,11 @@ export default class NotebookBar extends Vue {
 
   addNote() {
     this.$router.push({ name: "addNote" });
+  }
+
+  logOut() {
+    this.$store.commit("UNSET_SIGNED_IN_USER");
+    this.$router.push({ name: "login" });
   }
 
   private loadNotebooks() {

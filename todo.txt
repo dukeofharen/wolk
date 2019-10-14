@@ -1,9 +1,9 @@
 UI:
-- Don't show double "unauthorized" errors.
-- Log out button.
 - Search / filter.
 - Interception handler for HTTP 404.
 - Ctrl + S and other keymappings.
+- Render plain text.
+- Render markdown.
 
 API:
 - Authorization
