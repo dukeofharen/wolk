@@ -34,6 +34,15 @@
         v-if="isSignedIn"
       ></v-divider>
       <div v-if="isSignedIn">
+        <v-list-item
+        @click="overview"
+        v-if="isSignedIn"
+      >
+        <v-list-item-action>
+          <v-icon>mdi-view-list</v-icon>
+        </v-list-item-action>
+        <v-list-item-title class="grey--text">Note overview</v-list-item-title>
+      </v-list-item>
       <v-list-item
         @click="notebookClick(notebook)"
         v-for="notebook of notebooks"
@@ -86,6 +95,10 @@ export default class NotebookBar extends Vue {
 
   addNote() {
     this.$router.push({ name: "addNote" });
+  }
+
+  overview() {
+    this.$router.push({ name: "overview" });
   }
 
   logOut() {
