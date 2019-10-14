@@ -23,3 +23,7 @@ export function getLocalValue(key: string): any {
 export function setLocalValue(key: string, value: any) {
     localStorage.setItem(key, JSON.stringify(value));
 }
+
+export function unsetLocalValue(key: string) {
+    localStorage.removeItem(key);
+}
