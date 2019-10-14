@@ -11,6 +11,15 @@
       >
         <v-icon left>mdi-clock</v-icon>{{note.changed | datetime}}
       </v-chip>
+      <v-row>
+        <v-col class="buttons">
+          <v-btn
+            title="Update note"
+            @click="updateNote"
+            color="success"
+          >Update note</v-btn>
+        </v-col>
+      </v-row>
       <div>
         {{note.content}}
       </div>
@@ -57,6 +66,13 @@ export default class ViewNote extends Vue {
   @Watch("$route")
   onRouteChanged() {
     this.reloadData();
+  }
+
+  updateNote() {
+    this.$router.push({
+      name: "updateNote",
+      params: <any>{ id: this.note.id }
+    });
   }
 
   private reloadData() {
