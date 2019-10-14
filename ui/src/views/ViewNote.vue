@@ -39,7 +39,7 @@ import { AuthenticateModel } from "../models/api/authenticateModel";
 import { SignedInModel } from "../models/api/signedInModel";
 import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
-import {resources} from "../resources";
+import { resources } from "../resources";
 
 @Component({
   components: {},
@@ -82,7 +82,7 @@ export default class ViewNote extends Vue {
   }
 
   deleteNote() {
-    if(confirm(resources.areYouSureDeleteNote)) {
+    if (confirm(resources.areYouSureDeleteNote)) {
       this.$store.dispatch("deleteNote", this.note);
     }
   }

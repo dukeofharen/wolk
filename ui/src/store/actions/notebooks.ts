@@ -48,3 +48,13 @@ export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>
             successMessage(resources.notebookUpdated);
         });
 }
+
+export function deleteNotebook({ commit }: ActionContext<StateModel, StateModel>, id: number) {
+    axios.delete(`${urls.rootUrl}api/notebook/${id}`)
+        .then(r => r.data)
+        .then(() => {
+            router.push({ name: 'overview' });
+            store.dispatch('loadNotebooks');
+            successMessage(resources.notebookDeleted);
+        });
+}

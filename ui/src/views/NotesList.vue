@@ -14,6 +14,11 @@
             @click="updateNotebook"
             color="success"
           >Update notebook</v-btn>
+          <v-btn
+            title="Delete notebook"
+            @click="deleteNotebook"
+            color="error"
+          >Delete notebook</v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -34,6 +39,7 @@ import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import OverviewNote from "@/components/OverviewNote.vue";
 import Notebook from "../models/api/notebook";
+import { resources } from "../resources";
 
 @Component({
   components: { OverviewNote },
@@ -67,6 +73,12 @@ export default class NotesList extends Vue {
       name: "addNote",
       query: <any>{ notebookId: this.currentNotebook.id }
     });
+  }
+
+  deleteNotebook() {
+    if (confirm(resources.areYouSureDeleteNotebook)) {
+      this.$store.dispatch("deleteNotebook", this.currentNotebook.id);
+    }
   }
 
   private reloadData() {
