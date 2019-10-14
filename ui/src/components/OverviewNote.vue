@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-card>
+      <v-card @click="viewNote">
         <v-card-title>{{note.title}}</v-card-title>
         <v-card-text>
           <v-chip title="Date/time created">
@@ -35,6 +35,10 @@ export default class OverviewNote extends Vue {
 
   constructor() {
     super();
+  }
+
+  viewNote() {
+    this.$router.push({ name: "viewNote", params: <any>{ id: this.note.id } });
   }
 }
 </script>
