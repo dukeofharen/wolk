@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { errorMessage } from '@/utilities/messenger';
-import { resources, keys } from '@/resources';
-import { unsetLocalValue } from '@/data/localDataHelper';
+import { resources } from '@/resources';
+import store from '@/store/store';
 import router from '@/router';
 
 axios.interceptors.response.use(
@@ -13,8 +13,8 @@ axios.interceptors.response.use(
                 errorMessage(messages.join('\n'));
                 return Promise.reject(error);
             } else if (error.response.status === 401) {
-                unsetLocalValue(keys.signedInUserKey);
-                errorMessage(resources.unauthorized);
+                store.commit("UNSET_SIGNED_IN_USER");
+                errorMessage(resources.unauthorized, false);
                 router.push({ name: 'login' });
                 return Promise.reject(error);
             }

@@ -60,7 +60,7 @@ export default class NotebookBar extends Vue {
     return this.$store.getters.isSignedIn;
   }
 
-  @Watch("signedInUser")
+  @Watch("isSignedIn")
   loginChanged() {
     this.loadNotebooks();
   }

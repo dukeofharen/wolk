@@ -10,4 +10,5 @@ export interface MessageModel {
     message: string;
     type: MessageType;
     timestamp: number;
+    force: boolean;
 };

@@ -10,7 +10,7 @@ import { MessageType } from '@/models/store/messageModel';
 import { SET_NOTEBOOKS, SET_CURRENT_NOTEBOOK } from '@/store/mutations/notebooks';
 import { SET_NOTES, SET_CURRENT_NOTE } from '@/store/mutations/notes';
 import { SET_MESSAGE } from '@/store/mutations/general';
-import { SET_SIGNED_IN_USER } from '@/store/mutations/users';
+import { SET_SIGNED_IN_USER, UNSET_SIGNED_IN_USER } from '@/store/mutations/users';
 
 import { loadNotebooks, loadNotebook, createNotebook, updateNotebook, deleteNotebook } from '@/store/actions/notebooks';
 import { loadNotes, loadNote, createNote, updateNote, deleteNote } from '@/store/actions/notes';
@@ -60,7 +60,8 @@ export default new Vuex.Store({
     SET_NOTES,
     SET_CURRENT_NOTE,
     SET_MESSAGE,
-    SET_SIGNED_IN_USER
+    SET_SIGNED_IN_USER,
+    UNSET_SIGNED_IN_USER
   },
   actions: {
     loadNotebooks,
