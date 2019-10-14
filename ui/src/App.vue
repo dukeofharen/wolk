@@ -26,20 +26,6 @@
       clipped
       color="grey lighten-4"
     >
-      <v-list-item
-        @click="addNotebook"
-        v-if="isSignedIn"
-      >
-        <v-list-item-action>
-          <v-icon>mdi-plus</v-icon>
-        </v-list-item-action>
-        <v-list-item-title class="grey--text">Add notebook</v-list-item-title>
-      </v-list-item>
-      <v-divider
-        dark
-        class="my-4"
-        v-if="isSignedIn"
-      ></v-divider>
       <NotebookBar></NotebookBar>
     </v-navigation-drawer>
 
@@ -70,10 +56,6 @@ export default class App extends Vue {
 
   get isSignedIn(): boolean {
     return this.$store.getters.isSignedIn;
-  }
-
-  addNotebook() {
-    this.$router.push({ name: "addNotebook" });
   }
 }
 </script>
