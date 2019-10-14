@@ -30,8 +30,8 @@ export default class updateNotebook extends Vue {
   notebook: Notebook = {
     id: 0,
     name: "",
-    created: null,
-    updated: null
+    created: new Date(),
+    updated: new Date()
   };
 
   constructor() {

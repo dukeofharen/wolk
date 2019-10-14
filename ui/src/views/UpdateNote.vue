@@ -48,8 +48,8 @@ export default class UpdateNote extends Vue {
     content: "",
     notebookId: 0,
     preview: "",
-    created: null,
-    updated: null
+    created: new Date(),
+    updated: new Date()
   };
 
   constructor() {

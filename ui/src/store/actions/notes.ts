@@ -31,11 +31,11 @@ export function loadNote({ commit }: ActionContext<StateModel, StateModel>, note
 
 export function createNote({ commit }: ActionContext<StateModel, StateModel>, note: Note) {
   axios.post(`${urls.rootUrl}api/note`, note)
-      .then(r => r.data)
-      .then((addedNote: Note) => {
-        router.push({ name: 'updateNote', params: <any>{ id: addedNote.id } });
-          successMessage(resources.noteCreated);
-      });
+    .then(r => r.data)
+    .then((addedNote: Note) => {
+      router.push({ name: 'updateNote', params: <any>{ id: addedNote.id } });
+      successMessage(resources.noteCreated);
+    });
 }
 
 interface UpdateNoteInput {
@@ -44,8 +44,17 @@ interface UpdateNoteInput {
 }
 export function updateNote({ commit }: ActionContext<StateModel, StateModel>, input: UpdateNoteInput) {
   axios.put(`${urls.rootUrl}api/note/${input.id}`, input.note)
-      .then(r => r.data)
-      .then(() => {
-          successMessage(resources.noteUpdated);
-      });
+    .then(r => r.data)
+    .then(() => {
+      successMessage(resources.noteUpdated);
+    });
+}
+
+export function deleteNote({ commit }: ActionContext<StateModel, StateModel>, note: Note) {
+  axios.delete(`${urls.rootUrl}api/note/${note.id}`)
+    .then(r => r.data)
+    .then(() => {
+      router.push({ name: 'notesList', params: <any>{ id: note.notebookId} });
+      successMessage(resources.noteDeleted);
+    });
 }

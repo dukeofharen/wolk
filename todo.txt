@@ -1,6 +1,5 @@
 UI:
 - Delete (archive) notebook.
-- Delete (archive) note.
 - Not being logged in, but having JWT set, gets user in never ending login loop.
 - Log out button.
 - Search / filter.

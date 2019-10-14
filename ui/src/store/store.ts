@@ -13,7 +13,7 @@ import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER } from '@/store/mutations/users';
 
 import { loadNotebooks, loadNotebook, createNotebook, updateNotebook } from '@/store/actions/notebooks';
-import { loadNotes, loadNote, createNote, updateNote } from '@/store/actions/notes';
+import { loadNotes, loadNote, createNote, updateNote, deleteNote } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
 
 import { signedInUser, isSignedIn } from '@/store/getters/users';
@@ -31,7 +31,9 @@ const state: StateModel = {
   notebooks: [],
   currentNotebook: {
     id: 0,
-    name: ''
+    name: '',
+    created: new Date(),
+    updated: new Date()
   },
   currentNote: {
     id: 0,
@@ -69,6 +71,7 @@ export default new Vuex.Store({
     loadNote,
     createNote,
     updateNote,
+    deleteNote,
     authenticate
   },
   getters: {
