@@ -7,5 +7,7 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNotes
     public class GetNotesQuery : IRequest<IEnumerable<NoteDto>>
     {
         public long? NotebookId { get; set; }
+
+        public string SearchTerm { get; set; }
     }
 }
