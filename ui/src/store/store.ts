@@ -26,7 +26,8 @@ const state: StateModel = {
   message: {
     message: '',
     timestamp: 0,
-    type: MessageType.NOT_SET
+    type: MessageType.NOT_SET,
+    force: true
   },
   notebooks: [],
   currentNotebook: {

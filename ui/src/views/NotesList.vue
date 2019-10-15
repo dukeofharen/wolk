@@ -40,6 +40,7 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import OverviewNote from "@/components/OverviewNote.vue";
 import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
+import { LoadNotesQueryModel } from "../models/store/loadNotesQueryModel";
 
 @Component({
   components: { OverviewNote },
@@ -82,7 +83,10 @@ export default class NotesList extends Vue {
   }
 
   private reloadData() {
-    this.$store.dispatch("loadNotes", this.$route.params.id);
+    let query: LoadNotesQueryModel = {
+      notebookId: parseInt(this.$route.params.id)
+    };
+    this.$store.dispatch("loadNotes", query);
     this.$store.dispatch("loadNotebook", this.$route.params.id);
   }
 }

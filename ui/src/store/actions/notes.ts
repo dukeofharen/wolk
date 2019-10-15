@@ -6,15 +6,15 @@ import Note from '@/models/api/note';
 import { successMessage } from '@/utilities/messenger';
 import { resources } from '@/resources';
 
-import store from '@/store/store';
 import router from '@/router';
+import { LoadNotesQueryModel } from '@/models/store/loadNotesQueryModel';
 
-export function loadNotes({ commit }: ActionContext<StateModel, StateModel>, notebookId: number) {
-  let url = !!notebookId ?
-    `${urls.rootUrl}api/notebook/${notebookId}/notes` :
-    `${urls.rootUrl}api/note`;
-  axios.get(url)
-    .then(r => r.data)
+export function loadNotes({ commit }: ActionContext<StateModel, StateModel>, queryModel?: LoadNotesQueryModel) {
+  let url = `${urls.rootUrl}api/note`;
+  let promise = !!queryModel ? axios.get(url, {
+    params: queryModel
+  }) : axios.get(url);
+    promise.then(r => r.data)
     .then((notes: Note[]) => {
       commit('SET_NOTES', notes)
     });
@@ -54,7 +54,7 @@ export function deleteNote({ commit }: ActionContext<StateModel, StateModel>, no
   axios.delete(`${urls.rootUrl}api/note/${note.id}`)
     .then(r => r.data)
     .then(() => {
-      router.push({ name: 'notesList', params: <any>{ id: note.notebookId} });
+      router.push({ name: 'notesList', params: <any>{ id: note.notebookId } });
       successMessage(resources.noteDeleted);
     });
 }
