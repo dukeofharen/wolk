@@ -16,6 +16,8 @@
         hide-details
         label="Search"
         prepend-inner-icon="mdi-magnify"
+        v-model="searchTerm"
+        v-debounce:200ms="searchTermChanged"
       ></v-text-field>
       <div class="flex-grow-1"></div>
     </v-app-bar>
@@ -53,9 +55,23 @@ import ToastMessages from "@/components/ToastMessages.vue";
 })
 export default class App extends Vue {
   drawer: boolean = true;
+  searchTerm: string = "";
 
   get isSignedIn(): boolean {
     return this.$store.getters.isSignedIn;
+  }
+
+  searchTermChanged() {
+    if (this.searchTerm) {
+      this.$router.push({
+        name: "overview",
+        query: <any>{ searchTerm: this.searchTerm }
+      });
+    } else {
+      this.$router.push({
+        name: "overview"
+      });
+    }
   }
 }
 </script>

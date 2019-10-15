@@ -15,6 +15,7 @@
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import OverviewNote from "@/components/OverviewNote.vue";
+import { LoadNotesQueryModel } from "../models/store/loadNotesQueryModel";
 
 @Component({
   components: { OverviewNote },
@@ -29,8 +30,16 @@ export default class Overview extends Vue {
     this.loadNotes();
   }
 
+  @Watch("$route")
+  onRouteChanged() {
+    this.loadNotes();
+  }
+
   private loadNotes() {
-    this.$store.dispatch("loadNotes");
+    let query: LoadNotesQueryModel = {
+      searchTerm: <string>this.$route.query.searchTerm
+    };
+    this.$store.dispatch("loadNotes", query);
   }
 }
 </script>

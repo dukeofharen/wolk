@@ -24,6 +24,10 @@ import { SignedInModel } from './models/api/signedInModel';
 // Filters
 import '@/filters/datetime';
 
+// Other Vue components
+const vueDebounce = require('vue-debounce');
+Vue.use(vueDebounce);
+
 Vue.config.productionTip = false;
 
 // Check local storage if user has already signed in before.

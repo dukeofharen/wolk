@@ -84,7 +84,8 @@ export default class NotesList extends Vue {
 
   private reloadData() {
     let query: LoadNotesQueryModel = {
-      notebookId: parseInt(this.$route.params.id)
+      notebookId: parseInt(this.$route.params.id),
+      searchTerm: undefined
     };
     this.$store.dispatch("loadNotes", query);
     this.$store.dispatch("loadNotebook", this.$route.params.id);

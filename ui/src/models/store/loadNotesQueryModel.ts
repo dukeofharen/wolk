@@ -1,3 +1,4 @@
 export interface LoadNotesQueryModel {
-    notebookId?: number
+    notebookId?: number;
+    searchTerm?: string;
 };

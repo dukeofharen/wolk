@@ -14,7 +14,6 @@ API:
 - Code coverage
 - Meerdere API versies.
 - Handle rehashing.
-- Search / filter.
 - Don't return content in get all notes calls.
 - Update / create note: validation on notebookId (>0).
 - AutoMapper configuration unit test.
