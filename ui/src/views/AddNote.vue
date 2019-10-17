@@ -15,6 +15,14 @@
         item-value="id"
         clearable
       ></v-select>
+      <v-select
+        :items="noteTypeNames"
+        placeholder="Select note type..."
+        v-model="note.noteType"
+        item-text="value"
+        item-value="key"
+        clearable
+      ></v-select>
       <v-textarea
         label="Note contents"
         v-model="note.content"
@@ -35,12 +43,15 @@ import { AuthenticateModel } from "../models/api/authenticateModel";
 import { SignedInModel } from "../models/api/signedInModel";
 import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
+import { getNoteTypeArray, NoteType } from "../models/api/enums/noteType";
+import { KeyValuePair } from "../models/keyValuePair";
 
 @Component({
   components: {},
   computed: mapState(["notebooks"])
 })
 export default class AddNote extends Vue {
+  noteTypeNames: Array<KeyValuePair<NoteType, string>> = getNoteTypeArray();
   notebooks!: Notebook[];
   note: Note = {
     id: 0,
@@ -48,6 +59,7 @@ export default class AddNote extends Vue {
     content: "",
     notebookId: 0,
     preview: "",
+    noteType: NoteType.NotSet,
     created: new Date(),
     updated: new Date()
   };

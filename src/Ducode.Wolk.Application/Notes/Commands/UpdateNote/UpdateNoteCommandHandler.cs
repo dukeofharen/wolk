@@ -34,6 +34,7 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
 
             note.Title = request.Title;
             note.Content = request.Content;
+            note.NoteType = request.NoteType;
             note.NotebookId = request.NotebookId;
             await _wolkDbContext.SaveChangesAsync(cancellationToken);
             return Unit.Value;

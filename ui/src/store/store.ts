@@ -17,6 +17,7 @@ import { loadNotes, loadNote, createNote, updateNote, deleteNote } from '@/store
 import { authenticate } from '@/store/actions/users';
 
 import { signedInUser, isSignedIn } from '@/store/getters/users';
+import { NoteType } from '@/models/api/enums/noteType';
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -43,6 +44,7 @@ const state: StateModel = {
     notebookId: 0,
     preview: '',
     title: '',
+    noteType: NoteType.NotSet,
     updated: new Date()
   },
   notes: [],

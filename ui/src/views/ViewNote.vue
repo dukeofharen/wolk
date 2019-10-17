@@ -40,6 +40,7 @@ import { SignedInModel } from "../models/api/signedInModel";
 import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
+import { NoteType } from "../models/api/enums/noteType";
 
 @Component({
   components: {},
@@ -52,6 +53,7 @@ export default class ViewNote extends Vue {
     content: "",
     notebookId: 0,
     preview: "",
+    noteType: NoteType.NotSet,
     created: new Date(),
     updated: new Date()
   };

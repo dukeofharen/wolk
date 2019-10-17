@@ -34,6 +34,7 @@ namespace Ducode.Wolk.Application.Notes.Commands.CreateNote
             {
                 Title = request.Title,
                 Content = request.Content,
+                NoteType = request.NoteType,
                 NotebookId = request.NotebookId
             };
             _wolkDbContext.Notes.Add(note);
