@@ -31,6 +31,9 @@ namespace Ducode.Wolk.Persistence.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("NoteType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("NotebookId")
                         .HasColumnType("INTEGER");
 

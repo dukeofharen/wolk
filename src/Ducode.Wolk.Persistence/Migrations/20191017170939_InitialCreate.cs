@@ -50,6 +50,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     Changed = table.Column<DateTimeOffset>(nullable: true),
                     Title = table.Column<string>(maxLength: 200, nullable: true),
                     Content = table.Column<string>(nullable: true),
+                    NoteType = table.Column<int>(nullable: false),
                     NotebookId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

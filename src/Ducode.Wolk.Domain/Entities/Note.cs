@@ -1,3 +1,5 @@
+using Ducode.Wolk.Domain.Entities.Enums;
+
 namespace Ducode.Wolk.Domain.Entities
 {
     public class Note : BaseEntity
@@ -5,6 +7,8 @@ namespace Ducode.Wolk.Domain.Entities
         public string Title { get; set; }
 
         public string Content { get; set; }
+
+        public NoteType NoteType { get; set; }
 
         public long NotebookId { get; set; }
 

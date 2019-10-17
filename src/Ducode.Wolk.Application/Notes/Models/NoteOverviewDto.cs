@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using Ducode.Wolk.Application.Interfaces.Mappings;
 using Ducode.Wolk.Common.Utilities;
+using Ducode.Wolk.Domain.Entities.Enums;
 
 namespace Ducode.Wolk.Application.Notes.Models
 {
@@ -16,6 +17,8 @@ namespace Ducode.Wolk.Application.Notes.Models
         public string Title { get; set; }
 
         public string Preview { get; set; }
+
+        public NoteType NoteType { get; set; }
 
         public long NotebookId { get; set; }
 
