@@ -72,29 +72,6 @@
 					"response": []
 				},
 				{
-					"name": "Get notes in notebook",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "{{rootUrl}}api/notebook/1/notes",
-							"host": [
-								"{{rootUrl}}api"
-							],
-							"path": [
-								"notebook",
-								"1",
-								"notes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Create notebook",
 					"request": {
 						"auth": {
@@ -191,6 +168,16 @@
 				{
 					"name": "Get all notes",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -204,6 +191,80 @@
 							],
 							"path": [
 								"note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all notes in notebook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note?notebookId=5",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note"
+							],
+							"query": [
+								{
+									"key": "notebookId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all notes with search term",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{rootUrl}}api/note?searchTerm=duco",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": "duco"
+								}
 							]
 						}
 					},
@@ -409,15 +470,15 @@
 	],
 	"variable": [
 		{
-			"id": "ddaebd77-d952-4e1f-955b-42d730b17b3c",
+			"id": "8a90f11f-744a-4a53-a903-61868e960bb1",
 			"key": "rootUrl",
 			"value": "http://localhost:5010/",
 			"type": "string"
 		},
 		{
-			"id": "558809ae-43a2-49fd-8b38-b34569c5e4d0",
+			"id": "9603b70b-47f9-443d-953b-23e46405f77f",
 			"key": "token",
-			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmJmIjoxNTcwOTk4ODYwLCJleHAiOjE1NzEzNTg4NjAsImlhdCI6MTU3MDk5ODg2MH0.wfyfyUihrhh-wbc0C-8TeLezm5SQWBAc1pitrVlA-17iV6st0AdXsY4czSdp0v2ZChGXCwg9U6uU9DlPfOiXTQ",
+			"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmJmIjoxNTcxMTY0OTYyLCJleHAiOjE1NzE1MjQ5NjIsImlhdCI6MTU3MTE2NDk2Mn0.demQANy8IZgy70h0FhRPv5IUA3hRyHDENg0CoddvkDqdktKIyCDWCxcLY1a2M-DPDYjcgGrO76k14xboKfJjYQ",
 			"type": "string"
 		}
 	]
