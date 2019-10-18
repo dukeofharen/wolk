@@ -33,7 +33,7 @@ export function createNote({ commit }: ActionContext<StateModel, StateModel>, no
   axios.post(`${urls.rootUrl}api/note`, note)
     .then(r => r.data)
     .then((addedNote: Note) => {
-      router.push({ name: 'updateNote', params: <any>{ id: addedNote.id } });
+      router.push({ name: 'noteForm', params: <any>{ id: addedNote.id } });
       successMessage(resources.noteCreated);
     });
 }

@@ -71,7 +71,7 @@ export default class NotesList extends Vue {
 
   addNote() {
     this.$router.push({
-      name: "addNote",
+      name: "noteForm",
       query: <any>{ notebookId: this.currentNotebook.id }
     });
   }

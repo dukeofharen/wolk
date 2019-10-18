@@ -94,7 +94,7 @@ export default class NotebookBar extends Vue {
   }
 
   addNote() {
-    this.$router.push({ name: "addNote" });
+    this.$router.push({ name: "noteForm" });
   }
 
   overview() {

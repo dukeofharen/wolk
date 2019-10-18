@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <h1>Create note</h1>
+      <h1>{{noteId ? "Update" : "Create"}} note</h1>
       <v-text-field
         label="Note title"
         type="text"
@@ -30,8 +30,8 @@
       ></v-textarea>
       <v-btn
         color="success"
-        @click="addNote"
-      >Create note</v-btn>
+        @click="saveNote"
+      >Save note</v-btn>
     </v-col>
   </v-row>
 </template>
@@ -48,24 +48,26 @@ import { KeyValuePair } from "../models/keyValuePair";
 
 @Component({
   components: {},
-  computed: mapState(["notebooks"])
+  computed: mapState(["notebooks", "currentNote"])
 })
-export default class AddNote extends Vue {
+export default class NoteForm extends Vue {
+  noteId: string = "";
   noteTypeNames: Array<KeyValuePair<NoteType, string>> = getNoteTypeArray();
   notebooks!: Notebook[];
-  note: Note = {
-    id: 0,
-    title: "",
-    content: "",
-    notebookId: 0,
-    preview: "",
-    noteType: NoteType.NotSet,
-    created: new Date(),
-    updated: new Date()
-  };
+  note: Note = this.emptyNote;
 
   constructor() {
     super();
+  }
+
+  @Watch("$route")
+  onRouteChanged() {
+    this.reloadData();
+  }
+
+  @Watch("currentNote")
+  onCurrentNoteChanged(value: Note) {
+    this.note = value;
   }
 
   mounted() {
@@ -73,10 +75,41 @@ export default class AddNote extends Vue {
     if (notebookId) {
       this.note.notebookId = parseInt(notebookId);
     }
+
+    this.reloadData();
   }
 
-  addNote() {
-    this.$store.dispatch("createNote", this.note);
+  saveNote() {
+    if (!this.noteId) {
+      this.$store.dispatch("createNote", this.note);
+    } else {
+      this.$store.dispatch("updateNote", {
+        note: this.note,
+        id: this.noteId
+      });
+    }
+  }
+
+  private reloadData() {
+    this.noteId = <string>this.$route.params.id;
+    if (!this.noteId) {
+      this.note = this.emptyNote;
+    } else {
+      this.$store.dispatch("loadNote", this.noteId);
+    }
+  }
+
+  get emptyNote(): Note {
+    return {
+      id: 0,
+      title: "",
+      content: "",
+      notebookId: 0,
+      preview: "",
+      noteType: NoteType.NotSet,
+      created: new Date(),
+      updated: new Date()
+    };
   }
 }
 </script>
