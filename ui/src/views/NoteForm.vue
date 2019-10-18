@@ -6,6 +6,7 @@
         label="Note title"
         type="text"
         v-model="note.title"
+        @change="onChange"
       ></v-text-field>
       <v-select
         :items="notebooks"
@@ -14,6 +15,7 @@
         item-text="name"
         item-value="id"
         clearable
+        @change="onChange"
       ></v-select>
       <v-select
         :items="noteTypeNames"
@@ -22,11 +24,13 @@
         item-text="value"
         item-value="key"
         clearable
+        @change="onChange"
       ></v-select>
       <v-textarea
         label="Note contents"
         v-model="note.content"
         auto-grow
+        @change="onChange"
       ></v-textarea>
       <v-btn
         color="success"
@@ -50,16 +54,23 @@ import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
 import { getNoteTypeArray, NoteType } from "../models/api/enums/noteType";
 import { KeyValuePair } from "../models/keyValuePair";
+import { resources } from "../resources";
 
 @Component({
   components: {},
-  computed: mapState(["notebooks", "currentNote"])
+  computed: mapState(["notebooks", "currentNote"]),
+  beforeRouteLeave(to, from, next) {
+    if (!this.formDirty || confirm(resources.unsavedChanges)) {
+      next();
+    }
+  }
 })
 export default class NoteForm extends Vue {
   noteId: string = "";
   noteTypeNames: Array<KeyValuePair<NoteType, string>> = getNoteTypeArray();
   notebooks!: Notebook[];
   note: Note = this.emptyNote;
+  formDirty: boolean = false;
 
   constructor() {
     super();
@@ -76,12 +87,17 @@ export default class NoteForm extends Vue {
   }
 
   mounted() {
+    this.formDirty = false;
     let notebookId = <string>this.$route.query.notebookId;
     if (notebookId) {
       this.note.notebookId = parseInt(notebookId);
     }
 
     this.reloadData();
+  }
+
+  onChange() {
+    this.formDirty = true;
   }
 
   saveNote() {
@@ -93,6 +109,8 @@ export default class NoteForm extends Vue {
         id: this.noteId
       });
     }
+
+    this.formDirty = false;
   }
 
   viewNote() {

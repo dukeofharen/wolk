@@ -6,6 +6,7 @@
         label="Notebook name"
         type="text"
         v-model="notebook.name"
+        @change="onChange"
       ></v-text-field>
       <v-btn
         color="success"
@@ -21,14 +22,21 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { AuthenticateModel } from "../models/api/authenticateModel";
 import { SignedInModel } from "../models/api/signedInModel";
 import Notebook from "../models/api/notebook";
+import { resources } from "../resources";
 
 @Component({
   components: {},
-  computed: mapState(["currentNotebook"])
+  computed: mapState(["currentNotebook"]),
+  beforeRouteLeave(to, from, next) {
+    if (!this.formDirty || confirm(resources.unsavedChanges)) {
+      next();
+    }
+  }
 })
 export default class NotebookForm extends Vue {
   notebookId: string = "";
   notebook: Notebook = this.emptyNotebook;
+  formDirty: boolean = false;
 
   constructor() {
     super();
@@ -45,6 +53,7 @@ export default class NotebookForm extends Vue {
   }
 
   mounted() {
+    this.formDirty = false;
     this.reloadData();
   }
 
@@ -57,6 +66,12 @@ export default class NotebookForm extends Vue {
         id: this.$route.params.id
       });
     }
+
+    this.formDirty = false;
+  }
+
+  onChange() {
+    this.formDirty = true;
   }
 
   private reloadData() {
