@@ -5,24 +5,19 @@
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import Note from "../../models/api/note";
+import marked from "marked";
 
 @Component({
   components: {}
 })
-export default class PlainText extends Vue {
+export default class Markdown extends Vue {
   @Prop()
   note!: Note;
   contents: string;
 
   constructor() {
     super();
-    
-    // https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
-    this.contents = this.note.content
-      .replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-        return "&#" + i.charCodeAt(0) + ";";
-      })
-      .replace(/(?:\r\n|\r|\n)/g, "<br />");
+    this.contents = marked(this.note.content);
   }
 }
 </script>

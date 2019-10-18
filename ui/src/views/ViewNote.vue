@@ -29,6 +29,10 @@
         v-if="note.noteType == NoteType.PlainText"
         v-bind:note="note"
       />
+      <Markdown
+        v-if="note.noteType == NoteType.Markdown"
+        v-bind:note="note"
+      />
     </v-col>
   </v-row>
 </template>
@@ -43,9 +47,10 @@ import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
 import { NoteType } from "../models/api/enums/noteType";
 import PlainText from "@/components/noteRendering/PlainText.vue";
+import Markdown from "@/components/noteRendering/Markdown.vue";
 
 @Component({
-  components: { PlainText },
+  components: { PlainText, Markdown },
   computed: mapState(["currentNote"])
 })
 export default class ViewNote extends Vue {

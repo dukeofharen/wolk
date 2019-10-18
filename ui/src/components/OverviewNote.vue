@@ -43,7 +43,7 @@ export default class OverviewNote extends Vue {
 
   constructor() {
     super();
-    this.noteTypeName = NoteTypeMap.get(this.note.noteType);
+    this.noteTypeName = <string>NoteTypeMap.get(this.note.noteType);
   }
 
   viewNote() {
