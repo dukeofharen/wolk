@@ -64,7 +64,7 @@ export default class NotesList extends Vue {
 
   updateNotebook() {
     this.$router.push({
-      name: "updateNotebook",
+      name: "notebookForm",
       params: <any>{ id: this.$route.params.id }
     });
   }

@@ -23,14 +23,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "overview" */ './views/Overview.vue'),
     },
     {
-      path: '/addNotebook',
-      name: 'addNotebook',
-      component: () => import(/* webpackChunkName: "addNotebook" */ './views/AddNotebook.vue'),
-    },
-    {
-      path: '/updateNotebook/:id',
-      name: 'updateNotebook',
-      component: () => import(/* webpackChunkName: "updateNotebook" */ './views/UpdateNotebook.vue'),
+      path: '/notebookForm/:id?',
+      name: 'notebookForm',
+      component: () => import(/* webpackChunkName: "notebookForm" */ './views/NotebookForm.vue'),
     },
     {
       path: '/noteForm/:id?',

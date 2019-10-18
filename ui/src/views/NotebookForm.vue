@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <h1>Update notebook "{{notebook.name}}"</h1>
+      <h1>{{notebookId ? "Update" : "Create"}} notebook</h1>
       <v-text-field
         label="Notebook name"
         type="text"
@@ -9,8 +9,8 @@
       ></v-text-field>
       <v-btn
         color="success"
-        @click="updateNotebook"
-      >Update notebook</v-btn>
+        @click="saveNotebook"
+      >Save notebook</v-btn>
     </v-col>
   </v-row>
 </template>
@@ -26,13 +26,9 @@ import Notebook from "../models/api/notebook";
   components: {},
   computed: mapState(["currentNotebook"])
 })
-export default class updateNotebook extends Vue {
-  notebook: Notebook = {
-    id: 0,
-    name: "",
-    created: new Date(),
-    updated: new Date()
-  };
+export default class NotebookForm extends Vue {
+  notebookId: string = "";
+  notebook: Notebook = this.emptyNotebook;
 
   constructor() {
     super();
@@ -52,15 +48,33 @@ export default class updateNotebook extends Vue {
     this.reloadData();
   }
 
-  updateNotebook() {
-    this.$store.dispatch("updateNotebook", {
-      notebook: this.notebook,
-      id: this.$route.params.id
-    });
+  saveNotebook() {
+    if (!this.notebookId) {
+      this.$store.dispatch("createNotebook", this.notebook);
+    } else {
+      this.$store.dispatch("updateNotebook", {
+        notebook: this.notebook,
+        id: this.$route.params.id
+      });
+    }
   }
 
   private reloadData() {
-    this.$store.dispatch("loadNotebook", this.$route.params.id);
+    this.notebookId = <string>this.$route.params.id;
+    if (!this.notebookId) {
+      this.notebook = this.emptyNotebook;
+    } else {
+      this.$store.dispatch("loadNotebook", this.$route.params.id);
+    }
+  }
+
+  get emptyNotebook(): Notebook {
+    return {
+      id: 0,
+      name: "",
+      created: new Date(),
+      updated: new Date()
+    };
   }
 }
 </script>

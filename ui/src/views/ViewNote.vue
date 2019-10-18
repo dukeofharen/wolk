@@ -78,7 +78,7 @@ export default class ViewNote extends Vue {
 
   updateNote() {
     this.$router.push({
-      name: "updateNote",
+      name: "noteForm",
       params: <any>{ id: this.note.id }
     });
   }
