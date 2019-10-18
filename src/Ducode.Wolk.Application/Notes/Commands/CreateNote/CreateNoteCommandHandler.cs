@@ -25,11 +25,6 @@ namespace Ducode.Wolk.Application.Notes.Commands.CreateNote
 
         public async Task<NoteDto> Handle(CreateNoteCommand request, CancellationToken cancellationToken)
         {
-            if (!await _wolkDbContext.Notebooks.AnyAsync(n => n.Id == request.NotebookId, cancellationToken))
-            {
-                throw new NotFoundException(nameof(Notebook), request.NotebookId);
-            }
-
             var note = new Note
             {
                 Title = request.Title,

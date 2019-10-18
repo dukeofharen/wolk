@@ -62,7 +62,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
         }
 
         [TestMethod]
-        public async Task Update_NotebookNotFound_ShouldReturn404()
+        public async Task Update_NotebookNotFound_ShouldReturn400()
         {
             // Arrange
             var url = "/api/note/1";
@@ -83,7 +83,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             using var response = await HttpClient.SendAsync(request);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [TestMethod]

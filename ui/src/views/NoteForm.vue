@@ -87,13 +87,12 @@ export default class NoteForm extends Vue {
   }
 
   mounted() {
+    this.reloadData();
     this.formDirty = false;
     let notebookId = <string>this.$route.query.notebookId;
     if (notebookId) {
       this.note.notebookId = parseInt(notebookId);
     }
-
-    this.reloadData();
   }
 
   onChange() {

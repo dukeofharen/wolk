@@ -1,22 +1,22 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
+using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
-using FluentValidation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
+namespace Ducode.Wolk.Application.Tests.Notes.Commands.UpdateNote
 {
     [TestClass]
-    public class CreateNoteCommandValidatorTests
+    public class UpdateNoteCommandValidatorTests
     {
         private readonly WolkDbContext _wolkDbContext = InMemoryDbContextFactory.Create();
-        private CreateNoteCommandValidator _validator;
+        private UpdateNoteCommandValidator _validator;
 
         [TestInitialize]
-        public void Setup() => _validator = new CreateNoteCommandValidator(_wolkDbContext);
+        public void Setup() => _validator = new UpdateNoteCommandValidator(_wolkDbContext);
 
         [TestCleanup]
         public void Cleanup() => _wolkDbContext.Destroy();
@@ -26,7 +26,7 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
         {
             // Arrange
             var notebook = await _wolkDbContext.CreateAndSaveNotebook();
-            var command = new CreateNoteCommand
+            var command = new UpdateNoteCommand
             {
                 Content = string.Empty, Title = new string('a', 201), NotebookId = notebook.Id + 1
             };
@@ -46,7 +46,7 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
         {
             // Arrange
             var notebook = await _wolkDbContext.CreateAndSaveNotebook();
-            var command = new CreateNoteCommand
+            var command = new UpdateNoteCommand
             {
                 Content = "Note contents", Title = new string('a', 199), NotebookId = notebook.Id
             };

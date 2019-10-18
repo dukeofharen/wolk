@@ -27,22 +27,6 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.CreateNote
         public void Cleanup() => _wolkDbContext.Destroy();
 
         [TestMethod]
-        public async Task Handle_NotebookNotFound_ShouldThrowNotFoundException()
-        {
-            // Arrange
-            var notebook = await _wolkDbContext.CreateAndSaveNotebook();
-
-            var request = new CreateNoteCommand
-            {
-                Content = "bladibla", Title = "Note title", NotebookId = notebook.Id + 1
-            };
-
-            // Act / Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() =>
-                _handler.Handle(request, CancellationToken.None));
-        }
-
-        [TestMethod]
         public async Task Handle_ShouldAddNoteCorrectly()
         {
             // Arrange
