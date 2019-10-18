@@ -32,6 +32,11 @@
         color="success"
         @click="saveNote"
       >Save note</v-btn>
+      <v-btn
+        color="success"
+        @click="viewNote"
+        v-if="noteId"
+      >View note</v-btn>
     </v-col>
   </v-row>
 </template>
@@ -88,6 +93,10 @@ export default class NoteForm extends Vue {
         id: this.noteId
       });
     }
+  }
+
+  viewNote() {
+    this.$router.push({ name: "viewNote", params: <any>{ id: this.noteId } });
   }
 
   private reloadData() {
