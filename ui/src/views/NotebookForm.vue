@@ -28,14 +28,15 @@ import { resources } from "../resources";
   components: {},
   computed: mapState(["currentNotebook"]),
   beforeRouteLeave(to, from, next) {
-    if (!this.formDirty || confirm(resources.unsavedChanges)) {
+    let form: NotebookForm = this as NotebookForm;
+    if (!form.formDirty || confirm(resources.unsavedChanges)) {
       next();
     }
   }
 })
 export default class NotebookForm extends Vue {
   notebookId: string = "";
-  notebook: Notebook = this.emptyNotebook;
+  notebook: Notebook = this.emptyNotebook();
   formDirty: boolean = false;
 
   constructor() {
@@ -77,13 +78,13 @@ export default class NotebookForm extends Vue {
   private reloadData() {
     this.notebookId = <string>this.$route.params.id;
     if (!this.notebookId) {
-      this.notebook = this.emptyNotebook;
+      this.notebook = this.emptyNotebook();
     } else {
       this.$store.dispatch("loadNotebook", this.$route.params.id);
     }
   }
 
-  get emptyNotebook(): Notebook {
+  emptyNotebook(): Notebook {
     return {
       id: 0,
       name: "",

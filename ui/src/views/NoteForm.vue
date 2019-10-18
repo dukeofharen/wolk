@@ -1,5 +1,8 @@
 <template>
-  <v-row v-shortkey="['ctrl', 's']" @shortkey="saveNote">
+  <v-row
+    v-shortkey="['ctrl', 's']"
+    @shortkey="saveNote"
+  >
     <v-col>
       <h1>{{noteId ? "Update" : "Create"}} note</h1>
       <v-text-field
@@ -60,7 +63,8 @@ import { resources } from "../resources";
   components: {},
   computed: mapState(["notebooks", "currentNote"]),
   beforeRouteLeave(to, from, next) {
-    if (!this.formDirty || confirm(resources.unsavedChanges)) {
+    let form: NoteForm = this as NoteForm;
+    if (!form.formDirty || confirm(resources.unsavedChanges)) {
       next();
     }
   }
@@ -69,7 +73,7 @@ export default class NoteForm extends Vue {
   noteId: string = "";
   noteTypeNames: Array<KeyValuePair<NoteType, string>> = getNoteTypeArray();
   notebooks!: Notebook[];
-  note: Note = this.emptyNote;
+  note: Note = this.emptyNote();
   formDirty: boolean = false;
 
   constructor() {
@@ -119,13 +123,13 @@ export default class NoteForm extends Vue {
   private reloadData() {
     this.noteId = <string>this.$route.params.id;
     if (!this.noteId) {
-      this.note = this.emptyNote;
+      this.note = this.emptyNote();
     } else {
       this.$store.dispatch("loadNote", this.noteId);
     }
   }
 
-  get emptyNote(): Note {
+  emptyNote(): Note {
     return {
       id: 0,
       title: "",
