@@ -25,8 +25,8 @@ import { SignedInModel } from './models/api/signedInModel';
 import '@/filters/datetime';
 
 // Other Vue components
-const vueDebounce = require('vue-debounce');
-Vue.use(vueDebounce);
+Vue.use(require('vue-debounce'));
+Vue.use(require('vue-shortkey'));
 
 Vue.config.productionTip = false;
 

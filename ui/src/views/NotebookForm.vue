@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row v-shortkey="['ctrl', 's']" @shortkey="saveNotebook">
     <v-col>
       <h1>{{notebookId ? "Update" : "Create"}} notebook</h1>
       <v-text-field
