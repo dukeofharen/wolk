@@ -25,14 +25,7 @@
           >Delete note</v-btn>
         </v-col>
       </v-row>
-      <PlainText
-        v-if="note.noteType == NoteType.PlainText"
-        v-bind:note="note"
-      />
-      <Markdown
-        v-if="note.noteType == NoteType.Markdown"
-        v-bind:note="note"
-      />
+      <NoteRender :contents="note.content" :noteType="note.noteType" />
     </v-col>
   </v-row>
 </template>
@@ -46,11 +39,10 @@ import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
 import { NoteType } from "../models/api/enums/noteType";
-import PlainText from "@/components/noteRendering/PlainText.vue";
-import Markdown from "@/components/noteRendering/Markdown.vue";
+import NoteRender from "@/components/NoteRender.vue";
 
 @Component({
-  components: { PlainText, Markdown },
+  components: { NoteRender },
   computed: mapState(["currentNote"])
 })
 export default class ViewNote extends Vue {

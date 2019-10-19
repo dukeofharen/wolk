@@ -1,5 +1,5 @@
 <template>
-  <div v-html="contents"></div>
+  <div v-html="renderedContents"></div>
 </template>
 
 <script lang="ts">
@@ -12,12 +12,13 @@ import marked from "marked";
 })
 export default class Markdown extends Vue {
   @Prop()
-  note!: Note;
   contents: string;
+
+  renderedContents: string = "";
 
   constructor() {
     super();
-    this.contents = marked(this.note.content);
+    this.renderedContents = marked(this.contents);
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div v-html="contents"></div>
+  <div v-html="renderedContents"></div>
 </template>
 
 <script lang="ts">
@@ -11,14 +11,15 @@ import Note from "../../models/api/note";
 })
 export default class PlainText extends Vue {
   @Prop()
-  note!: Note;
   contents: string;
+
+  renderedContents: string = "";
 
   constructor() {
     super();
     
     // https://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
-    this.contents = this.note.content
+    this.renderedContents = this.contents
       .replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
         return "&#" + i.charCodeAt(0) + ";";
       })
