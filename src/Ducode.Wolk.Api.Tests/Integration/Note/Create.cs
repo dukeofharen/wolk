@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Models;
 using Ducode.Wolk.Common.Constants;
+using Ducode.Wolk.Domain.Entities.Enums;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Utilities;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +70,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
 
             var command = new CreateNoteCommand
             {
-                Title = Guid.NewGuid().ToString(), Content = Guid.NewGuid().ToString(), NotebookId = notebook.Id + 1
+                Title = Guid.NewGuid().ToString(),
+                Content = Guid.NewGuid().ToString(),
+                NotebookId = notebook.Id + 1,
+                NoteType = NoteType.Markdown
             };
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
@@ -94,7 +98,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
 
             var command = new CreateNoteCommand
             {
-                Title = Guid.NewGuid().ToString(), Content = Guid.NewGuid().ToString(), NotebookId = notebook.Id
+                Title = Guid.NewGuid().ToString(),
+                Content = Guid.NewGuid().ToString(),
+                NotebookId = notebook.Id,
+                NoteType = NoteType.Markdown
             };
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
