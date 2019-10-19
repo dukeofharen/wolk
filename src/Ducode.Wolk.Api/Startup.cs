@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Ducode.Wolk.Api.Attributes;
@@ -7,6 +8,7 @@ using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Identity;
 using Ducode.Wolk.Infrastructure;
 using Ducode.Wolk.Persistence;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 
 namespace Ducode.Wolk.Api
 {
@@ -41,7 +45,20 @@ namespace Ducode.Wolk.Api
                     config => config.AllowNullCollections = true,
                     typeof(Startup).Assembly,
                     typeof(ApplicationModule).Assembly)
-                .AddOpenApiDocument(c => c.Title = "Wolk API");
+                .AddOpenApiDocument(c =>
+                {
+                    c.Title = "Wolk API";
+                    c.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                    c.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT",
+                        new OpenApiSecurityScheme
+                        {
+                            Type = OpenApiSecuritySchemeType.ApiKey,
+                            Name = "Authorization",
+                            Description = "Copy 'Bearer ' + valid JWT token into field",
+                            In = OpenApiSecurityApiKeyLocation.Header
+                        }));
+                })
+                .AddValidatorsFromAssemblies(new[] {typeof(Startup).Assembly});
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => ConfigureInternal(app, env, true);

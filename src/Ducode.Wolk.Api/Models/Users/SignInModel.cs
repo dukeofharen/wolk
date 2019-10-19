@@ -1,11 +1,12 @@
 using Ducode.Wolk.Application.Interfaces.Mappings;
+using Ducode.Wolk.Application.Users.Queries.SignIn;
 
 namespace Ducode.Wolk.Api.Models.Users
 {
     /// <summary>
     /// A model used for authenticating a user.
     /// </summary>
-    public class SignInModel : IMapTo<SignInModel>
+    public class SignInModel : IMapTo<SignInQuery>
     {
         /// <summary>
         /// Gets or sets the user email.

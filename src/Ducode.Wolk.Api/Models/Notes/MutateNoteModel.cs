@@ -1,3 +1,4 @@
+using AutoMapper;
 using Ducode.Wolk.Application.Interfaces.Mappings;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
@@ -8,7 +9,7 @@ namespace Ducode.Wolk.Api.Models.Notes
     /// <summary>
     /// Model used for creating / updating notes.
     /// </summary>
-    public class MutateNoteModel : IMapTo<CreateNoteCommand>, IMapTo<UpdateNoteCommand>
+    public class MutateNoteModel : IHaveCustomMapping
     {
         /// <summary>
         /// Gets or sets the note title.
@@ -29,5 +30,11 @@ namespace Ducode.Wolk.Api.Models.Notes
         /// Gets or sets the notebook ID.
         /// </summary>
         public long NotebookId { get; set; }
+
+        public void CreateMappings(Profile configuration)
+        {
+            configuration.CreateMap<MutateNoteModel, CreateNoteCommand>();
+            configuration.CreateMap<MutateNoteModel, UpdateNoteCommand>();
+        }
     }
 }
