@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Exceptions;
@@ -32,7 +33,8 @@ namespace Ducode.Wolk.Identity.Impl
 
             var user = new User
             {
-                Email = email
+                Email = email,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)

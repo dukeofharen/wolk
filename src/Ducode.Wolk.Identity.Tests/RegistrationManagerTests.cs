@@ -78,6 +78,7 @@ namespace Ducode.Wolk.Identity.Tests
 
             // Assert
             Assert.AreEqual(email, addedUser.Email);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(addedUser.SecurityStamp));
         }
     }
 }
