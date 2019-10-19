@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Ducode.Wolk.Api.Models.Notes;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.DeleteNote;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
@@ -36,29 +37,30 @@ namespace Ducode.Wolk.Api.Controllers
         /// <summary>
         /// Creates a new note.
         /// </summary>
-        /// <param name="command">The note.</param>
+        /// <param name="noteModel">The note.</param>
         /// <returns>The added note.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<NoteDto>> Create([FromBody] CreateNoteCommand command)
+        public async Task<ActionResult<NoteDto>> Create([FromBody] MutateNoteModel noteModel)
         {
-            var note = await Mediator.Send(command);
+            var note = await Mediator.Send(Mapper.Map<CreateNoteCommand>(noteModel));
             return CreatedAtAction(nameof(Get), new { id = note.Id}, note);
         }
 
         /// <summary>
         /// Updates an existing note.
         /// </summary>
-        /// <param name="command">The note.</param>
+        /// <param name="noteModel">The note.</param>
         /// <param name="id">The note ID.</param>
         /// <returns>No content.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> Update([FromBody] UpdateNoteCommand command, [FromRoute]long id)
+        public async Task<ActionResult> Update([FromBody] MutateNoteModel noteModel, [FromRoute]long id)
         {
+            var command = Mapper.Map<UpdateNoteCommand>(noteModel);
             command.Id = id;
             await Mediator.Send(command);
             return NoContent();

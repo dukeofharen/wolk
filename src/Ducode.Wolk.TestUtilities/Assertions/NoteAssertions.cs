@@ -1,3 +1,4 @@
+using Ducode.Wolk.Api.Models.Notes;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
 using Ducode.Wolk.Application.Notes.Models;
 using Ducode.Wolk.Common.Utilities;
@@ -24,6 +25,13 @@ namespace Ducode.Wolk.TestUtilities.Assertions
             Assert.AreEqual(note.NotebookId, noteDto.NotebookId);
             Assert.AreEqual(note.Created, noteDto.Created);
             Assert.AreEqual(note.Changed, noteDto.Changed);
+        }
+
+        public static void ShouldBeEqual(Note note, MutateNoteModel model)
+        {
+            Assert.AreEqual(note.Content, model.Content);
+            Assert.AreEqual(note.Title, model.Title);
+            Assert.AreEqual(note.NotebookId, model.NotebookId);
         }
 
         public static void ShouldBeEqual(Note note, UpdateNoteCommand command)

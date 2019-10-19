@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Ducode.Wolk.Api\Ducode.Wolk.Api.csproj" />
         <ProjectReference Include="..\Ducode.Wolk.Persistence\Ducode.Wolk.Persistence.csproj" />
     </ItemGroup>
 

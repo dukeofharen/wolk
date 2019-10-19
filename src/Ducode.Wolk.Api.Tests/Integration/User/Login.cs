@@ -4,8 +4,8 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Ducode.Wolk.Api.Models.Users;
 using Ducode.Wolk.Application.Users.Models;
-using Ducode.Wolk.Application.Users.Queries.SignIn;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Utilities;
@@ -24,10 +24,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             // Arrange
             var url = "/api/user/authenticate";
             var user = await WolkDbContext.CreateAndSaveUser();
-            var query = new SignInQuery {Email = user.Email, Password = "adfsdfgsdfgdf"};
+            var model = new SignInModel {Email = user.Email, Password = "adfsdfgsdfgdf"};
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
 
             // Act
@@ -43,10 +43,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             // Arrange
             var url = "/api/user/authenticate";
             var user = await WolkDbContext.CreateAndSaveUser();
-            var query = new SignInQuery {Email = user.Email, Password = "Pass123"};
+            var model = new SignInModel {Email = user.Email, Password = "Pass123"};
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
 
             // Act
@@ -88,10 +88,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             // Arrange
             var url = "/api/user/authenticate";
             var user = await WolkDbContext.CreateAndSaveUser();
-            var query = new SignInQuery {Email = user.Email, Password = "Pass123"};
+            var model = new SignInModel {Email = user.Email, Password = "Pass123"};
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
 
             // Act

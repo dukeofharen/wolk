@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
+using Ducode.Wolk.Api.Models.Notebooks;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Utilities;
@@ -38,10 +38,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             // Arrange
             var url = "/api/notebook/1";
 
-            var command = new UpdateNotebookCommand {Name = new string('a', 201)};
+            var model = new MutateNotebookModel {Name = new string('a', 201)};
             var request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
             var token = await GetJwt();
             request.AddJwtBearer(token);
@@ -60,10 +60,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             var notebook = await WolkDbContext.CreateAndSaveNotebook();
             var url = $"/api/notebook/{notebook.Id + 1}";
 
-            var command = new UpdateNotebookCommand {Name = Guid.NewGuid().ToString()};
+            var model = new MutateNotebookModel {Name = Guid.NewGuid().ToString()};
             var request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
             var token = await GetJwt();
             request.AddJwtBearer(token);
@@ -83,10 +83,10 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
             var notebook = await WolkDbContext.CreateAndSaveNotebook();
             var url = $"/api/notebook/{notebook.Id}";
 
-            var command = new UpdateNotebookCommand {Name = Guid.NewGuid().ToString()};
+            var model = new MutateNotebookModel {Name = Guid.NewGuid().ToString()};
             var request = new HttpRequestMessage(HttpMethod.Put, url)
             {
-                Content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, MimeTypes.Json)
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
             };
             var token = await GetJwt();
             request.AddJwtBearer(token);
@@ -96,7 +96,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
 
             // Assert
             Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
-            Assert.AreEqual(command.Name, notebook.Name);
+            Assert.AreEqual(model.Name, notebook.Name);
         }
     }
 }
