@@ -13,7 +13,6 @@ axios.interceptors.response.use(
                 errorMessage(messages.join('\n'));
             } else if (error.response.status === 401) {
                 store.commit("UNSET_SIGNED_IN_USER");
-                errorMessage(resources.unauthorized, false);
                 router.push({ name: 'login' });
             } else if(error.response.status === 404) {
                 errorMessage(resources.notFound);
