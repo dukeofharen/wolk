@@ -12,7 +12,7 @@ import marked from "marked";
 })
 export default class Markdown extends Vue {
   @Prop()
-  contents: string;
+  contents!: string;
 
   renderedContents: string = "";
 

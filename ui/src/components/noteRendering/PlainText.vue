@@ -11,7 +11,7 @@ import Note from "../../models/api/note";
 })
 export default class PlainText extends Vue {
   @Prop()
-  contents: string;
+  contents!: string;
 
   renderedContents: string = "";
 

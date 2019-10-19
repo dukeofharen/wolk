@@ -5,36 +5,6 @@
   >
     <v-col>
       <h1>{{noteId ? "Update" : "Create"}} note</h1>
-      <v-text-field
-        label="Note title"
-        type="text"
-        v-model="note.title"
-        @change="onChange"
-      ></v-text-field>
-      <v-select
-        :items="notebooks"
-        placeholder="Select notebook..."
-        v-model="note.notebookId"
-        item-text="name"
-        item-value="id"
-        clearable
-        @change="onChange"
-      ></v-select>
-      <v-select
-        :items="noteTypeNames"
-        placeholder="Select note type..."
-        v-model="note.noteType"
-        item-text="value"
-        item-value="key"
-        clearable
-        @change="onChange"
-      ></v-select>
-      <v-textarea
-        label="Note contents"
-        v-model="note.content"
-        auto-grow
-        @change="onChange"
-      ></v-textarea>
       <v-btn
         color="success"
         @click="saveNote"
@@ -44,6 +14,47 @@
         @click="viewNote"
         v-if="noteId"
       >View note</v-btn>
+      <v-btn
+        color="success"
+        @click="previewing = !previewing"
+      >{{!previewing ? "Preview note" : "Go back to form"}}</v-btn>
+      <div v-if="!previewing">
+        <v-text-field
+          label="Note title"
+          type="text"
+          v-model="note.title"
+          @keyup="onChange"
+        ></v-text-field>
+        <v-select
+          :items="notebooks"
+          placeholder="Select notebook..."
+          v-model="note.notebookId"
+          item-text="name"
+          item-value="id"
+          clearable
+          @change="onChange"
+        ></v-select>
+        <v-select
+          :items="noteTypeNames"
+          placeholder="Select note type..."
+          v-model="note.noteType"
+          item-text="value"
+          item-value="key"
+          clearable
+          @change="onChange"
+        ></v-select>
+        <v-textarea
+          label="Note contents"
+          v-model="note.content"
+          auto-grow
+          @keyup="onChange"
+        ></v-textarea>
+      </div>
+      <NoteRender
+        v-if="previewing"
+        :contents="note.content"
+        :noteType="note.noteType"
+      />
     </v-col>
   </v-row>
 </template>
@@ -58,9 +69,10 @@ import Notebook from "../models/api/notebook";
 import { getNoteTypeArray, NoteType } from "../models/api/enums/noteType";
 import { KeyValuePair } from "../models/keyValuePair";
 import { resources } from "../resources";
+import NoteRender from "@/components/NoteRender.vue";
 
 @Component({
-  components: {},
+  components: { NoteRender },
   computed: mapState(["notebooks", "currentNote"]),
   beforeRouteLeave(to, from, next) {
     let form: NoteForm = this as NoteForm;
@@ -75,6 +87,7 @@ export default class NoteForm extends Vue {
   notebooks!: Notebook[];
   note: Note = this.emptyNote();
   formDirty: boolean = false;
+  previewing: boolean = false;
 
   constructor() {
     super();
@@ -92,11 +105,6 @@ export default class NoteForm extends Vue {
 
   mounted() {
     this.reloadData();
-    this.formDirty = false;
-    let notebookId = <string>this.$route.query.notebookId;
-    if (notebookId) {
-      this.note.notebookId = parseInt(notebookId);
-    }
   }
 
   onChange() {
@@ -126,6 +134,13 @@ export default class NoteForm extends Vue {
       this.note = this.emptyNote();
     } else {
       this.$store.dispatch("loadNote", this.noteId);
+    }
+
+    this.previewing = false;
+    this.formDirty = false;
+    let notebookId = <string>this.$route.query.notebookId;
+    if (notebookId) {
+      this.note.notebookId = parseInt(notebookId);
     }
   }
 

@@ -2,6 +2,9 @@
   <div>
     <PlainText v-if="noteType == NoteType.PlainText" :contents="contents" />
     <Markdown v-if="noteType == NoteType.Markdown" :contents="contents" />
+    <div v-if="noteType == NoteType.NotSet">
+      {{contents}}
+    </div>
   </div>
 </template>
 
@@ -15,14 +18,14 @@ import Markdown from "@/components/noteRendering/Markdown.vue";
 @Component({
   components: { PlainText, Markdown }
 })
-export default class ViewNote extends Vue {
+export default class NoteRender extends Vue {
   NoteType = NoteType;
 
   @Prop()
-  contents: string;
+  contents!: string;
 
   @Prop()
-  noteType: NoteType;
+  noteType!: NoteType;
 
   constructor() {
     super();
