@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
+using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity.Impl;
 using Ducode.Wolk.TestUtilities.FakeData;
@@ -54,7 +55,12 @@ namespace Ducode.Wolk.Identity.Tests
                     ValidateIssuer = false
                 }, out var validatedToken);
 
-            Assert.AreEqual(user.Id.ToString(), result.Claims.Single(c => c.Type == "sub").Value);
+            Assert.AreEqual(
+                user.Id.ToString(),
+                result.Claims.Single(c => c.Type == JwtRegisteredClaimNames.Sub).Value);
+            Assert.AreEqual(
+                user.SecurityStamp,
+                result.Claims.Single(c => c.Type == CustomClaimTypes.SecurityStamp).Value);
         }
     }
 }

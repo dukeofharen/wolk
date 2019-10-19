@@ -8,6 +8,7 @@ using Ducode.Wolk.Application.Users.Models;
 using Ducode.Wolk.Application.Users.Queries.SignIn;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.TestUtilities.FakeData;
+using Ducode.Wolk.TestUtilities.Utilities;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -69,6 +70,52 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             }, out var validatedToken);
 
             Assert.AreEqual(user.Id.ToString(), result.Claims.Single(c => c.Type == "sub").Value);
+
+            // Act: do a call to get all notebooks with correct user token
+            url = "/api/notebook";
+
+            request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.AddJwtBearer(viewModel.Token);
+            using var notebookResponse = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.IsTrue(notebookResponse.IsSuccessStatusCode);
+        }
+
+        [TestMethod]
+        public async Task Authenticate_CredentialsCorrect_UserIsDeleted_ShouldReturn401()
+        {
+            // Arrange
+            var url = "/api/user/authenticate";
+            var user = await WolkDbContext.CreateAndSaveUser();
+            var query = new SignInQuery {Email = user.Email, Password = "Pass123"};
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, MimeTypes.Json)
+            };
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var viewModel = JsonConvert.DeserializeObject<SignedInViewModel>(content);
+
+            // Act: delete user
+            WolkDbContext.Users.Remove(user);
+            await WolkDbContext.SaveChangesAsync();
+
+            // Act: do a call to get all notebooks with "deleted" user token
+            url = "/api/notebook";
+
+            request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.AddJwtBearer(viewModel.Token);
+            using var notebookResponse = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.Unauthorized, notebookResponse.StatusCode);
         }
     }
 }

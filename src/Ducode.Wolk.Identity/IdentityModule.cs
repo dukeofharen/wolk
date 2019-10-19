@@ -1,6 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Ducode.Wolk.Application.Interfaces.Authentication;
 using Ducode.Wolk.Application.Interfaces.Identity;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
@@ -50,6 +51,7 @@ namespace Ducode.Wolk.Identity
             services.AddTransient<IJwtManager, JwtManager>();
             services.AddTransient<IRegistrationManager, RegistrationManager>();
             services.AddTransient<ISignInManager, SignInManager>();
+            services.AddTransient<IUserContext, UserContext>();
             services.AddTransient<IUserManager, UserManagerWrapper>();
 
             // Add authentication

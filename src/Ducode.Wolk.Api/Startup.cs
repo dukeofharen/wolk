@@ -1,6 +1,7 @@
 using System.Reflection;
 using AutoMapper;
 using Ducode.Wolk.Api.Attributes;
+using Ducode.Wolk.Api.Middleware;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Identity;
@@ -31,6 +32,7 @@ namespace Ducode.Wolk.Api
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddApplicationPart(Assembly.GetExecutingAssembly());
             services
+                .AddHttpContextAccessor()
                 .AddApplicationModule()
                 .AddInfrastructureModule()
                 .AddPersistenceModule(Configuration)
@@ -52,6 +54,7 @@ namespace Ducode.Wolk.Api
 
             app.UseRouting();
             app.UseAuthorization();
+            app.UseMiddleware<ValidUserMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
 
             // Ensure the database is created.

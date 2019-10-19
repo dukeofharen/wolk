@@ -17,8 +17,4 @@
       <ProjectReference Include="..\Ducode.Wolk.Domain\Ducode.Wolk.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Users\Queries" />
-    </ItemGroup>
-
 </Project>
