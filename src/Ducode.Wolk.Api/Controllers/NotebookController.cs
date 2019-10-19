@@ -15,17 +15,32 @@ namespace Ducode.Wolk.Api.Controllers
 {
     public class NotebookController : BaseApiController
     {
+
+        /// <summary>
+        /// Returns a list of all notebooks.
+        /// </summary>
+        /// <returns>A list of all notebooks</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<NotebookDto>>> GetAll() =>
             Ok(await Mediator.Send(new GetAllNotebooksQuery()));
 
+        /// <summary>
+        /// Returns a specific notebook.
+        /// </summary>
+        /// <param name="id">The notebook ID.</param>
+        /// <returns>The notebook.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<NotebookDto>> Get([FromRoute]long id) =>
             Ok(await Mediator.Send(new GetNotebookQuery(id)));
 
+        /// <summary>
+        /// Creates a new notebook
+        /// </summary>
+        /// <param name="command">The notebook.</param>
+        /// <returns>The added notebook.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -35,6 +50,12 @@ namespace Ducode.Wolk.Api.Controllers
             return CreatedAtAction(nameof(Get), new { id = notebook.Id}, notebook);
         }
 
+        /// <summary>
+        /// Updates an existing notebook.
+        /// </summary>
+        /// <param name="command">The notebook.</param>
+        /// <param name="id">The notebook ID.</param>
+        /// <returns>No content.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,6 +67,11 @@ namespace Ducode.Wolk.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a specific notebook.
+        /// </summary>
+        /// <param name="id">The notebook ID.</param>
+        /// <returns>No content.</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

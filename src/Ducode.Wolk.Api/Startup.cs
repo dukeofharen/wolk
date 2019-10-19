@@ -40,7 +40,8 @@ namespace Ducode.Wolk.Api
                 .AddAutoMapper(
                     config => config.AllowNullCollections = true,
                     typeof(Startup).Assembly,
-                    typeof(ApplicationModule).Assembly);
+                    typeof(ApplicationModule).Assembly)
+                .AddOpenApiDocument(c => c.Title = "Wolk API");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => ConfigureInternal(app, env, true);
@@ -56,6 +57,8 @@ namespace Ducode.Wolk.Api
             app.UseAuthorization();
             app.UseMiddleware<ValidUserMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             // Ensure the database is created.
             if (executeMigration)

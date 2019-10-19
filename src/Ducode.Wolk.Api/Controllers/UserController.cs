@@ -10,6 +10,11 @@ namespace Ducode.Wolk.Api.Controllers
 {
     public class UserController : BaseApiController
     {
+        /// <summary>
+        /// Endpoint for registering new user.
+        /// </summary>
+        /// <param name="command">The user.</param>
+        /// <returns>No content.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -21,6 +26,11 @@ namespace Ducode.Wolk.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Endpoint for authenticating a user.
+        /// </summary>
+        /// <param name="query">The sign in data.</param>
+        /// <returns>A model containing the necessary user data.</returns>
         [HttpPost]
         [Route("authenticate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
