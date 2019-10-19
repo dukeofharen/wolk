@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Domain.Entities.Enums;
 using FluentValidation;
 using FluentValidation.Validators;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,10 @@ namespace Ducode.Wolk.Application.Notes.Commands.CreateNote
 
             RuleFor(c => c.Content)
                 .NotEmpty();
+
+            RuleFor(c => c.NoteType)
+                .IsInEnum()
+                .NotEqual(NoteType.NotSet);
 
             RuleFor(c => c.NotebookId)
                 .CustomAsync(NotebookExistsAsync);

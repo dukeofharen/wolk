@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
+using Ducode.Wolk.Domain.Entities.Enums;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
@@ -28,17 +29,21 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.UpdateNote
             var notebook = await _wolkDbContext.CreateAndSaveNotebook();
             var command = new UpdateNoteCommand
             {
-                Content = string.Empty, Title = new string('a', 201), NotebookId = notebook.Id + 1
+                Content = string.Empty,
+                Title = new string('a', 201),
+                NotebookId = notebook.Id + 1,
+                NoteType = NoteType.NotSet
             };
 
             // Act
             var result = await _validator.ValidateAsync(command);
 
             // Assert
-            Assert.AreEqual(3, result.Errors.Count);
+            Assert.AreEqual(4, result.Errors.Count);
             Assert.IsTrue(result.Errors.ElementAt(0).ErrorMessage.Contains("200 characters or fewer"));
             Assert.IsTrue(result.Errors.ElementAt(1).ErrorMessage.Contains("must not be empty"));
-            Assert.IsTrue(result.Errors.ElementAt(2).ErrorMessage.Contains("Notebook with ID"));
+            Assert.IsTrue(result.Errors.ElementAt(2).ErrorMessage.Contains("must not be equal to"));
+            Assert.IsTrue(result.Errors.ElementAt(3).ErrorMessage.Contains("Notebook with ID"));
         }
 
         [TestMethod]
@@ -48,7 +53,10 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.UpdateNote
             var notebook = await _wolkDbContext.CreateAndSaveNotebook();
             var command = new UpdateNoteCommand
             {
-                Content = "Note contents", Title = new string('a', 199), NotebookId = notebook.Id
+                Content = "Note contents",
+                Title = new string('a', 199),
+                NotebookId = notebook.Id,
+                NoteType = NoteType.PlainText
             };
 
             // Act
