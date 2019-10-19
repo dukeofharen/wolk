@@ -18,7 +18,8 @@ namespace Ducode.Wolk.Api.Models.Notebooks
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<MutateNotebookModel, CreateNotebookCommand>();
-            configuration.CreateMap<MutateNotebookModel, UpdateNotebookCommand>();
+            configuration.CreateMap<MutateNotebookModel, UpdateNotebookCommand>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

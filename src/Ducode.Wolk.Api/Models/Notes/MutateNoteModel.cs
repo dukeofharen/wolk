@@ -34,7 +34,8 @@ namespace Ducode.Wolk.Api.Models.Notes
         public void CreateMappings(Profile configuration)
         {
             configuration.CreateMap<MutateNoteModel, CreateNoteCommand>();
-            configuration.CreateMap<MutateNoteModel, UpdateNoteCommand>();
+            configuration.CreateMap<MutateNoteModel, UpdateNoteCommand>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }
