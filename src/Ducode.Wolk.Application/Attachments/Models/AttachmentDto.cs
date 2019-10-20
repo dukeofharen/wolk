@@ -1,10 +1,11 @@
 using System;
+using AutoMapper;
 using Ducode.Wolk.Application.Interfaces.Mappings;
 using Ducode.Wolk.Domain.Entities;
 
 namespace Ducode.Wolk.Application.Attachments.Models
 {
-    public class AttachmentDto : IMapFrom<Attachment>
+    public class AttachmentDto : IHaveCustomMapping
     {
         public long Id { get; set; }
 
@@ -19,5 +20,7 @@ namespace Ducode.Wolk.Application.Attachments.Models
         public long FileSize { get; set; }
 
         public long NoteId { get; set;}
+
+        public void CreateMappings(Profile configuration) => configuration.CreateMap<Attachment, AttachmentDto>();
     }
 }

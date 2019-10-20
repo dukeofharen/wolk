@@ -87,7 +87,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             using var response = await HttpClient.SendAsync(request);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
             var content = await response.Content.ReadAsStringAsync();
             var returnedAttachment = JsonConvert.DeserializeObject<AttachmentDto>(content);
 

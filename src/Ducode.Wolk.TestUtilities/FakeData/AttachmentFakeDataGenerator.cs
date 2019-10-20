@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
@@ -14,6 +15,7 @@ namespace Ducode.Wolk.TestUtilities.FakeData
             new Attachment
             {
                 Filename = _faker.System.FileName(),
+                InternalFilename = Guid.NewGuid().ToString(),
                 MimeType = _faker.System.MimeType(),
                 FileSize = _faker.Random.Number(),
                 Note = note,

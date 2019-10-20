@@ -19,6 +19,8 @@ namespace Ducode.Wolk.Api.Tests
 {
     public abstract partial class IntegrationTestBase
     {
+        protected const string UploadsRootPath = "/srv/uploads";
+
         protected TestServer TestServer;
 
         protected HttpClient HttpClient;
@@ -44,7 +46,7 @@ namespace Ducode.Wolk.Api.Tests
                 {
                     {"IdentityConfiguration:JwtSecret", "2346sedrfgsrahyjrtyserASD@"},
                     {"IdentityConfiguration:ExpirationInSeconds", "10"},
-                    {"WolkConfiguration:UploadsPath", "/srv/uploads"}
+                    {"WolkConfiguration:UploadsPath", UploadsRootPath}
                 })
                 .Build();
             var startup = new Startup(config);

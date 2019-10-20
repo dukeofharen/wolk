@@ -5,6 +5,7 @@ using Ducode.Wolk.Api.Models.Attachments;
 using Ducode.Wolk.Api.Models.Notes;
 using Ducode.Wolk.Application.Attachments.Commands.CreateAttachment;
 using Ducode.Wolk.Application.Attachments.Models;
+using Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachments;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.DeleteNote;
@@ -108,10 +109,27 @@ namespace Ducode.Wolk.Api.Controllers
             [FromRoute] long noteId,
             [FromBody] MutateAttachmentModel model)
         {
-            // TODO should be "created"
             var command = Mapper.Map<CreateAttachmentCommand>(model);
             command.NoteId = noteId;
-            return Ok(await Mediator.Send(command));
+            var result = await Mediator.Send(command);
+            return CreatedAtAction(
+                nameof(GetAttachment),
+                new {noteId, attachmentId = result.Id},
+                result);
+        }
+
+        /// <summary>
+        /// Returns the actual attachment as binary.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns>The attachment as binary.</returns>
+        [HttpGet("{noteId}/attachments/{attachmentId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetAttachment([FromRoute] GetAttachmentQuery query)
+        {
+            var attachment = await Mediator.Send(query);
+            return File(attachment.Contents, attachment.MimeType, attachment.Filename);
         }
     }
 }
