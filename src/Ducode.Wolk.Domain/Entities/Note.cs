@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Ducode.Wolk.Domain.Entities.Enums;
 
 namespace Ducode.Wolk.Domain.Entities
@@ -13,5 +14,7 @@ namespace Ducode.Wolk.Domain.Entities
         public long NotebookId { get; set; }
 
         public Notebook Notebook { get; set; }
+
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

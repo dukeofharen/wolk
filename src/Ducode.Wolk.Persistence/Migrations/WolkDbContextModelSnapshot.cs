@@ -16,6 +16,38 @@ namespace Ducode.Wolk.Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0");
 
+            modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Attachment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("Changed")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Filename")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(300);
+
+                    b.Property<string>("MimeType")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.Property<long>("NoteId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Filename");
+
+                    b.HasIndex("NoteId");
+
+                    b.ToTable("Attachment");
+                });
+
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Note", b =>
                 {
                     b.Property<long>("Id")
@@ -107,6 +139,15 @@ namespace Ducode.Wolk.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Attachment", b =>
+                {
+                    b.HasOne("Ducode.Wolk.Domain.Entities.Note", "Note")
+                        .WithMany("Attachments")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Note", b =>

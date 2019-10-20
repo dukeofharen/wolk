@@ -5,6 +5,7 @@ using Ducode.Wolk.Api.Attributes;
 using Ducode.Wolk.Api.Middleware;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity;
 using Ducode.Wolk.Infrastructure;
 using Ducode.Wolk.Persistence;
@@ -59,6 +60,10 @@ namespace Ducode.Wolk.Api
                         }));
                 })
                 .AddValidatorsFromAssemblies(new[] {typeof(Startup).Assembly});
+
+            services
+                .AddOptions<WolkConfiguration>()
+                .Configure<IConfiguration>((opt, conf) => Configuration.Bind(nameof(WolkConfiguration), opt));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => ConfigureInternal(app, env, true);

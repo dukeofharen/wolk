@@ -17,9 +17,11 @@ namespace Ducode.Wolk.Identity
 {
     public static class IdentityModule
     {
-        public static IServiceCollection AddIdentityModule(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIdentityModule(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddIdentityCore<User>()
+            services
+                .AddIdentityCore<User>()
                 .AddRoles<ApplicationRole>()
                 .AddUserStore<UserStore>()
                 .AddRoleStore<RoleStore>();
@@ -46,7 +48,7 @@ namespace Ducode.Wolk.Identity
 
             services
                 .AddOptions<IdentityConfiguration>()
-                .Configure<IConfiguration>((opt, conf) => configuration.Bind("IdentityConfiguration", opt));
+                .Configure<IConfiguration>((opt, conf) => configuration.Bind(nameof(IdentityConfiguration), opt));
 
             services.AddTransient<IJwtManager, JwtManager>();
             services.AddTransient<IRegistrationManager, RegistrationManager>();

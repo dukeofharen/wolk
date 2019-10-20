@@ -64,6 +64,39 @@ namespace Ducode.Wolk.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Attachment",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Created = table.Column<DateTimeOffset>(nullable: false),
+                    Changed = table.Column<DateTimeOffset>(nullable: true),
+                    Filename = table.Column<string>(maxLength: 300, nullable: true),
+                    MimeType = table.Column<string>(maxLength: 100, nullable: true),
+                    NoteId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attachment_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_Filename",
+                table: "Attachment",
+                column: "Filename");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attachment_NoteId",
+                table: "Attachment",
+                column: "NoteId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Notebooks_Name",
                 table: "Notebooks",
@@ -89,10 +122,13 @@ namespace Ducode.Wolk.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Notes");
+                name: "Attachment");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "Notebooks");
