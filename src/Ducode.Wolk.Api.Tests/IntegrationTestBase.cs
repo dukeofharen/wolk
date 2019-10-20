@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Common;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
@@ -26,6 +27,8 @@ namespace Ducode.Wolk.Api.Tests
 
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
+        protected Mock<IFileService> MockFileService = new Mock<IFileService>();
+
         protected IServiceProvider ServiceProvider;
 
         protected IdentityConfiguration IdentityConfiguration =>
@@ -40,13 +43,15 @@ namespace Ducode.Wolk.Api.Tests
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     {"IdentityConfiguration:JwtSecret", "2346sedrfgsrahyjrtyserASD@"},
-                    {"IdentityConfiguration:ExpirationInSeconds", "10"}
+                    {"IdentityConfiguration:ExpirationInSeconds", "10"},
+                    {"WolkConfiguration:UploadsPath", "/srv/uploads"}
                 })
                 .Build();
             var startup = new Startup(config);
 
             var wolkDbContext = InMemoryDbContextFactory.Create();
             servicesToReplace.Add((typeof(IWolkDbContext), wolkDbContext));
+            servicesToReplace.Add((typeof(IFileService), MockFileService.Object));
 
             var mockEnvironment = new Mock<IWebHostEnvironment>();
             mockEnvironment

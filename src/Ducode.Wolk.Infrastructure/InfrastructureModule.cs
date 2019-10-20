@@ -11,6 +11,7 @@ namespace Ducode.Wolk.Infrastructure
         {
             services.TryAddSingleton<IDateTime, MachineDateTime>();
             services.TryAddSingleton<IFileService, FileService>();
+            services.TryAddSingleton<IMimeService, MimeService>();
             return services;
         }
     }
