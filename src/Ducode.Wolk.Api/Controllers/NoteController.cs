@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ducode.Wolk.Api.Models.Notes;
+using Ducode.Wolk.Application.Attachments.Models;
+using Ducode.Wolk.Application.Attachments.Queries.GetAttachments;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.DeleteNote;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
@@ -79,5 +81,16 @@ namespace Ducode.Wolk.Api.Controllers
             await Mediator.Send(new DeleteNoteCommand(id));
             return NoContent();
         }
+
+        /// <summary>
+        /// Returns a list of all attachments for a specific note. This does not include the actual attachment contents, just the metadata.
+        /// </summary>
+        /// <param name="query">The query parameters.</param>
+        /// <returns>A list of attachment metadata.</returns>
+        [HttpGet("{noteId}/attachments")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AttachmentDto>>> GetAllAttachments(
+            [FromRoute] GetAttachmentsQuery query) =>
+            Ok(Mapper.Map<IEnumerable<AttachmentDto>>(await Mediator.Send(query)));
     }
 }
