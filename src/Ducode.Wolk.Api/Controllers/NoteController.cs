@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ducode.Wolk.Api.Models.Attachments;
 using Ducode.Wolk.Api.Models.Notes;
 using Ducode.Wolk.Application.Attachments.Commands.CreateAttachment;
+using Ducode.Wolk.Application.Attachments.Commands.DeleteAttachment;
 using Ducode.Wolk.Application.Attachments.Models;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachments;
@@ -130,6 +130,20 @@ namespace Ducode.Wolk.Api.Controllers
         {
             var attachment = await Mediator.Send(query);
             return File(attachment.Contents, attachment.MimeType, attachment.Filename);
+        }
+
+        /// <summary>
+        /// Deletes a given attachment.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns>No content.</returns>
+        [HttpDelete("{noteId}/attachments/{attachmentId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteAttachment([FromRoute] DeleteAttachmentCommand command)
+        {
+            await Mediator.Send(command);
+            return NoContent();
         }
     }
 }
