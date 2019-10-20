@@ -14,9 +14,12 @@ axios.interceptors.response.use(
             } else if (error.response.status === 401) {
                 store.commit("UNSET_SIGNED_IN_USER");
                 router.push({ name: 'login' });
-            } else if(error.response.status === 404) {
+            } else if (error.response.status === 404) {
                 errorMessage(resources.notFound);
                 router.push({ name: 'overview' });
+            } else {
+                console.log(error);
+                errorMessage(resources.serverError);
             }
 
             return Promise.reject(error);
