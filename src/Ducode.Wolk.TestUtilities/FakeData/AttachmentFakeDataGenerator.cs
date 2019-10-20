@@ -15,6 +15,7 @@ namespace Ducode.Wolk.TestUtilities.FakeData
             {
                 Filename = _faker.System.FileName(),
                 MimeType = _faker.System.MimeType(),
+                FileSize = _faker.Random.Number(),
                 Note = note,
                 Created = _faker.Date.Past(),
                 Changed = _faker.Date.Past()

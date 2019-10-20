@@ -6,6 +6,10 @@ namespace Ducode.Wolk.Domain.Entities
 
         public string MimeType { get; set; }
 
+        public long FileSize { get; set; }
+
+        public string InternalFilename { get; set; }
+
         public long NoteId { get; set;}
 
         public Note Note { get; set; }

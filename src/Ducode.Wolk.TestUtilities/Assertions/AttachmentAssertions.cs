@@ -10,6 +10,7 @@ namespace Ducode.Wolk.TestUtilities.Assertions
         {
             Assert.AreEqual(attachment.Filename, attachmentDto.Filename);
             Assert.AreEqual(attachment.MimeType, attachmentDto.MimeType);
+            Assert.AreEqual(attachment.FileSize, attachmentDto.FileSize);
             Assert.AreEqual(attachment.NoteId, attachmentDto.NoteId);
             Assert.AreEqual(attachment.Created, attachmentDto.Created);
             Assert.AreEqual(attachment.Changed, attachmentDto.Changed);

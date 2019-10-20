@@ -18,6 +18,9 @@ namespace Ducode.Wolk.Persistence.Configurations
             builder.Property(_ => _.MimeType)
                 .HasMaxLength(100);
 
+            builder.Property(_ => _.InternalFilename)
+                .HasMaxLength(100);
+
             builder.HasIndex(_ => _.Filename);
 
             builder.HasOne(_ => _.Note)

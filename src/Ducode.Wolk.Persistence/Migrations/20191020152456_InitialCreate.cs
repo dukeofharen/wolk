@@ -74,6 +74,8 @@ namespace Ducode.Wolk.Persistence.Migrations
                     Changed = table.Column<DateTimeOffset>(nullable: true),
                     Filename = table.Column<string>(maxLength: 300, nullable: true),
                     MimeType = table.Column<string>(maxLength: 100, nullable: true),
+                    FileSize = table.Column<long>(nullable: false),
+                    InternalFilename = table.Column<string>(maxLength: 100, nullable: true),
                     NoteId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

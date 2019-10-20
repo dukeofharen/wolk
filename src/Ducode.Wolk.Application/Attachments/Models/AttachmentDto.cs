@@ -16,6 +16,8 @@ namespace Ducode.Wolk.Application.Attachments.Models
 
         public string MimeType { get; set; }
 
+        public long FileSize { get; set; }
+
         public long NoteId { get; set;}
     }
 }

@@ -28,9 +28,16 @@ namespace Ducode.Wolk.Persistence.Migrations
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("FileSize")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Filename")
                         .HasColumnType("TEXT")
                         .HasMaxLength(300);
+
+                    b.Property<string>("InternalFilename")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
                     b.Property<string>("MimeType")
                         .HasColumnType("TEXT")
