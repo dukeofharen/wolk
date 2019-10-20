@@ -45,7 +45,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("NoteId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("attachments");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Note", b =>
@@ -79,7 +79,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("Title");
 
-                    b.ToTable("Notes");
+                    b.ToTable("notes");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Notebook", b =>
@@ -102,7 +102,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Notebooks");
+                    b.ToTable("notebooks");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.User", b =>
@@ -138,7 +138,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Attachment", b =>

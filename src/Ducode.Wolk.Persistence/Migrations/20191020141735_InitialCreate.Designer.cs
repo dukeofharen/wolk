@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ducode.Wolk.Persistence.Migrations
 {
     [DbContext(typeof(WolkDbContext))]
-    [Migration("20191020134945_InitialCreate")]
+    [Migration("20191020141735_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("NoteId");
 
-                    b.ToTable("Attachment");
+                    b.ToTable("attachments");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Note", b =>
@@ -81,7 +81,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("Title");
 
-                    b.ToTable("Notes");
+                    b.ToTable("notes");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Notebook", b =>
@@ -104,7 +104,7 @@ namespace Ducode.Wolk.Persistence.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Notebooks");
+                    b.ToTable("notebooks");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.User", b =>
@@ -140,7 +140,7 @@ namespace Ducode.Wolk.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Ducode.Wolk.Domain.Entities.Attachment", b =>

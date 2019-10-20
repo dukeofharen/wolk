@@ -8,7 +8,7 @@ namespace Ducode.Wolk.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Notebooks",
+                name: "notebooks",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -19,11 +19,11 @@ namespace Ducode.Wolk.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notebooks", x => x.Id);
+                    table.PrimaryKey("PK_notebooks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "users",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -37,11 +37,11 @@ namespace Ducode.Wolk.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Notes",
+                name: "notes",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -55,17 +55,17 @@ namespace Ducode.Wolk.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notes", x => x.Id);
+                    table.PrimaryKey("PK_notes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Notes_Notebooks_NotebookId",
+                        name: "FK_notes_notebooks_NotebookId",
                         column: x => x.NotebookId,
-                        principalTable: "Notebooks",
+                        principalTable: "notebooks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attachment",
+                name: "attachments",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -78,43 +78,43 @@ namespace Ducode.Wolk.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attachment", x => x.Id);
+                    table.PrimaryKey("PK_attachments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Attachment_Notes_NoteId",
+                        name: "FK_attachments_notes_NoteId",
                         column: x => x.NoteId,
-                        principalTable: "Notes",
+                        principalTable: "notes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attachment_Filename",
-                table: "Attachment",
+                name: "IX_attachments_Filename",
+                table: "attachments",
                 column: "Filename");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attachment_NoteId",
-                table: "Attachment",
+                name: "IX_attachments_NoteId",
+                table: "attachments",
                 column: "NoteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notebooks_Name",
-                table: "Notebooks",
+                name: "IX_notebooks_Name",
+                table: "notebooks",
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_NotebookId",
-                table: "Notes",
+                name: "IX_notes_NotebookId",
+                table: "notes",
                 column: "NotebookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notes_Title",
-                table: "Notes",
+                name: "IX_notes_Title",
+                table: "notes",
                 column: "Title");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
+                name: "IX_users_Email",
+                table: "users",
                 column: "Email",
                 unique: true);
         }
@@ -122,16 +122,16 @@ namespace Ducode.Wolk.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Attachment");
+                name: "attachments");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "users");
 
             migrationBuilder.DropTable(
-                name: "Notes");
+                name: "notes");
 
             migrationBuilder.DropTable(
-                name: "Notebooks");
+                name: "notebooks");
         }
     }
 }

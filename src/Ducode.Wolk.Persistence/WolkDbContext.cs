@@ -19,6 +19,8 @@ namespace Ducode.Wolk.Persistence
             _saveChangesHandlers = saveChangesHandlers;
         }
 
+        public DbSet<Attachment> Attachments { get; set; }
+
         public DbSet<Note> Notes { get; set; }
 
         public DbSet<Notebook> Notebooks { get; set; }

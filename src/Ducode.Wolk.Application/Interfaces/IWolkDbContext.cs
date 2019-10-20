@@ -7,6 +7,8 @@ namespace Ducode.Wolk.Application.Interfaces
 {
     public interface IWolkDbContext
     {
+        DbSet<Attachment> Attachments { get; set; }
+
         DbSet<Note> Notes { get; set; }
 
         DbSet<Notebook> Notebooks { get; set; }

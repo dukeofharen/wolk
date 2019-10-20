@@ -5,6 +5,10 @@ namespace Ducode.Wolk.Persistence.Configurations
 {
     public class NotebookConfiguration : BaseConfiguration<Notebook>
     {
+        public NotebookConfiguration() : base("notebooks")
+        {
+        }
+
         protected override void ConfigureEntity(EntityTypeBuilder<Notebook> builder)
         {
             builder.Property(_ => _.Name)

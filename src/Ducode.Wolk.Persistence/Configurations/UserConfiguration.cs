@@ -5,6 +5,10 @@ namespace Ducode.Wolk.Persistence.Configurations
 {
     public class UserConfiguration : BaseConfiguration<User>
     {
+        public UserConfiguration() : base("users")
+        {
+        }
+
         protected override void ConfigureEntity(EntityTypeBuilder<User> builder)
         {
             builder.Property(_ => _.Email)

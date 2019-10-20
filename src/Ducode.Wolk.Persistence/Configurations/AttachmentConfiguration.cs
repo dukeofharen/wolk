@@ -6,6 +6,10 @@ namespace Ducode.Wolk.Persistence.Configurations
 {
     public class AttachmentConfiguration : BaseConfiguration<Attachment>
     {
+        public AttachmentConfiguration() : base("attachments")
+        {
+        }
+
         protected override void ConfigureEntity(EntityTypeBuilder<Attachment> builder)
         {
             builder.Property(_ => _.Filename)
