@@ -7,6 +7,7 @@ export const resources = {
     noteCreated: "The note was added successfully.",
     noteUpdated: "The note was updated successfully.",
     noteDeleted: "The note was deleted successfully.",
+    attachmentUploaded: "The attachment was uploaded successfully.",
     areYouSureDeleteNote: "Are you sure you want to delete this note? The note and all attachments will be deleted! This can not be undone.",
     areYouSureDeleteNotebook: "Are you sure you want to delete this notebook? All notes will be deleted! This can not be undone.",
     unsavedChanges: "There are unsaved changes. Continue?",

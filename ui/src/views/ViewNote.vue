@@ -33,19 +33,34 @@
         </v-col>
       </v-row>
       <div v-if="attachmentsOpened">
-        <v-chip
-          class="ma-2"
-          color="indigo"
-          text-color="white"
-          v-for="attachment of attachments"
-          :key="attachment.id"
-          @click="openAttachment(attachment)"
-        >
-          <v-avatar left>
-            <v-icon>mdi-file</v-icon>
-          </v-avatar>
-          {{attachment.filename}}
-        </v-chip>
+        <div>
+          <v-btn
+            title="Upload attachment"
+            @click="uploadAttachment"
+            color="success"
+          >Upload attachment</v-btn>
+          <input
+            type="file"
+            name="file"
+            ref="fileUpload"
+            @change="loadFromFile"
+          />
+        </div>
+        <div>
+          <v-chip
+            class="ma-2"
+            color="indigo"
+            text-color="white"
+            v-for="attachment of attachments"
+            :key="attachment.id"
+            @click="openAttachment(attachment)"
+          >
+            <v-avatar left>
+              <v-icon>mdi-file</v-icon>
+            </v-avatar>
+            {{attachment.filename}}
+          </v-chip>
+        </div>
       </div>
       <NoteRender
         :contents="note.content"
@@ -66,7 +81,10 @@ import { resources } from "../resources";
 import { NoteType } from "../models/api/enums/noteType";
 import NoteRender from "@/components/NoteRender.vue";
 import Attachment from "../models/api/attachment";
-import { DownloadAttachmentQuery } from "../store/actions/attachments";
+import {
+  DownloadAttachmentQuery,
+  UploadAttachmentCommand
+} from "../store/actions/attachments";
 
 @Component({
   components: { NoteRender },
@@ -131,9 +149,39 @@ export default class ViewNote extends Vue {
     this.$store.dispatch("downloadAttachment", query);
   }
 
+  uploadAttachment() {
+    (<any>this.$refs.fileUpload).click();
+  }
+
+  loadFromFile(ev: any) {
+    const file = ev.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = e => {
+      if (!e || !e.target) {
+        return;
+      }
+
+      let dataUrl: string = e.target.result as string;
+      let content = dataUrl.split(",")[1];
+      let command: UploadAttachmentCommand = {
+        noteId: this.note.id,
+        filename: file.name,
+        base64Contents: content
+      };
+      this.$store.dispatch("uploadAttachment", command);
+    };
+  }
+
   private reloadData() {
     this.$store.dispatch("loadNote", this.$route.params.id);
     this.$store.dispatch("loadAttachments", this.$route.params.id);
   }
 }
 </script>
+
+<style scope>
+input[type="file"] {
+  display: none;
+}
+</style>
