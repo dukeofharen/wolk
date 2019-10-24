@@ -35,16 +35,16 @@ export function createNotebook({ commit }: ActionContext<StateModel, StateModel>
         });
 }
 
-interface UpdateNotebookInput {
+export interface UpdateNotebookCommand {
     id: number;
     notebook: Notebook;
 }
-export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>, input: UpdateNotebookInput) {
-    axios.put(`${urls.rootUrl}api/notebook/${input.id}`, input.notebook)
+export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>, command: UpdateNotebookCommand) {
+    axios.put(`${urls.rootUrl}api/notebook/${command.id}`, command.notebook)
         .then(r => r.data)
         .then(() => {
             store.dispatch('loadNotebooks');
-            router.push({ name: 'notesList', params: <any>{ id: input.id } });
+            router.push({ name: 'notesList', params: <any>{ id: command.id } });
             successMessage(resources.notebookUpdated);
         });
 }

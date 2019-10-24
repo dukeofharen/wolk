@@ -23,6 +23,7 @@ import { AuthenticateModel } from "../models/api/authenticateModel";
 import { SignedInModel } from "../models/api/signedInModel";
 import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
+import { UpdateNotebookCommand } from "../store/actions/notebooks";
 
 @Component({
   components: {},
@@ -62,10 +63,11 @@ export default class NotebookForm extends Vue {
     if (!this.notebookId) {
       this.$store.dispatch("createNotebook", this.notebook);
     } else {
-      this.$store.dispatch("updateNotebook", {
+      let command: UpdateNotebookCommand = {
         notebook: this.notebook,
-        id: this.$route.params.id
-      });
+        id: parseInt(this.$route.params.id)
+      };
+      this.$store.dispatch("updateNotebook", command);
     }
 
     this.formDirty = false;

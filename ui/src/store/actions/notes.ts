@@ -38,12 +38,12 @@ export function createNote({ commit }: ActionContext<StateModel, StateModel>, no
     });
 }
 
-interface UpdateNoteInput {
+export interface UpdateNoteCommand {
   id: number;
   note: Note;
 }
-export function updateNote({ commit }: ActionContext<StateModel, StateModel>, input: UpdateNoteInput) {
-  axios.put(`${urls.rootUrl}api/note/${input.id}`, input.note)
+export function updateNote({ commit }: ActionContext<StateModel, StateModel>, command: UpdateNoteCommand) {
+  axios.put(`${urls.rootUrl}api/note/${command.id}`, command.note)
     .then(r => r.data)
     .then(() => {
       successMessage(resources.noteUpdated);

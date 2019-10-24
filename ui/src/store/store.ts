@@ -7,11 +7,13 @@ import VueAxios from 'vue-axios';
 import { StateModel } from '@/models/store/stateModel';
 import { MessageType } from '@/models/store/messageModel';
 
+import { SET_ATTACHMENTS } from '@/store/mutations/attachments';
 import { SET_NOTEBOOKS, SET_CURRENT_NOTEBOOK } from '@/store/mutations/notebooks';
 import { SET_NOTES, SET_CURRENT_NOTE } from '@/store/mutations/notes';
 import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER, UNSET_SIGNED_IN_USER } from '@/store/mutations/users';
 
+import { loadAttachments, downloadAttachment } from '@/store/actions/attachments';
 import { loadNotebooks, loadNotebook, createNotebook, updateNotebook, deleteNotebook } from '@/store/actions/notebooks';
 import { loadNotes, loadNote, createNote, updateNote, deleteNote } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
@@ -48,6 +50,7 @@ const state: StateModel = {
     updated: new Date()
   },
   notes: [],
+  attachments: [],
   signedInUser: {
     email: '',
     id: 0,
@@ -58,6 +61,7 @@ const state: StateModel = {
 export default new Vuex.Store({
   state,
   mutations: {
+    SET_ATTACHMENTS,
     SET_NOTEBOOKS,
     SET_CURRENT_NOTEBOOK,
     SET_NOTES,
@@ -67,6 +71,8 @@ export default new Vuex.Store({
     UNSET_SIGNED_IN_USER
   },
   actions: {
+    loadAttachments,
+    downloadAttachment,
     loadNotebooks,
     loadNotebook,
     createNotebook,
