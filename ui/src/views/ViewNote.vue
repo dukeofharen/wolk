@@ -32,36 +32,7 @@
           >Delete note</v-btn>
         </v-col>
       </v-row>
-      <div v-if="attachmentsOpened">
-        <div>
-          <v-btn
-            title="Upload attachment"
-            @click="uploadAttachment"
-            color="success"
-          >Upload attachment</v-btn>
-          <input
-            type="file"
-            name="file"
-            ref="fileUpload"
-            @change="loadFromFile"
-          />
-        </div>
-        <div>
-          <v-chip
-            class="ma-2"
-            color="indigo"
-            text-color="white"
-            v-for="attachment of attachments"
-            :key="attachment.id"
-            @click="openAttachment(attachment)"
-          >
-            <v-avatar left>
-              <v-icon>mdi-file</v-icon>
-            </v-avatar>
-            {{attachment.filename}}
-          </v-chip>
-        </div>
-      </div>
+      <Attachments :noteId="note.id" v-if="attachmentsOpened" />
       <NoteRender
         :contents="note.content"
         :noteType="note.noteType"
@@ -80,21 +51,16 @@ import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
 import { NoteType } from "../models/api/enums/noteType";
 import NoteRender from "@/components/NoteRender.vue";
-import Attachment from "../models/api/attachment";
-import {
-  DownloadAttachmentQuery,
-  UploadAttachmentCommand
-} from "../store/actions/attachments";
+import Attachments from "@/components/Attachments.vue";
 
 @Component({
-  components: { NoteRender },
-  computed: mapState(["currentNote", "attachments"])
+  components: { NoteRender, Attachments },
+  computed: mapState(["currentNote"])
 })
 export default class ViewNote extends Vue {
   NoteType = NoteType;
-  attachmentsOpened: boolean = false;
 
-  attachments!: Attachment[];
+  attachmentsOpened: boolean = false;
   note: Note = {
     id: 0,
     title: "",
@@ -141,41 +107,8 @@ export default class ViewNote extends Vue {
     this.attachmentsOpened = !this.attachmentsOpened;
   }
 
-  openAttachment(attachment: Attachment) {
-    let query: DownloadAttachmentQuery = {
-      noteId: attachment.noteId,
-      attachmentId: attachment.id
-    };
-    this.$store.dispatch("downloadAttachment", query);
-  }
-
-  uploadAttachment() {
-    (<any>this.$refs.fileUpload).click();
-  }
-
-  loadFromFile(ev: any) {
-    const file = ev.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = e => {
-      if (!e || !e.target) {
-        return;
-      }
-
-      let dataUrl: string = e.target.result as string;
-      let content = dataUrl.split(",")[1];
-      let command: UploadAttachmentCommand = {
-        noteId: this.note.id,
-        filename: file.name,
-        base64Contents: content
-      };
-      this.$store.dispatch("uploadAttachment", command);
-    };
-  }
-
   private reloadData() {
     this.$store.dispatch("loadNote", this.$route.params.id);
-    this.$store.dispatch("loadAttachments", this.$route.params.id);
   }
 }
 </script>
