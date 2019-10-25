@@ -41,13 +41,15 @@ namespace Ducode.Wolk.Api.Tests
         {
             var servicesToReplace = new List<(Type, object)>();
 
+            var configDict = new Dictionary<string, string>
+            {
+                {"IdentityConfiguration:JwtSecret", "2346sedrfgsrahyjrtyserASD@"},
+                {"IdentityConfiguration:ExpirationInSeconds", "10"},
+                {"WolkConfiguration:UploadsPath", UploadsRootPath}
+            };
+            BeforeConfigure(configDict);
             var config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
-                {
-                    {"IdentityConfiguration:JwtSecret", "2346sedrfgsrahyjrtyserASD@"},
-                    {"IdentityConfiguration:ExpirationInSeconds", "10"},
-                    {"WolkConfiguration:UploadsPath", UploadsRootPath}
-                })
+                .AddInMemoryCollection(configDict)
                 .Build();
             var startup = new Startup(config);
 
@@ -71,6 +73,10 @@ namespace Ducode.Wolk.Api.Tests
         {
             WolkDbContext.Destroy();
             TestServer.Dispose();
+        }
+
+        protected virtual void BeforeConfigure(IDictionary<string, string> config)
+        {
         }
 
         private void ConfigureServices(

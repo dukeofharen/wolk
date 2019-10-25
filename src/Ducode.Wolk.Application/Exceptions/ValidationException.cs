@@ -7,6 +7,11 @@ namespace Ducode.Wolk.Application.Exceptions
 {
     public class ValidationException : Exception
     {
+        public ValidationException(string failure)
+        {
+            Failures = new[] {failure};
+        }
+
         public ValidationException(IEnumerable<string> failures)
         {
             Failures = failures;

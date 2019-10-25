@@ -1,16 +1,26 @@
 using System.Threading.Tasks;
 using Ducode.Wolk.Api.Models.Users;
+using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.Users.Commands.CreateUser;
 using Ducode.Wolk.Application.Users.Models;
 using Ducode.Wolk.Application.Users.Queries.SignIn;
+using Ducode.Wolk.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Ducode.Wolk.Api.Controllers
 {
     public class UserController : BaseApiController
     {
+        private readonly WolkConfiguration _configuration;
+
+        public UserController(IOptions<WolkConfiguration> options)
+        {
+            _configuration = options.Value;
+        }
+
         /// <summary>
         /// Endpoint for registering new user.
         /// </summary>
@@ -23,6 +33,11 @@ namespace Ducode.Wolk.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Register([FromBody]MutateUserModel userModel)
         {
+            if (!_configuration.EnableUserRegistration)
+            {
+                throw new ValidationException("User registration not allowed according to condiguration.");
+            }
+
             await Mediator.Send(Mapper.Map<CreateUserCommand>(userModel));
             return NoContent();
         }

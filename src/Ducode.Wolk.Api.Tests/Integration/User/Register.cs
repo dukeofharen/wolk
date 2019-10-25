@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -74,6 +75,39 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
 
             var user = await WolkDbContext.Users.SingleAsync(u => u.Email == command.Email);
             AssertCorrectPassword(user, command.Password);
+        }
+
+        protected override void BeforeConfigure(IDictionary<string, string> config) =>
+            config.Add("WolkConfiguration:EnableUserRegistration", "true");
+    }
+
+    [TestClass]
+    public class RegisterWithRegistrationTurnedOff : IntegrationTestBase
+    {
+        protected override void BeforeConfigure(IDictionary<string, string> config) =>
+            config.Add("WolkConfiguration:EnableUserRegistration", "false");
+
+        [TestMethod]
+        public async Task Register_RegistrationTurnedOff_ShouldReturn400()
+        {
+            // Arrange
+            var existingUser = await WolkDbContext.CreateAndSaveUser();
+
+            var url = "/api/user";
+            var command = new CreateUserCommand {Email = "mail@wolk.com", Password = "Passswordddd123!@#"};
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, MimeTypes.Json)
+            };
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.IsTrue(content.Contains("User registration not allowed according to condiguration."));
         }
     }
 }
