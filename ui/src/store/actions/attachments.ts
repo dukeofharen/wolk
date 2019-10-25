@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { ActionContext } from 'vuex';
 import { StateModel } from '@/models/store/stateModel';
 import Attachment from '@/models/api/attachment';
-import { downloadBlob } from "@/utilities/downloadHelper";
+import { downloadBlob, getDownloadFilename } from "@/utilities/downloadHelper";
 import store from '../store';
 
 import { successMessage } from '@/utilities/messenger';
@@ -25,10 +25,8 @@ export function downloadAttachment({ commit }: ActionContext<StateModel, StateMo
     axios.get(`${urls.rootUrl}api/note/${query.noteId}/attachments/${query.attachmentId}`, { responseType: 'blob' })
         .then((response: AxiosResponse<any>) => {
             let attachment = response.data;
-            var cdRegex = /filename=(.*);/;
-            let cd: string = response.headers["content-disposition"];
-            let result = cd.match(cdRegex) as string[];
-            let filename: string = result.length == 2 ? result[1] : "download.bin";
+            let filename = getDownloadFilename(response.headers["content-disposition"]);
+
             downloadBlob(filename, attachment);
         });
 }

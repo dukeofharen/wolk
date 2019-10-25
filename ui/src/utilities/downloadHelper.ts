@@ -27,3 +27,18 @@ export function downloadBlob(filename: string, data: any) {
         }, 100);
     }
 }
+
+export function getDownloadFilename(cdHeaderValue: string): string {
+    var cdRegex = /filename=(.*);/;
+    let result = cdHeaderValue.match(cdRegex) as string[];
+    let filename: string = result.length == 2 ? result[1] : "download.bin";
+    if (filename[0] === '"') {
+        filename = filename.substr(1);
+    }
+
+    if (filename[filename.length - 1] === '"') {
+        filename = filename.substr(0, filename.length - 1);
+    }
+
+    return filename;
+}
