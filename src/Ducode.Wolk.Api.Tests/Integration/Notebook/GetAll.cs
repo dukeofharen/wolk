@@ -14,23 +14,6 @@ namespace Ducode.Wolk.Api.Tests.Integration.Notebook
     public class GetAll : IntegrationTestBase
     {
         [TestMethod]
-        public async Task GetAll_TokenIncorrect_ShouldReturn401()
-        {
-            // Arrange
-            var url = "/api/notebook";
-
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var token = await GetJwt();
-            request.AddJwtBearer(token + "a");
-
-            // Act
-            using var response = await HttpClient.SendAsync(request);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [TestMethod]
         public async Task GetAll_HappyFlow()
         {
             // Arrange

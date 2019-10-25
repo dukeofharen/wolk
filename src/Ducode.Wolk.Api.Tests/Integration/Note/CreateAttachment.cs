@@ -20,23 +20,6 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
     public class CreateAttachment : IntegrationTestBase
     {
         [TestMethod]
-        public async Task CreateAttachment_TokenIncorrect_ShouldReturn401()
-        {
-            // Arrange
-            var url = "/api/note/1/attachments";
-
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            var token = await GetJwt();
-            request.AddJwtBearer(token + "a");
-
-            // Act
-            using var response = await HttpClient.SendAsync(request);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [TestMethod]
         public async Task CreateAttachment_ValidationError_ShouldReturn400()
         {
             // Arrange

@@ -18,23 +18,6 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
     public class Update : IntegrationTestBase
     {
         [TestMethod]
-        public async Task Update_TokenIncorrect_ShouldReturn401()
-        {
-            // Arrange
-            var url = "/api/note/1";
-
-            var request = new HttpRequestMessage(HttpMethod.Put, url);
-            var token = await GetJwt();
-            request.AddJwtBearer(token + "a");
-
-            // Act
-            using var response = await HttpClient.SendAsync(request);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [TestMethod]
         public async Task Update_ValidationError_ShouldReturn400()
         {
             // Arrange

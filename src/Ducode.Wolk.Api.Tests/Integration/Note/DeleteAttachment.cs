@@ -13,23 +13,6 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
     public class DeleteAttachment : IntegrationTestBase
     {
         [TestMethod]
-        public async Task DeleteAttachment_TokenIncorrect_ShouldReturn401()
-        {
-            // Arrange
-            var url = "/api/note/1/attachments/1";
-
-            var request = new HttpRequestMessage(HttpMethod.Delete, url);
-            var token = await GetJwt();
-            request.AddJwtBearer(token + "a");
-
-            // Act
-            using var response = await HttpClient.SendAsync(request);
-
-            // Assert
-            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [TestMethod]
         public async Task DeleteAttachment_NoteNotFound_ShouldReturn404()
         {
             // Arrange
