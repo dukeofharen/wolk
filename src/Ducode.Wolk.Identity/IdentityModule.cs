@@ -55,6 +55,7 @@ namespace Ducode.Wolk.Identity
             services.AddTransient<ISignInManager, SignInManager>();
             services.AddTransient<IUserContext, UserContext>();
             services.AddTransient<IUserManager, UserManagerWrapper>();
+            services.AddTransient<IDefaultUserCreator, DefaultUserCreator>();
 
             // Add authentication
             var identityConfig = configuration.GetSection(nameof(IdentityConfiguration)).Get<IdentityConfiguration>();

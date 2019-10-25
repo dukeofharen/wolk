@@ -4,6 +4,7 @@ using System.Text;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity.Impl;
+using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -15,9 +16,6 @@ namespace Ducode.Wolk.Identity.Tests
     [TestClass]
     public class JwtManagerTests
     {
-        private readonly Mock<IOptions<IdentityConfiguration>> _mockOptions =
-            new Mock<IOptions<IdentityConfiguration>>();
-
         private readonly IdentityConfiguration _configuration = new IdentityConfiguration
         {
             JwtSecret = "25qwrgsdfsdfethdfgdsa", ExpirationInSeconds = 10
@@ -28,12 +26,9 @@ namespace Ducode.Wolk.Identity.Tests
         [TestInitialize]
         public void Setup()
         {
-            _mockOptions.Setup(m => m.Value).Returns(_configuration);
-            _manager = new JwtManager(_mockOptions.Object);
+            var mockOptions = MockOptions<IdentityConfiguration>.Create(_configuration);
+            _manager = new JwtManager(mockOptions);
         }
-
-        [TestCleanup]
-        public void Cleanup() => _mockOptions.VerifyAll();
 
         [TestMethod]
         public void CreateJwt_ShouldCreateJwtSuccessfully()

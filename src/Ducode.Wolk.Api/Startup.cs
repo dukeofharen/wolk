@@ -5,6 +5,7 @@ using Ducode.Wolk.Api.Attributes;
 using Ducode.Wolk.Api.Middleware;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Application.Interfaces.Identity;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity;
 using Ducode.Wolk.Infrastructure;
@@ -82,12 +83,15 @@ namespace Ducode.Wolk.Api
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
-            // Ensure the database is created.
+            // Ensure the database is created and a "default" user is created (if configured).
             if (executeMigration)
             {
                 using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
                 var context = (WolkDbContext)scope.ServiceProvider.GetRequiredService<IWolkDbContext>();
                 context.Database.Migrate();
+
+                var defaultUserCreator = scope.ServiceProvider.GetRequiredService<IDefaultUserCreator>();
+                defaultUserCreator.CreateOrUpdateDefaultUser().Wait();
             }
         }
     }

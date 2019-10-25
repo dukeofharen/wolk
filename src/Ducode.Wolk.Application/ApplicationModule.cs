@@ -16,7 +16,7 @@ namespace Ducode.Wolk.Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
             // Add fluent validations
-            services.AddValidatorsFromAssemblies(new[] { currentAssembly });
+            services.AddValidatorsFromAssemblies(new[] {currentAssembly});
 
             return services;
         }
