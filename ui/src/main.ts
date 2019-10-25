@@ -24,6 +24,9 @@ import { SignedInModel } from './models/api/signedInModel';
 // Filters
 import '@/filters/datetime';
 
+// Other stuff
+import '@/utilities/primitiveOverrides';
+
 // Other Vue components
 Vue.use(require('vue-debounce'));
 Vue.use(require('vue-shortkey'));

@@ -42,7 +42,7 @@ export function uploadAttachment({ commit }: ActionContext<StateModel, StateMode
     axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments`, command)
         .then(r => r.data)
         .then((attachment: Attachment) => {
-            successMessage(resources.attachmentUploaded);
+            successMessage(resources.attachmentUploaded.format(attachment.filename));
             store.dispatch("loadAttachments", command.noteId);
         });
 }

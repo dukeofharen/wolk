@@ -11,6 +11,7 @@
         name="file"
         ref="fileUpload"
         @change="loadFromFile"
+        multiple
       />
     </div>
     <div>
@@ -68,22 +69,24 @@ export default class Attachments extends Vue {
 
   loadFromFile(ev: any) {
     const file = ev.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = e => {
-      if (!e || !e.target) {
-        return;
-      }
+    for (let file of ev.target.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = e => {
+        if (!e || !e.target) {
+          return;
+        }
 
-      let dataUrl: string = e.target.result as string;
-      let content = dataUrl.split(",")[1];
-      let command: UploadAttachmentCommand = {
-        noteId: this.noteId,
-        filename: file.name,
-        base64Contents: content
+        let dataUrl: string = e.target.result as string;
+        let content = dataUrl.split(",")[1];
+        let command: UploadAttachmentCommand = {
+          noteId: this.noteId,
+          filename: file.name,
+          base64Contents: content
+        };
+        this.$store.dispatch("uploadAttachment", command);
       };
-      this.$store.dispatch("uploadAttachment", command);
-    };
+    }
   }
 
   private reloadData() {
