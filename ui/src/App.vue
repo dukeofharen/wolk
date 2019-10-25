@@ -3,7 +3,7 @@
     <v-app-bar
       app
       clipped-left
-      color="amber"
+      color="blue lighten-1"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <span class="title ml-3 mr-5">
