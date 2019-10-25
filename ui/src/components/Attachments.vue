@@ -19,9 +19,12 @@
         class="ma-2"
         color="indigo"
         text-color="white"
+        close
+        close-icon="mdi-delete"
         v-for="attachment of attachments"
         :key="attachment.id"
         @click="openAttachment(attachment)"
+        @click:close="deleteAttachment(attachment)"
       >
         <v-avatar left>
           <v-icon>mdi-file</v-icon>
@@ -37,8 +40,10 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 import Attachment from "../models/api/attachment";
 import {
   DownloadAttachmentQuery,
-  UploadAttachmentCommand
+  UploadAttachmentCommand,
+  DeleteAttachmentCommand
 } from "../store/actions/attachments";
+import { resources } from "../resources";
 
 @Component({
   components: {},
@@ -61,6 +66,16 @@ export default class Attachments extends Vue {
       attachmentId: attachment.id
     };
     this.$store.dispatch("downloadAttachment", query);
+  }
+
+  deleteAttachment(attachment: Attachment) {
+    if (confirm(resources.areYouSureDeleteAttachment)) {
+      let command: DeleteAttachmentCommand = {
+        noteId: this.noteId,
+        attachmentId: attachment.id
+      };
+      this.$store.dispatch("deleteAttachment", command);
+    }
   }
 
   uploadAttachment() {

@@ -13,7 +13,7 @@ import { SET_NOTES, SET_CURRENT_NOTE } from '@/store/mutations/notes';
 import { SET_MESSAGE } from '@/store/mutations/general';
 import { SET_SIGNED_IN_USER, UNSET_SIGNED_IN_USER } from '@/store/mutations/users';
 
-import { loadAttachments, downloadAttachment, uploadAttachment } from '@/store/actions/attachments';
+import { loadAttachments, downloadAttachment, uploadAttachment, deleteAttachment } from '@/store/actions/attachments';
 import { loadNotebooks, loadNotebook, createNotebook, updateNotebook, deleteNotebook } from '@/store/actions/notebooks';
 import { loadNotes, loadNote, createNote, updateNote, deleteNote } from '@/store/actions/notes';
 import { authenticate } from '@/store/actions/users';
@@ -74,6 +74,7 @@ export default new Vuex.Store({
     loadAttachments,
     downloadAttachment,
     uploadAttachment,
+    deleteAttachment,
     loadNotebooks,
     loadNotebook,
     createNotebook,

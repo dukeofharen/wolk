@@ -44,3 +44,16 @@ export function uploadAttachment({ commit }: ActionContext<StateModel, StateMode
             store.dispatch("loadAttachments", command.noteId);
         });
 }
+
+export interface DeleteAttachmentCommand {
+    noteId: number;
+    attachmentId: number;
+}
+export function deleteAttachment({ commit }: ActionContext<StateModel, StateModel>, command: DeleteAttachmentCommand) {
+    axios.delete(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}`)
+        .then(r => r.data)
+        .then(() => {
+            successMessage(resources.attachmentDeleted);
+            store.dispatch("loadAttachments", command.noteId);
+        })
+}
