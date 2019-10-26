@@ -1,6 +1,8 @@
 #!/bin/bash
-export SRC_FOLDER="$DIR/../../src"
-export GUI_SRC_FOLDER="$DIR/../../ui"
+export ROOT_FOLDER="$DIR/../.."
+export DIST_FOLDER="$ROOT_FOLDER/dist"
+export SRC_FOLDER="$ROOT_FOLDER/src"
+export GUI_SRC_FOLDER="$ROOT_FOLDER/ui"
 
 echo "Determining version"
 YEAR="$(date +%Y)"
