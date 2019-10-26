@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <Version>2019.10.26.123</Version>
     </PropertyGroup>
 
 </Project>

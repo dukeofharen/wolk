@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.0</TargetFramework>
-        <RootNamespace>Ducode.Wolk.Persistence</RootNamespace>
+        <Version>2019.10.26.123</Version>
     </PropertyGroup>
 
     <ItemGroup>
