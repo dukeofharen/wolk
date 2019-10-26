@@ -64,7 +64,7 @@ namespace Ducode.Wolk.Api.Tests
 
             TestServer = new TestServer(new WebHostBuilder()
                 .ConfigureServices(services => ConfigureServices(startup, services, servicesToReplace))
-                .Configure(app => startup.ConfigureInternal(app, mockEnvironment.Object, false)));
+                .Configure(app => startup.ConfigureInternal(app, mockEnvironment.Object, false, false)));
             HttpClient = TestServer.CreateClient();
         }
 

@@ -3,6 +3,7 @@ using System.Reflection;
 using AutoMapper;
 using Ducode.Wolk.Api.Attributes;
 using Ducode.Wolk.Api.Middleware;
+using Ducode.Wolk.Api.Utilities;
 using Ducode.Wolk.Application;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Application.Interfaces.Identity;
@@ -67,9 +68,14 @@ namespace Ducode.Wolk.Api
                 .Configure<IConfiguration>((opt, conf) => Configuration.Bind(nameof(WolkConfiguration), opt));
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) => ConfigureInternal(app, env, true);
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) =>
+            ConfigureInternal(app, env, true, true);
 
-        internal void ConfigureInternal(IApplicationBuilder app, IWebHostEnvironment env, bool executeMigration)
+        internal void ConfigureInternal(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            bool executeMigration,
+            bool loadStaticFiles)
         {
             if (env.IsDevelopment())
             {
@@ -82,6 +88,7 @@ namespace Ducode.Wolk.Api
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseOpenApi();
             app.UseSwaggerUi3();
+            app.UseGui(loadStaticFiles);
 
             // Ensure the database is created and a "default" user is created (if configured).
             if (executeMigration)

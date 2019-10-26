@@ -1,4 +1,0 @@
-- id: fallback
-  tenant: Wolk
-  response:
-    statusCode: 401

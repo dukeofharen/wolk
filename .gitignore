@@ -101,3 +101,5 @@ typings/
 
 # Other
 dist/
+gui/
+!gui/.guiwillbeplacedhere
