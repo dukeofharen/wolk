@@ -8,14 +8,24 @@ before_install:
 - which node
 - which npm
 script:
+- sudo bash ./scripts/build/set-vars.sh
 - sudo bash ./scripts/build/create-folders.sh
 - sudo bash ./scripts/build/build-ui.sh
 - sudo bash ./scripts/build/build-server.sh
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export VERSION=$(cat ./version.txt)
+  - export GIT_TAG=v$VERSION
+  - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
+  - git push -q https://dukeofharen@github.com/dukeofharen/wolk --tags
+  - ls -R
 deploy:
   provider: releases
   api_key:
     secure: CKwenx69nLAgfrUNPZxfKKDAbtExkRCNy0/fMSvNXx0rRGqMlPeZgexwB+aBysmGHqEYa8vcp9XqFIQ31ZEcj/ZgcZn2s8h26Zr8FFw5xJ6pdFvpDAu/V6IrZFaYgLEqoAxXV7Wc2YZGC4tgzrrS5H9rNmIvFOUJ0IhvP4OTyX1hytjWFU3CJ6aYirDBICo0hpFKUHENIcmiQZZv26ODFlq1nDsUmMrWeVToPbil54OGd8wW3PsxthMaYCmNnKKTeDNqmLdEZB6ktZ0Gs4W+BVmDVxea9Y9ugfkbImTVNlgzq6UWzH1VYnw02ZZFbsB+iNXe0rP/JyCQk3IcKOBjs8tgHP5XraQoODocSBWiCNh2N/YaGDrDRxb1i2WhMPo9tmYQ2aCaQ1A878QDtA7jrKctF+WLgLGTOVxANe1bApoj5dojcTxYGLbgc0GeZGFgNKYW+gUES+kHznalWw4/FU7ouWN3y+Cnc7nVqFbbNM3b6gUGhm+6vSBjlWSccPpFqeD7IyYyIfJI1eFki4U7EDeyK8YCH5W77L0LBMgI9CgcpAQb4ixBIyqjpYX4rYINuD/JgPRUKTWbE9wQPlk8z3N506UMs7hnHKO48UWHUNmN4ybOe/g/n3n7bVmY1xSaYUVi5ouh9vAT2ScNJO4o/n/LGOH4haZkGHWQl/YvEZM=
   file_glob: true
   file: "./dist/*"
+  skip_cleanup: true
   on:
     repo: dukeofharen/wolk
