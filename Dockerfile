@@ -13,7 +13,7 @@ COPY . ./
 RUN cd ui && npm install && npm run build
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0.0-buster-slim
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 COPY --from=gui-build-env /app/ui/dist ./gui

@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  wolk:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      urls: http://0.0.0.0:5998;https://0.0.0.0:5999
+      ConnectionStrings:WolkDatabase: Data Source=/var/wolk/wolk.db
+      IdentityConfiguration:JwtSecret: 3a012fb3-af0d-4b75-80dd-c54a5bc3075a
+      IdentityConfiguration:ExpirationInSeconds: 3600
+      WolkConfiguration:UploadsPath: /var/wolk/uploads
+      WolkConfiguration:DefaultLoginEmail: wolk@wolk.wolk
+      WolkConfiguration:DefaultPassword: Paaaassssword3!@
+    ports:
+      - "8080:5998"
+      - "8081:5999"
+    volumes:
+      - /srv/wolk-test:/var/wolk
+      - /srv/wolk-test/uploads:/var/wolk/uploads
