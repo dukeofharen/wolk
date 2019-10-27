@@ -18,8 +18,8 @@ before_deploy:
   - export VERSION=$(cat ./version.txt)
   - export GIT_TAG=v$VERSION
   - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-  - git push -q https://dukeofharen@github.com/dukeofharen/wolk --tags
-  - ls -R
+#  - git push -q https://dukeofharen@github.com/dukeofharen/wolk --tags
+#  - ls -R
 deploy:
   provider: releases
   api_key:
