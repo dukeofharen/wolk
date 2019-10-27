@@ -1,4 +1,10 @@
 #!/bin/bash
+
+export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "$DIR/set-vars.sh"
+
+# Building user interface
+echo "Building Vue.js user interface"
 GUI_DIST_FOLDER="$GUI_SRC_FOLDER/dist"
 GUI_DESTINATION_FOLDER="$SRC_FOLDER/Ducode.Wolk.Api/gui"
 

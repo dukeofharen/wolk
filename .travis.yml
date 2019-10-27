@@ -1,5 +1,12 @@
-language: csharp
-mono: none
-dotnet: 3.0.100
-script:
-  - sudo bash ./scripts/build/build.sh
+matrix:
+  include:
+    - language: csharp
+      mono: none
+      dotnet: 3.0.100
+      script:
+        - sudo bash ./scripts/build/build-server.sh
+    - language: node_js
+      node_js:
+        - 12.8.1
+      script:
+        - sudo bash ./scripts/build/build-ui.sh

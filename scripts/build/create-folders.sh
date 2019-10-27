@@ -1,4 +1,7 @@
 #!/bin/bash
+export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "$DIR/set-vars.sh"
+
 if [ -d "$DIST_FOLDER" ]; then
     echo "Removing folder $DIST_FOLDER"
     rm -r "$DIST_FOLDER"
