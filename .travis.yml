@@ -6,6 +6,8 @@ before_install:
   - source ~/.nvm/nvm.sh
   - nvm install node
   - nvm use node
+  - which node
+  - which npm
 script:
   - sudo bash ./scripts/build/create-folders.sh
   - sudo bash ./scripts/build/build-ui.sh
