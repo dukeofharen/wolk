@@ -2,6 +2,7 @@
 
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 . "$DIR/set-vars.sh"
+source ~/.nvm/nvm.sh
 
 # Building user interface
 echo "Building Vue.js user interface"
