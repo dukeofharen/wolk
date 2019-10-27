@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. "$DIR/set-global-vars.sh"
 
 # Patch .csproj files with new version.
 find $SRC_FOLDER -name "*.csproj" | while read FILENAME; do
