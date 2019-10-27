@@ -11,3 +11,9 @@ script:
   - sudo bash ./scripts/build/create-folders.sh
   - sudo bash ./scripts/build/build-ui.sh
   - sudo bash ./scripts/build/build-server.sh
+deploy:
+  provider: releases
+  api_key:
+    secure: "2UWG/64L3l+kYQskXGMStwfWo5wEJcP0lSqfOQunQHlYAF0ddHaIC58uSWJpNB7WST86Mf+VTYmJFV1UkIOEjF81IRI1SBpmy5SY40XCzH95RmpePOzvAY7gq7aF8yfjGQ2V1WgbCVIp8Z9uOaj8B1B6Iv35jHptzRrC2hm9sN2/NEXTQM13p90N67emyAkoF0vSdVMQz0U98AQFzOzCzbF5TLgc+dquxQrcaRzHDsW+qfGUhe3bV9oF2jN6imJ2nzysJEAs1kghq+J/vb/sY3MmUgvKfE3DQ/DVETW/Fljb/2mUeNudZhdWtdubAy15h5M1aLmr/Q4ili8fGdzx9y1576sRWmYaAaaQlZqfTVZZLIgu8vN2Lb79x4HB7+27LjI8YtVfqPqKBzl23WGhNSoc42VkujtT/qhX1pPJXyI87u3dYf1pHuzT4ijiTUivEXMwpOzHGX0GHi6w/buUEUBfPQb7KnNI/izBVGlqnASirQq320fukyJipShoEDMvGn+Yp/GM69NbDMZynBfHqs0wE1y/CAp/qaNdyaB3vMjmkuLduaiwzq14ANJKt38+7ZBao1AJUeU+31DaprMJHHSXuMhPMzupvSr7Mi8VyU8neVSry9lgIToyvw6h66MG8vbSHdDndAwBHfGTyJXTV5MiUA1q3EBG2wmchkhmgQY="
+  file_glob: true
+  file: ./dist/*
