@@ -2,4 +2,4 @@ language: csharp
 mono: none
 dotnet: 3.0.100
 script:
-  - ./scripts/build/build.sh
+  - sudo bash ./scripts/build/build.sh
