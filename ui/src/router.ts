@@ -8,6 +8,10 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      redirect: '/overview'
+    },
+    {
       path: '/notesList/:id',
       name: 'notesList',
       component: () => import(/* webpackChunkName: "notesList" */ './views/NotesList.vue'),
