@@ -69,7 +69,8 @@ export default class ViewNote extends Vue {
     preview: "",
     noteType: NoteType.NotSet,
     created: new Date(),
-    updated: new Date()
+    updated: new Date(),
+    opened: new Date()
   };
 
   constructor() {

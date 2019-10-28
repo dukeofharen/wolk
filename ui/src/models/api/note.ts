@@ -9,4 +9,5 @@ export default interface Note {
     notebookId: number;
     created: Date;
     updated: Date;
+    opened: Date;
 }
