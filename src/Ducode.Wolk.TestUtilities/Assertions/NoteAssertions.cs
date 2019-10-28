@@ -16,6 +16,7 @@ namespace Ducode.Wolk.TestUtilities.Assertions
             Assert.AreEqual(note.NotebookId, noteDto.NotebookId);
             Assert.AreEqual(note.Created, noteDto.Created);
             Assert.AreEqual(note.Changed, noteDto.Changed);
+            Assert.AreEqual(note.Opened, noteDto.Opened);
         }
 
         public static void ShouldBeEqual(Note note, NoteOverviewDto noteDto)

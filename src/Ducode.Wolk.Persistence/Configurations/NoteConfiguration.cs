@@ -16,6 +16,8 @@ namespace Ducode.Wolk.Persistence.Configurations
 
             builder.HasIndex(_ => _.Title);
 
+            builder.HasIndex(_ => _.Opened);
+
             builder.HasOne(n => n.Notebook)
                 .WithMany(nb => nb.Notes)
                 .HasForeignKey(n => n.NotebookId);

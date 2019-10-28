@@ -11,5 +11,7 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNote
         }
 
         public long Id { get; set; }
+
+        public bool UpdateOpenedDateTime { get; set; } = false;
     }
 }

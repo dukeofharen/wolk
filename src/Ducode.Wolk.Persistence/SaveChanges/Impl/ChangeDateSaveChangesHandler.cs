@@ -4,6 +4,7 @@ using Ducode.Wolk.Common;
 using Ducode.Wolk.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Ducode.Wolk.Persistence.SaveChanges.Impl
 {
@@ -24,7 +25,8 @@ namespace Ducode.Wolk.Persistence.SaveChanges.Impl
                 .Where(e =>
                     e.State == EntityState.Modified &&
                     e.Entity is BaseEntity &&
-                    !ChangeDateIsUpdatedManually(e));
+                    !ChangeDateIsUpdatedManually(e) &&
+                    !NoteOpenedIsUpdated(e));
             foreach (var entry in entries)
             {
                 var entity = (BaseEntity)entry.Entity;
@@ -39,6 +41,18 @@ namespace Ducode.Wolk.Persistence.SaveChanges.Impl
             var original = (BaseEntity)entry.OriginalValues.ToObject();
             var current = (BaseEntity)entry.CurrentValues.ToObject();
             return original.Changed != current.Changed;
+        }
+
+        private bool NoteOpenedIsUpdated(EntityEntry entry)
+        {
+            if (!(entry.Entity is Note))
+            {
+                return false;
+            }
+
+            var original = (Note)entry.OriginalValues.ToObject();
+            var current = (Note)entry.CurrentValues.ToObject();
+            return original.Opened != current.Opened;
         }
     }
 }

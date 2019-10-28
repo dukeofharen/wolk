@@ -38,7 +38,7 @@ namespace Ducode.Wolk.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<NoteDto>> Get([FromRoute] long id) =>
-            Ok(await Mediator.Send(new GetNoteQuery(id)));
+            Ok(await Mediator.Send(new GetNoteQuery(id) {UpdateOpenedDateTime = true}));
 
         /// <summary>
         /// Creates a new note.

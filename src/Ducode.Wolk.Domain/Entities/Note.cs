@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Ducode.Wolk.Domain.Entities.Enums;
 
@@ -10,6 +11,8 @@ namespace Ducode.Wolk.Domain.Entities
         public string Content { get; set; }
 
         public NoteType NoteType { get; set; }
+
+        public DateTimeOffset? Opened { get; set; }
 
         public long NotebookId { get; set; }
 

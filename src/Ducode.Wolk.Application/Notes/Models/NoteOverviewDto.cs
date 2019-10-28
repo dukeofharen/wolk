@@ -14,6 +14,8 @@ namespace Ducode.Wolk.Application.Notes.Models
 
         public DateTimeOffset? Changed { get; set; }
 
+        public DateTimeOffset? Opened { get; set; }
+
         public string Title { get; set; }
 
         public string Preview { get; set; }
