@@ -85,6 +85,7 @@ namespace Ducode.Wolk.Api
             app.UseRouting();
             app.UseAuthorization();
             app.UseMiddleware<ValidUserMiddleware>();
+            app.UseMiddleware<TokenRenewalMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseOpenApi();
             app.UseSwaggerUi3();

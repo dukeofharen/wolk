@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Ducode.Wolk.Application.Interfaces.Identity;
+using Ducode.Wolk.Common;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
@@ -13,10 +14,14 @@ namespace Ducode.Wolk.Identity.Impl
 {
     internal class JwtManager : IJwtManager
     {
+        private readonly IDateTime _dateTime;
         private readonly IdentityConfiguration _config;
 
-        public JwtManager(IOptions<IdentityConfiguration> options)
+        public JwtManager(
+            IDateTime dateTime,
+            IOptions<IdentityConfiguration> options)
         {
+            _dateTime = dateTime;
             _config = options.Value;
         }
 
@@ -30,7 +35,7 @@ namespace Ducode.Wolk.Identity.Impl
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(CustomClaimTypes.SecurityStamp, user.SecurityStamp)
                 }),
-                Expires = DateTime.Now.AddSeconds(_config.ExpirationInSeconds),
+                Expires = _dateTime.Now.AddSeconds(_config.ExpirationInSeconds),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(keyBytes),
                     SecurityAlgorithms.HmacSha512Signature)

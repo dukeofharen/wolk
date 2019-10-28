@@ -1,6 +1,8 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
+using Ducode.Wolk.Common;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity.Impl;
@@ -16,6 +18,7 @@ namespace Ducode.Wolk.Identity.Tests
     [TestClass]
     public class JwtManagerTests
     {
+        private readonly Mock<IDateTime> _mockDateTime = new Mock<IDateTime>();
         private readonly IdentityConfiguration _configuration = new IdentityConfiguration
         {
             JwtSecret = "25qwrgsdfsdfethdfgdsa", ExpirationInSeconds = 10
@@ -26,8 +29,11 @@ namespace Ducode.Wolk.Identity.Tests
         [TestInitialize]
         public void Setup()
         {
+            _mockDateTime
+                .Setup(m => m.Now)
+                .Returns(DateTime.Now);
             var mockOptions = MockOptions<IdentityConfiguration>.Create(_configuration);
-            _manager = new JwtManager(mockOptions);
+            _manager = new JwtManager(_mockDateTime.Object, mockOptions);
         }
 
         [TestMethod]

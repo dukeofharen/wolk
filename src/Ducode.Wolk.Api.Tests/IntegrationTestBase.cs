@@ -30,6 +30,7 @@ namespace Ducode.Wolk.Api.Tests
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
         protected Mock<IFileService> MockFileService = new Mock<IFileService>();
+        protected Mock<IDateTime> MockDateTime = new Mock<IDateTime>();
 
         protected IServiceProvider ServiceProvider;
 
@@ -44,7 +45,7 @@ namespace Ducode.Wolk.Api.Tests
             var configDict = new Dictionary<string, string>
             {
                 {"IdentityConfiguration:JwtSecret", "2346sedrfgsrahyjrtyserASD@"},
-                {"IdentityConfiguration:ExpirationInSeconds", "10"},
+                {"IdentityConfiguration:ExpirationInSeconds", "3600"},
                 {"WolkConfiguration:UploadsPath", UploadsRootPath}
             };
             BeforeConfigure(configDict);
@@ -53,9 +54,11 @@ namespace Ducode.Wolk.Api.Tests
                 .Build();
             var startup = new Startup(config);
 
+            InitializeDefaultDateTime();
             var wolkDbContext = InMemoryDbContextFactory.Create();
             servicesToReplace.Add((typeof(IWolkDbContext), wolkDbContext));
             servicesToReplace.Add((typeof(IFileService), MockFileService.Object));
+            servicesToReplace.Add((typeof(IDateTime), MockDateTime.Object));
 
             var mockEnvironment = new Mock<IWebHostEnvironment>();
             mockEnvironment
@@ -104,6 +107,16 @@ namespace Ducode.Wolk.Api.Tests
 
             startup.ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
+        }
+
+        private void InitializeDefaultDateTime()
+        {
+            MockDateTime
+                .Setup(m => m.Now)
+                .Returns(DateTime.Now);
+            MockDateTime
+                .Setup(m => m.UtcNow)
+                .Returns(DateTime.UtcNow);
         }
     }
 }

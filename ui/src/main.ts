@@ -10,6 +10,7 @@ import { getLocalValue } from './data/localDataHelper';
 // Axios interceptors
 import '@/interceptors/errorInterceptor';
 import '@/interceptors/addTokenToRequestInterceptor';
+import '@/interceptors/renewTokenInterceptor';
 
 // Fonts
 import 'typeface-roboto';
