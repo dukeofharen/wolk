@@ -3,7 +3,7 @@
     <v-col>
       <v-list-item
         @click="addNote"
-        v-if="isSignedIn"
+        v-if="isSignedIn && notebooks.length > 0"
       >
         <v-list-item-action>
           <v-icon>mdi-plus</v-icon>
