@@ -24,6 +24,7 @@ import { SignedInModel } from './models/api/signedInModel';
 
 // Filters
 import '@/filters/datetime';
+import '@/filters/filesize';
 
 // Other stuff
 import '@/utilities/primitiveOverrides';

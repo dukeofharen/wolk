@@ -29,7 +29,7 @@
         <v-avatar left>
           <v-icon>mdi-file</v-icon>
         </v-avatar>
-        {{attachment.filename}}
+        {{attachment.filename}} ({{attachment.fileSize | filesize}})
       </v-chip>
     </div>
   </div>
