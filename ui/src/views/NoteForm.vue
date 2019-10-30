@@ -62,8 +62,6 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { AuthenticateModel } from "../models/api/authenticateModel";
-import { SignedInModel } from "../models/api/signedInModel";
 import Note from "../models/api/note";
 import Notebook from "../models/api/notebook";
 import { getNoteTypeArray, NoteType } from "../models/api/enums/noteType";

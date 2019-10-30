@@ -19,8 +19,6 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { AuthenticateModel } from "../models/api/authenticateModel";
-import { SignedInModel } from "../models/api/signedInModel";
 import Notebook from "../models/api/notebook";
 import { resources } from "../resources";
 import { UpdateNotebookCommand } from "../store/actions/notebooks";
