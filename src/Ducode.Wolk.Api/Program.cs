@@ -16,14 +16,6 @@ namespace Ducode.Wolk.Api
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-//                    int httpPort = Environment.Var
-//                    webBuilder.ConfigureKestrel(serverOptions =>
-//                    {
-//                        serverOptions.Listen(IPAddress.Any);
-//                    });
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
     }
 }
