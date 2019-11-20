@@ -4,11 +4,11 @@ export enum MessageType {
     SUCCESS,
     WARNING,
     ERROR
-};
+}
 
 export interface MessageModel {
     message: string;
     type: MessageType;
     timestamp: number;
     force: boolean;
-};
+}

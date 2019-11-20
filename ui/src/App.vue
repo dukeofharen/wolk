@@ -41,7 +41,8 @@
             </v-container>
         </v-content>
         <ToastMessages></ToastMessages>
-        <ScrollToTop></ScrollToTop>
+        <BottomButtonBar></BottomButtonBar>
+        <DocumentEvents></DocumentEvents>
     </v-app>
 </template>
 
@@ -50,10 +51,11 @@
     import {Component, Vue} from "vue-property-decorator";
     import NotebookBar from "@/components/NotebookBar.vue";
     import ToastMessages from "@/components/ToastMessages.vue";
-    import ScrollToTop from "@/components/ScrollToTop.vue";
+    import BottomButtonBar from "@/components/BottomButtonBar.vue";
+    import DocumentEvents from "@/components/DocumentEvents.vue";
 
     @Component({
-        components: {NotebookBar, ToastMessages, ScrollToTop},
+        components: {NotebookBar, ToastMessages, BottomButtonBar, DocumentEvents},
         computed: mapState(["notebooks"])
     })
     export default class App extends Vue {
