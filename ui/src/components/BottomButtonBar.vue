@@ -7,6 +7,7 @@
             right
             color="pink"
             title="Back to top"
+            v-if="!uiState.isOnTop"
             @click="backToTop"
     >
         <v-icon>mdi-arrow-up</v-icon>
@@ -15,13 +16,14 @@
 
 <script lang="ts">
     import {Component, Vue} from "vue-property-decorator";
+    import {mapState} from "vuex";
+    import {UiStateModel} from "@/models/store/uiStateModel";
 
-    @Component
-    export default class ScrollToTop extends Vue {
-        
-        get showButton(): boolean {
-            return document.body.scrollTop > 20 || document.documentElement.scrollTop > 20;
-        }
+    @Component({
+        computed: mapState(["uiState"])
+    })
+    export default class BottomButtonBar extends Vue {
+        uiState!: UiStateModel;
         
         backToTop() {
             document.body.scrollTop = 0;
