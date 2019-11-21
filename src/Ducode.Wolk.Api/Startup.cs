@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 
@@ -95,8 +96,11 @@ namespace Ducode.Wolk.Api
             if (executeMigration)
             {
                 using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Startup>>();
                 var context = (WolkDbContext)scope.ServiceProvider.GetRequiredService<IWolkDbContext>();
+                logger.LogInformation("Attempting to run database migrations.");
                 context.Database.Migrate();
+                logger.LogInformation("Database migrations executed successfully.");
 
                 var defaultUserCreator = scope.ServiceProvider.GetRequiredService<IDefaultUserCreator>();
                 defaultUserCreator.CreateOrUpdateDefaultUser().Wait();
