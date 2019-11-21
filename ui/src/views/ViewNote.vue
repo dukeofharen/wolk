@@ -113,9 +113,3 @@ export default class ViewNote extends Vue {
   }
 }
 </script>
-
-<style scope>
-input[type="file"] {
-  display: none;
-}
-</style>
