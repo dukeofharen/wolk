@@ -14,6 +14,7 @@ namespace Ducode.Wolk.Application
             // Add MediatR
             services.AddMediatR(currentAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuditBehavior<,>));
 
             // Add fluent validations
             services.AddValidatorsFromAssemblies(new[] {currentAssembly});
