@@ -57,7 +57,7 @@
                         label="Note contents"
                         v-model="note.content"
                         auto-grow
-                        @keyup="onChange"
+                        @change="onChange"
                 ></v-textarea>
             </div>
             <NoteRender
@@ -117,7 +117,7 @@
             this.reloadData();
         }
 
-        onChange() {
+        onChange(e: any) {
             this.formDirty = true;
         }
 
