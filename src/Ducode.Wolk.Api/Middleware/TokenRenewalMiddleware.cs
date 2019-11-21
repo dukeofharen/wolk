@@ -7,6 +7,7 @@ using Ducode.Wolk.Application.Interfaces.Identity;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -24,6 +25,7 @@ namespace Ducode.Wolk.Api.Middleware
 
         public async Task InvokeAsync(
             HttpContext context,
+            ILogger<TokenRenewalMiddleware> logger,
             IOptions<IdentityConfiguration> options,
             ITokenRenewalManager tokenRenewalManager)
         {
@@ -39,6 +41,8 @@ namespace Ducode.Wolk.Api.Middleware
                     {
                         // If 80% of the token time is expired, renew the token.
                         var userId = ClaimToInt(user, JwtRegisteredClaimNames.Sub);
+                        logger.LogInformation(
+                            $"80% of token expiration time is expired, so generating a new token for user with ID '{userId}'.");
                         var jwt = await tokenRenewalManager.RenewTokenAsync(userId);
                         context.Response.Headers.Add(HeaderNames.TokenHeaderKey, jwt);
                     }
