@@ -6,12 +6,12 @@
         <v-col class="buttons">
           <v-btn
             title="Add note"
-            @click="addNote"
+            :to="{ name: 'noteForm'}"
             color="success"
           >Add note</v-btn>
           <v-btn
             title="Update notebook"
-            @click="updateNotebook"
+            :to="{ name: 'noteForm', params: {id: currentNotebook.id}}"
             color="success"
           >Update notebook</v-btn>
           <v-btn
