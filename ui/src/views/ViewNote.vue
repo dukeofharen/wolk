@@ -17,7 +17,7 @@
         <v-col class="buttons">
           <v-btn
             title="Update note"
-            @click="updateNote"
+            :to="{ name: 'noteForm', params: {id: note.id}}"
             color="success"
           >Update note</v-btn>
           <v-btn
