@@ -2,7 +2,7 @@
     <v-row>
         <v-col>
             <v-list-item
-                    to="/noteForm"
+                    :to="{ name: 'noteForm'}"
                     v-if="isSignedIn && notebooks.length > 0"
             >
                 <v-list-item-action>
@@ -11,7 +11,7 @@
                 <v-list-item-title class="grey--text">Add note</v-list-item-title>
             </v-list-item>
             <v-list-item
-                    to="/notebookForm"
+                    :to="{ name: 'notebookForm'}"
                     v-if="isSignedIn"
             >
                 <v-list-item-action>
@@ -35,7 +35,7 @@
             ></v-divider>
             <div v-if="isSignedIn">
                 <v-list-item
-                        to="/overview"
+                        :to="{ name: 'overview'}"
                         v-if="isSignedIn"
                 >
                     <v-list-item-action>
