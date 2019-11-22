@@ -17,9 +17,14 @@
         <v-col class="buttons">
           <v-btn
             title="Update note"
-            @click="updateNote"
+            :to="{ name: 'noteForm', params: {id: note.id}}"
             color="success"
           >Update note</v-btn>
+          <v-btn
+                  title="Update note"
+                  @click="reloadData()"
+                  color="success"
+          >Refresh</v-btn>
           <v-btn
             title="Attachments"
             @click="showAttachments"
@@ -44,12 +49,9 @@
 <script lang="ts">
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { AuthenticateModel } from "../models/api/authenticateModel";
-import { SignedInModel } from "../models/api/signedInModel";
 import Note from "../models/api/note";
-import Notebook from "../models/api/notebook";
-import { resources } from "../resources";
-import { NoteType } from "../models/api/enums/noteType";
+import { resources } from "@/resources";
+import { NoteType } from "@/models/api/enums/noteType";
 import NoteRender from "@/components/NoteRender.vue";
 import Attachments from "@/components/Attachments.vue";
 

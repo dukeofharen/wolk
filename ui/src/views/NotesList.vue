@@ -11,7 +11,7 @@
           >Add note</v-btn>
           <v-btn
             title="Update notebook"
-            :to="{ name: 'noteForm', params: {id: currentNotebook.id}}"
+            :to="{ name: 'notebookForm', params: {id: currentNotebook.id}}"
             color="success"
           >Update notebook</v-btn>
           <v-btn
@@ -60,20 +60,6 @@ export default class NotesList extends Vue {
   @Watch("$route")
   onRouteChanged() {
     this.reloadData();
-  }
-
-  updateNotebook() {
-    this.$router.push({
-      name: "notebookForm",
-      params: <any>{ id: this.$route.params.id }
-    });
-  }
-
-  addNote() {
-    this.$router.push({
-      name: "noteForm",
-      query: <any>{ notebookId: this.currentNotebook.id }
-    });
   }
 
   deleteNotebook() {
