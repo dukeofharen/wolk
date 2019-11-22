@@ -1,17 +1,16 @@
 <template>
   <div>
-    <PlainText v-if="noteType == NoteType.PlainText" :contents="contents" />
-    <Markdown v-if="noteType == NoteType.Markdown" :contents="contents" />
-    <div v-if="noteType == NoteType.NotSet">
+    <PlainText v-if="noteType === NoteType.PlainText" :contents="contents" />
+    <Markdown v-if="noteType === NoteType.Markdown" :contents="contents" />
+    <div v-if="noteType === NoteType.NotSet">
       {{contents}}
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import Note from "../models/api/note";
-import { NoteType } from "../models/api/enums/noteType";
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { NoteType } from "@/models/api/enums/noteType";
 import PlainText from "@/components/noteRendering/PlainText.vue";
 import Markdown from "@/components/noteRendering/Markdown.vue";
 
