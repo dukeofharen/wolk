@@ -47,7 +47,7 @@ namespace Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary
             else if (!string.IsNullOrWhiteSpace(request.Token))
             {
                 var token = await _wolkDbContext.AccessTokens
-                    .SingleAsync(t => t.Token == request.Token, cancellationToken);
+                    .FirstOrDefaultAsync(t => t.Token == request.Token, cancellationToken);
                 if (token == null)
                 {
                     throw new NotFoundException(nameof(AccessToken), request.Token);

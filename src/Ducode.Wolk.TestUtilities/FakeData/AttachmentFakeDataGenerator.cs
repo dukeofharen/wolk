@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bogus;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Domain.Entities;
+using Ducode.Wolk.Domain.Entities.Enums;
 
 namespace Ducode.Wolk.TestUtilities.FakeData
 {
