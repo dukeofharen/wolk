@@ -45,6 +45,7 @@ namespace Ducode.Wolk.Persistence.SaveChanges.Impl
 
         private bool NoteOpenedIsUpdated(EntityEntry entry)
         {
+            // TODO make this configurable
             if (!(entry.Entity is Note))
             {
                 return false;

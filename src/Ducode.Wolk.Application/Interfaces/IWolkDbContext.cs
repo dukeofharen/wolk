@@ -15,6 +15,8 @@ namespace Ducode.Wolk.Application.Interfaces
 
         DbSet<User> Users { get; set; }
 
+        DbSet<AccessToken> AccessTokens { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
