@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ducode.Wolk.Api.Models.Attachments;
 using Ducode.Wolk.Api.Models.Notes;
+using Ducode.Wolk.Application.AccessTokens.Models;
 using Ducode.Wolk.Application.Attachments.Commands.CreateAttachment;
+using Ducode.Wolk.Application.Attachments.Commands.CreateAttachmentAccessToken;
 using Ducode.Wolk.Application.Attachments.Commands.DeleteAttachment;
 using Ducode.Wolk.Application.Attachments.Models;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary;
@@ -144,6 +146,18 @@ namespace Ducode.Wolk.Api.Controllers
         {
             await Mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpPost("{noteId}/attachments/{attachmentId}/accessTokens")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AccessTokenResultDto>> CreateAttachmentAccessToken(
+            [FromRoute] CreateAttachmentAccessTokenCommand command)
+        {
+            var result = await Mediator.Send(command);
+
+            // TODO insert URI when that endpoint has been implemented.
+            return Created("", result);
         }
     }
 }
