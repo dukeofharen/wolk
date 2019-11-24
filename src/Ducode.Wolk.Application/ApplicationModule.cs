@@ -1,3 +1,4 @@
+using Ducode.Wolk.Application.AccessTokens.Services;
 using Ducode.Wolk.Application.Infrastructure.MediatR;
 using FluentValidation;
 using MediatR;
@@ -18,6 +19,9 @@ namespace Ducode.Wolk.Application
 
             // Add fluent validations
             services.AddValidatorsFromAssemblies(new[] {currentAssembly});
+
+            // Add services
+            services.AddTransient<ICreateAccessTokenService, CreateAccessTokenService>();
 
             return services;
         }
