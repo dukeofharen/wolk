@@ -153,8 +153,9 @@ namespace Ducode.Wolk.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AccessTokenResultDto>> CreateAttachmentAccessToken(
             [FromRoute] long attachmentId,
-            [FromBody] CreateAttachmentAccessTokenCommand command)
+            [FromBody] MutateAttachmentAccessTokenModel model)
         {
+            var command = Mapper.Map<CreateAttachmentAccessTokenCommand>(model);
             command.AttachmentId = attachmentId;
             var result = await Mediator.Send(command);
 
