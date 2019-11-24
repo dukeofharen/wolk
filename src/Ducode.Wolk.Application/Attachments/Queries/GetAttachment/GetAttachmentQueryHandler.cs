@@ -17,17 +17,20 @@ namespace Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary
 {
     public class GetAttachmentQueryHandler : IRequestHandler<GetAttachmentQuery, FullAttachmentDto>
     {
+        private readonly IDateTime _dateTime;
         private readonly IFileService _fileService;
         private readonly IMapper _mapper;
         private readonly IWolkDbContext _wolkDbContext;
         private readonly WolkConfiguration _wolkConfiguration;
 
         public GetAttachmentQueryHandler(
+            IDateTime dateTime,
             IFileService fileService,
             IMapper mapper,
             IWolkDbContext wolkDbContext,
             IOptions<WolkConfiguration> options)
         {
+            _dateTime = dateTime;
             _fileService = fileService;
             _mapper = mapper;
             _wolkDbContext = wolkDbContext;
@@ -36,8 +39,37 @@ namespace Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary
 
         public async Task<FullAttachmentDto> Handle(GetAttachmentQuery request, CancellationToken cancellationToken)
         {
+            long attachmentId;
+            if (request.AttachmentId.HasValue)
+            {
+                attachmentId = request.AttachmentId.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(request.Token))
+            {
+                var token = await _wolkDbContext.AccessTokens
+                    .SingleAsync(t => t.Token == request.Token, cancellationToken);
+                if (token == null)
+                {
+                    throw new NotFoundException(nameof(AccessToken), request.Token);
+                }
+
+                if (token.ExpirationDateTime.HasValue && _dateTime.Now > token.ExpirationDateTime.Value)
+                {
+                    throw new NotFoundException("The access token has expired.");
+                }
+
+                if (!long.TryParse(token.Identifier, out attachmentId))
+                {
+                    throw new InvalidOperationException($"Identifier '{token.Identifier}' is not a valid number.");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("No ID or token set.");
+            }
+
             var attachment = await _wolkDbContext.Attachments
-                .FirstOrDefaultAsync(a => a.Id == request.AttachmentId, cancellationToken);
+                .FirstOrDefaultAsync(a => a.Id == attachmentId, cancellationToken);
             if (attachment == null)
             {
                 throw new NotFoundException(nameof(Attachment), request.AttachmentId);

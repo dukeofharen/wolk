@@ -15,6 +15,7 @@ using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
 using Ducode.Wolk.Application.Notes.Models;
 using Ducode.Wolk.Application.Notes.Queries.GetNote;
 using Ducode.Wolk.Application.Notes.Queries.GetNotes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -124,12 +125,14 @@ namespace Ducode.Wolk.Api.Controllers
         /// Returns the actual attachment as binary.
         /// </summary>
         /// <param name="query">The query.</param>
+        /// <param name="attachmentId">The attachment ID.</param>
         /// <returns>The attachment as binary.</returns>
         [HttpGet("{noteId}/attachments/{attachmentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetAttachment([FromRoute] GetAttachmentQuery query)
+        public async Task<ActionResult> GetAttachment([FromRoute] long attachmentId)
         {
+            var query = new GetAttachmentQuery {AttachmentId = attachmentId};
             var attachment = await Mediator.Send(query);
             return File(attachment.Contents, attachment.MimeType, attachment.Filename);
         }
@@ -148,6 +151,12 @@ namespace Ducode.Wolk.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// An endpoint where access tokens can be created for sharing attachments.
+        /// </summary>
+        /// <param name="attachmentId">The attachment ID.</param>
+        /// <param name="model">The model.</param>
+        /// <returns>The created token.</returns>
         [HttpPost("{noteId}/attachments/{attachmentId}/accessTokens")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -161,6 +170,22 @@ namespace Ducode.Wolk.Api.Controllers
 
             // TODO insert URI when that endpoint has been implemented.
             return Created("", result);
+        }
+
+        /// <summary>
+        /// An endpoint for retrieving attachment contents by access token.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns>The attachment binary.</returns>
+        [AllowAnonymous]
+        [HttpGet("{noteId}/attachments/{attachmentId}/accessTokens/{token}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetAttachmentByAccessToken([FromRoute]string token)
+        {
+            var query = new GetAttachmentQuery {Token = token};
+            var attachment = await Mediator.Send(query);
+            return File(attachment.Contents, attachment.MimeType, attachment.Filename);
         }
     }
 }
