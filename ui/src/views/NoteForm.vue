@@ -27,14 +27,19 @@
                     @click="previewing = !previewing"
             >{{!previewing ? "Preview note" : "Go back to form"}}
             </v-btn>
-          <Attachments :noteId="note.id" v-if="attachmentsOpened && noteId"/>
+            <v-dialog v-model="attachmentsOpened" v-if="noteId">
+                <v-card>
+                    <Attachments :noteId="note.id"/>
+                </v-card>
+            </v-dialog>
+
             <div v-if="!previewing">
                 <v-text-field
                         label="Note title"
                         type="text"
                         v-model="note.title"
                         @keyup="onChange"
-                ></v-text-field>
+                />
                 <v-select
                         :items="notebooks"
                         placeholder="Select notebook..."
@@ -43,7 +48,7 @@
                         item-value="id"
                         clearable
                         @change="onChange"
-                ></v-select>
+                />
                 <v-select
                         :items="noteTypeNames"
                         placeholder="Select note type..."
@@ -52,13 +57,13 @@
                         item-value="key"
                         clearable
                         @change="onChange"
-                ></v-select>
+                />
                 <v-textarea
                         label="Note contents"
                         v-model="note.content"
                         auto-grow
                         @change="onChange"
-                ></v-textarea>
+                />
             </div>
             <NoteRender
                     v-if="previewing"
@@ -168,8 +173,8 @@
             };
         }
 
-      showAttachments() {
-        this.attachmentsOpened = !this.attachmentsOpened;
-      }
+        showAttachments() {
+            this.attachmentsOpened = !this.attachmentsOpened;
+        }
     }
 </script>
