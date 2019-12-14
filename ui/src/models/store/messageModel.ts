@@ -7,8 +7,9 @@ export enum MessageType {
 }
 
 export interface MessageModel {
-    message: string;
+    message: string | string[];
     type: MessageType;
     timestamp: number;
     force: boolean;
+    callback?: object;
 }

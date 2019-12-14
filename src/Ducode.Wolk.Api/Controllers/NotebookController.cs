@@ -7,8 +7,6 @@ using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
 using Ducode.Wolk.Application.Notebooks.Models;
 using Ducode.Wolk.Application.Notebooks.Queries.GetAllNotebooks;
 using Ducode.Wolk.Application.Notebooks.Queries.GetNotebook;
-using Ducode.Wolk.Application.Notes.Models;
-using Ducode.Wolk.Application.Notes.Queries.GetNotes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +14,6 @@ namespace Ducode.Wolk.Api.Controllers
 {
     public class NotebookController : BaseApiController
     {
-
         /// <summary>
         /// Returns a list of all notebooks.
         /// </summary>

@@ -13,6 +13,7 @@
             <v-btn
                     title="Attachments"
                     @click="showAttachments"
+                    v-if="noteId"
                     color="success"
             >Attachments
             </v-btn>
@@ -27,14 +28,17 @@
                     @click="previewing = !previewing"
             >{{!previewing ? "Preview note" : "Go back to form"}}
             </v-btn>
-          <Attachments :noteId="note.id" v-if="attachmentsOpened && noteId"/>
+            <v-dialog scrollable v-model="uiState.attachmentDialogOpened" v-if="noteId">
+                <Attachments :noteId="note.id"/>
+            </v-dialog>
+
             <div v-if="!previewing">
                 <v-text-field
                         label="Note title"
                         type="text"
                         v-model="note.title"
                         @keyup="onChange"
-                ></v-text-field>
+                />
                 <v-select
                         :items="notebooks"
                         placeholder="Select notebook..."
@@ -43,7 +47,7 @@
                         item-value="id"
                         clearable
                         @change="onChange"
-                ></v-select>
+                />
                 <v-select
                         :items="noteTypeNames"
                         placeholder="Select note type..."
@@ -52,13 +56,13 @@
                         item-value="key"
                         clearable
                         @change="onChange"
-                ></v-select>
+                />
                 <v-textarea
                         label="Note contents"
                         v-model="note.content"
                         auto-grow
                         @change="onChange"
-                ></v-textarea>
+                />
             </div>
             <NoteRender
                     v-if="previewing"
@@ -74,15 +78,16 @@
     import {Component, Vue, Watch} from "vue-property-decorator";
     import Note from "../models/api/note";
     import Notebook from "../models/api/notebook";
-    import {getNoteTypeArray, NoteType} from "../models/api/enums/noteType";
-    import {KeyValuePair} from "../models/keyValuePair";
-    import {resources} from "../resources";
+    import {getNoteTypeArray, NoteType} from "@/models/api/enums/noteType";
+    import {KeyValuePair} from "@/models/keyValuePair";
+    import {resources} from "@/resources";
     import NoteRender from "@/components/NoteRender.vue";
     import Attachments from "@/components/Attachments.vue";
+    import {UiStateModel} from "@/models/store/uiStateModel";
 
     @Component({
         components: {NoteRender, Attachments},
-        computed: mapState(["notebooks", "currentNote"]),
+        computed: mapState(["notebooks", "currentNote", "uiState"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;
             if (!form.formDirty || confirm(resources.unsavedChanges)) {
@@ -97,7 +102,7 @@
         note: Note = this.emptyNote();
         formDirty: boolean = false;
         previewing: boolean = false;
-        attachmentsOpened: boolean = false;
+        uiState!: UiStateModel;
 
         constructor() {
             super();
@@ -168,8 +173,8 @@
             };
         }
 
-      showAttachments() {
-        this.attachmentsOpened = !this.attachmentsOpened;
-      }
+        showAttachments() {
+            this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened; 
+        }
     }
 </script>

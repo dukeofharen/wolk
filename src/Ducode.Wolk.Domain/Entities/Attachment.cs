@@ -1,3 +1,5 @@
+using System;
+
 namespace Ducode.Wolk.Domain.Entities
 {
     public class Attachment : BaseEntity

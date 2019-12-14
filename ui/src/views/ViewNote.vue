@@ -37,7 +37,9 @@
           >Delete note</v-btn>
         </v-col>
       </v-row>
-      <Attachments :noteId="note.id" v-if="attachmentsOpened" />
+      <v-dialog scrollable v-model="uiState.attachmentDialogOpened">
+        <Attachments :noteId="note.id"/>
+      </v-dialog>
       <NoteRender
         :contents="note.content"
         :noteType="note.noteType"
@@ -54,10 +56,11 @@ import { resources } from "@/resources";
 import { NoteType } from "@/models/api/enums/noteType";
 import NoteRender from "@/components/NoteRender.vue";
 import Attachments from "@/components/Attachments.vue";
+import {UiStateModel} from "@/models/store/uiStateModel";
 
 @Component({
   components: { NoteRender, Attachments },
-  computed: mapState(["currentNote"])
+  computed: mapState(["currentNote", "uiState"])
 })
 export default class ViewNote extends Vue {
   NoteType = NoteType;
@@ -74,6 +77,7 @@ export default class ViewNote extends Vue {
     updated: new Date(),
     opened: new Date()
   };
+  uiState!: UiStateModel;
 
   constructor() {
     super();
@@ -107,7 +111,7 @@ export default class ViewNote extends Vue {
   }
 
   showAttachments() {
-    this.attachmentsOpened = !this.attachmentsOpened;
+    this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
   }
 
   private reloadData() {

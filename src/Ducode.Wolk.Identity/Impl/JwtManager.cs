@@ -35,7 +35,7 @@ namespace Ducode.Wolk.Identity.Impl
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(CustomClaimTypes.SecurityStamp, user.SecurityStamp)
                 }),
-                Expires = _dateTime.Now.AddSeconds(_config.ExpirationInSeconds),
+                Expires = _dateTime.Now.AddSeconds(_config.ExpirationInSeconds).DateTime,
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(keyBytes),
                     SecurityAlgorithms.HmacSha512Signature)

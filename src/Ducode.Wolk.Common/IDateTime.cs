@@ -4,8 +4,8 @@ namespace Ducode.Wolk.Common
 {
     public interface IDateTime
     {
-        DateTime Now { get; }
+        DateTimeOffset Now { get; }
 
-        DateTime UtcNow { get; }
+        DateTimeOffset UtcNow { get; }
     }
 }

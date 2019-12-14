@@ -14,7 +14,9 @@ export const resources = {
     areYouSureDeleteAttachment: "Are you sure you want to delete this attachment? This can not be undone.",
     unsavedChanges: "There are unsaved changes. Continue?",
     notFound: "This item could not be found (anymore).",
-    serverError: "The server returned an error. Try again."
+    serverError: "The server returned an error. Try again.",
+    attachmentAccessCreated: "You can access the attachment under URL {0}.",
+    attachmentAccessClickToCopy: "Click this message to copy the link to the clipboard."
 };
 
 export const keys = {

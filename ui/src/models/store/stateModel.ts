@@ -14,4 +14,5 @@ export interface StateModel {
     attachments: Attachment[];
     signedInUser: SignedInModel;
     uiState: UiStateModel;
+    attachmentAccessUrl: string;
 }

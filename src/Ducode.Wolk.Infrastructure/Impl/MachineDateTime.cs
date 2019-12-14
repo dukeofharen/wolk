@@ -5,8 +5,8 @@ namespace Ducode.Wolk.Infrastructure.Impl
 {
     internal class MachineDateTime : IDateTime
     {
-        public DateTime Now => DateTime.Now;
+        public DateTimeOffset Now => DateTimeOffset.Now;
 
-        public DateTime UtcNow => DateTime.UtcNow;
+        public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
     }
 }
