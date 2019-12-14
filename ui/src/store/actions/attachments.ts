@@ -65,13 +65,13 @@ export function deleteAttachment({commit}: ActionContext<StateModel, StateModel>
 export interface CreateAttachmentAccessTokenCommand {
     noteId: number;
     attachmentId: number;
-    expirationDateTime: Date;
+    expirationDateTime?: Date;
 }
 
 export function createAttachmentAccessToken({commit}: ActionContext<StateModel, StateModel>, command: CreateAttachmentAccessTokenCommand) {
-    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`)
-        .then(r => r.data)
-        .then((result: AccessTokenResultModel) => {
-            console.log(result);
+    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
+        .then((response: AxiosResponse<AccessTokenResultModel>) => {
+            let location = response.headers['location'];
+            console.log(location);
         });
 }

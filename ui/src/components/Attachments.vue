@@ -7,7 +7,8 @@
                 <v-list-item-group>
                     <v-list-item v-for="attachment of attachments" :key="attachment.id">
                         <v-list-item-icon>
-                            <v-icon @click="deleteAttachment(attachment)">mdi-delete</v-icon>
+                            <v-icon @click="deleteAttachment(attachment)" title="Delete attachment">mdi-delete</v-icon>
+                            <v-icon @click="getAttachmentLink(attachment)" title="Get link for sharing or inserting attachment">mdi-link</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content @click="openAttachment(attachment)">
                             <v-list-item-title>
@@ -17,22 +18,6 @@
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
-            <!--            <v-chip-->
-            <!--                    class="ma-2"-->
-            <!--                    color="indigo"-->
-            <!--                    text-color="white"-->
-            <!--                    close-->
-            <!--                    close-icon="mdi-delete"-->
-            <!--                    v-for="attachment of attachments"-->
-            <!--                    :key="attachment.id"-->
-            <!--                    @click="openAttachment(attachment)"-->
-            <!--                    @click:close="deleteAttachment(attachment)"-->
-            <!--            >-->
-            <!--                <v-avatar left>-->
-            <!--                    <v-icon>mdi-file</v-icon>-->
-            <!--                </v-avatar>-->
-            <!--                {{attachment.filename}} ({{attachment.fileSize | filesize}})-->
-            <!--            </v-chip>-->
         </v-card-text>
         <v-card-actions>
             <v-btn
@@ -59,7 +44,7 @@
     import {
         DownloadAttachmentQuery,
         UploadAttachmentCommand,
-        DeleteAttachmentCommand
+        DeleteAttachmentCommand, CreateAttachmentAccessTokenCommand
     } from "@/store/actions/attachments";
     import {resources} from "@/resources";
     import {UiStateModel} from "@/models/store/uiStateModel";
@@ -125,6 +110,15 @@
 
         closeClick() {
             this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
+        }
+        
+        getAttachmentLink(attachment: Attachment) {
+            let command: CreateAttachmentAccessTokenCommand = {
+                attachmentId: attachment.id,
+                expirationDateTime: undefined,
+                noteId: attachment.noteId
+            };
+            this.$store.dispatch("createAttachmentAccessToken", command);
         }
 
         private reloadData() {
