@@ -1,5 +1,5 @@
 <template>
-    <v-snackbar v-model="showSnackbar" :color="color" multi-line @click="executeCallback">
+    <v-snackbar v-model="showSnackbar" :color="color" multi-line @click="executeCallback" :class="cssClass">
         <span v-if="!multipleMessages">{{message.message}}</span>
         <span v-if="multipleMessages">
             <template v-for="text of message.message">{{text}}<br/></template>
@@ -21,6 +21,7 @@
         showSnackbar: boolean = false;
         multipleMessages: boolean = false;
         color: string = "";
+        cssClass: string = "";
         message!: MessageModel;
 
         constructor() {
@@ -31,6 +32,7 @@
         onMessageChanged(messageModel: MessageModel) {
             this.showSnackbar = true;
             this.multipleMessages = Array.isArray(messageModel.message);
+            this.cssClass = !!messageModel.callback ? "clickable" : "";
             switch (messageModel.type) {
                 case MessageType.INFO:
                     this.color = "info";
@@ -50,13 +52,14 @@
         executeCallback() {
             if (this.message.callback && typeof this.message.callback === "function") {
                 this.message.callback();
+                this.showSnackbar = false;
             }
         }
     }
 </script>
 
 <style scoped>
-    .v-card {
-        margin-bottom: 10px;
+    .clickable {
+        cursor: pointer;
     }
 </style>
