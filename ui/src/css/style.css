@@ -1,10 +1,9 @@
-.toast {
-    font-family: "Roboto", sans-serif;
+body{
+    margin-bottom: 40px;
 }
 
-.v-btn {
-    margin-right: 10px;
-    margin-top: 10px;
+.toast {
+    font-family: "Roboto", sans-serif;
 }
 
 .v-chip {

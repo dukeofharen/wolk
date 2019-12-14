@@ -5,29 +5,6 @@
     >
         <v-col>
             <h1>{{noteId ? "Update" : "Create"}} note</h1>
-            <v-btn
-                    color="success"
-                    @click="saveNote"
-            >Save note
-            </v-btn>
-            <v-btn
-                    title="Attachments"
-                    @click="showAttachments"
-                    v-if="noteId"
-                    color="success"
-            >Attachments
-            </v-btn>
-            <v-btn
-                    color="success"
-                    @click="viewNote"
-                    v-if="noteId"
-            >View note
-            </v-btn>
-            <v-btn
-                    color="success"
-                    @click="previewing = !previewing"
-            >{{!previewing ? "Preview note" : "Go back to form"}}
-            </v-btn>
             <v-dialog scrollable v-model="uiState.attachmentDialogOpened" v-if="noteId">
                 <Attachments :noteId="note.id"/>
             </v-dialog>
@@ -69,6 +46,20 @@
                     :contents="note.content"
                     :noteType="note.noteType"
             />
+            <v-bottom-navigation color="indigo" fixed>
+                <v-btn title="Save note" @click="saveNote">
+                    <v-icon>mdi-content-save</v-icon>
+                </v-btn>
+                <v-btn title="Attachments" @click="showAttachments" v-if="noteId">
+                    <v-icon>mdi-paperclip</v-icon>
+                </v-btn>
+                <v-btn title="View note" @click="viewNote" v-if="viewNote">
+                    <v-icon>mdi-eye</v-icon>
+                </v-btn>
+                <v-btn title="Preview note" @click="previewing = !previewing">
+                    <v-icon>{{!previewing ? "mdi-eye-outline" : "mdi-arrow-left"}}</v-icon>
+                </v-btn>
+            </v-bottom-navigation>
         </v-col>
     </v-row>
 </template>
