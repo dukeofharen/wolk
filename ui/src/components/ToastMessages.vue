@@ -1,16 +1,17 @@
 <template>
-    <v-snackbar v-model="showSnackbar" :color="color">
-        <span>{{message.message}}</span>
+    <v-snackbar v-model="showSnackbar" :color="color" multi-line @click="executeCallback">
+        <span v-if="!multipleMessages">{{message.message}}</span>
+        <span v-if="multipleMessages">
+            <template v-for="text of message.message">{{text}}<br/></template>
+        </span>
         <v-btn text @click="showSnackbar = false">Close</v-btn>
     </v-snackbar>
 </template>
 
 <script lang="ts">
-    import toastr from "toastr";
     import {mapState} from "vuex";
     import {Component, Vue, Watch} from "vue-property-decorator";
-    import Notebook from "../models/api/notebook";
-    import {MessageModel, MessageType} from "../models/store/messageModel";
+    import {MessageModel, MessageType} from "@/models/store/messageModel";
 
     @Component({
         components: {},
@@ -18,7 +19,9 @@
     })
     export default class NotesList extends Vue {
         showSnackbar: boolean = false;
+        multipleMessages: boolean = false;
         color: string = "";
+        message!: MessageModel;
 
         constructor() {
             super();
@@ -27,6 +30,7 @@
         @Watch("message")
         onMessageChanged(messageModel: MessageModel) {
             this.showSnackbar = true;
+            this.multipleMessages = Array.isArray(messageModel.message);
             switch (messageModel.type) {
                 case MessageType.INFO:
                     this.color = "info";
@@ -40,6 +44,12 @@
                 case MessageType.ERROR:
                     this.color = "error";
                     break;
+            }
+        }
+
+        executeCallback() {
+            if (this.message.callback && typeof this.message.callback === "function") {
+                this.message.callback();
             }
         }
     }
