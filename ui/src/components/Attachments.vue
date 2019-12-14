@@ -61,7 +61,6 @@
         attachments!: Attachment[];
         uiState!: UiStateModel;
         attachmentAccessUrl!: string;
-        snackbar: boolean = true;
 
         @Prop()
         noteId!: number;

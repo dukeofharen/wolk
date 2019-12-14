@@ -75,6 +75,7 @@ namespace Ducode.Wolk.Application.Tests.Attachments.Commands.CreateAttachmentAce
 
             // Assert
             Assert.AreEqual(expectedResult, result);
+            Assert.AreEqual(attachment.Filename, result.Filename);
         }
     }
 }

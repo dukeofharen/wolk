@@ -32,7 +32,11 @@ namespace Ducode.Wolk.Application.AccessTokens.Services
             };
             _wolkDbContext.AccessTokens.Add(accessToken);
             await _wolkDbContext.SaveChangesAsync(cancellationToken);
-            return new AccessTokenResultDto {Token = accessToken.Token, ExpirationDateTime = expirationDateTime};
+            return new AccessTokenResultDto
+            {
+                Token = accessToken.Token,
+                ExpirationDateTime = expirationDateTime
+            };
         }
     }
 }
