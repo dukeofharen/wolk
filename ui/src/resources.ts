@@ -15,7 +15,8 @@ export const resources = {
     unsavedChanges: "There are unsaved changes. Continue?",
     notFound: "This item could not be found (anymore).",
     serverError: "The server returned an error. Try again.",
-    attachmentAccessCreated: "You can access the"
+    attachmentAccessCreated: "You can access the attachment under URL {0}.",
+    attachmentAccessClickToCopy: "Click this message to copy the link to the clipboard."
 };
 
 export const keys = {

@@ -1,7 +1,6 @@
 <template>
     <v-card>
         <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
-        
         <v-divider/>
         <v-card-text>
             <v-list>
@@ -51,6 +50,8 @@
     } from "@/store/actions/attachments";
     import {resources} from "@/resources";
     import {UiStateModel} from "@/models/store/uiStateModel";
+    import {successMessage} from "@/utilities/messenger";
+    import {clipboardCopy} from "@/utilities/clipboardHelper";
 
     @Component({
         components: {},
@@ -129,7 +130,10 @@
         @Watch("attachmentAccessUrl")
         onCurrentNoteChanged(value: string) {
             if (value) {
-
+                successMessage(
+                    [resources.attachmentAccessCreated.format(value), resources.attachmentAccessClickToCopy],
+                true,
+                    () => clipboardCopy(value));
             }
         }
 

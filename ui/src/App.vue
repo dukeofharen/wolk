@@ -5,7 +5,7 @@
                 clipped-left
                 color="blue lighten-1"
         >
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click="drawer = !drawer"/>
             <span class="title ml-3 mr-5">
         Wolk&nbsp;
         <span class="font-weight-light">Notes</span>
@@ -29,7 +29,7 @@
                 clipped
                 color="grey lighten-4"
         >
-            <NotebookBar></NotebookBar>
+            <NotebookBar/>
         </v-navigation-drawer>
 
         <v-content>
@@ -37,7 +37,7 @@
                     fluid
                     class="lighten-4"
             >
-                <router-view></router-view>
+                <router-view/>
             </v-container>
         </v-content>
         <ToastMessages />
