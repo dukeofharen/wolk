@@ -1,9 +1,7 @@
 <template>
     <v-card>
         <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
-        <v-snackbar v-model="snackbar">TEST
-            <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
-        </v-snackbar>
+        
         <v-divider/>
         <v-card-text>
             <v-list>

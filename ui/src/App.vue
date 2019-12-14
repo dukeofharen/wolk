@@ -40,9 +40,9 @@
                 <router-view></router-view>
             </v-container>
         </v-content>
-        <ToastMessages></ToastMessages>
-        <BottomButtonBar></BottomButtonBar>
-        <DocumentEvents></DocumentEvents>
+        <ToastMessages />
+        <BottomButtonBar />
+        <DocumentEvents />
     </v-app>
 </template>
 
