@@ -1,23 +1,40 @@
 <template>
     <v-card>
-        <v-card-title>Attachments</v-card-title>
+        <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
+        <v-divider/>
         <v-card-text>
-            <v-chip
-                    class="ma-2"
-                    color="indigo"
-                    text-color="white"
-                    close
-                    close-icon="mdi-delete"
-                    v-for="attachment of attachments"
-                    :key="attachment.id"
-                    @click="openAttachment(attachment)"
-                    @click:close="deleteAttachment(attachment)"
-            >
-                <v-avatar left>
-                    <v-icon>mdi-file</v-icon>
-                </v-avatar>
-                {{attachment.filename}} ({{attachment.fileSize | filesize}})
-            </v-chip>
+            <v-list>
+                <v-list-item-group>
+                    <v-list-item v-for="attachment of attachments" :key="attachment.id">
+                        <v-list-item-icon>
+                            <v-icon>mdi-file</v-icon>
+                            <v-icon>mdi-file</v-icon>
+                            <v-icon>mdi-file</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title @click="openAttachment(attachment)">
+                                {{attachment.filename}} ({{attachment.fileSize | filesize}})
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+            <!--            <v-chip-->
+            <!--                    class="ma-2"-->
+            <!--                    color="indigo"-->
+            <!--                    text-color="white"-->
+            <!--                    close-->
+            <!--                    close-icon="mdi-delete"-->
+            <!--                    v-for="attachment of attachments"-->
+            <!--                    :key="attachment.id"-->
+            <!--                    @click="openAttachment(attachment)"-->
+            <!--                    @click:close="deleteAttachment(attachment)"-->
+            <!--            >-->
+            <!--                <v-avatar left>-->
+            <!--                    <v-icon>mdi-file</v-icon>-->
+            <!--                </v-avatar>-->
+            <!--                {{attachment.filename}} ({{attachment.fileSize | filesize}})-->
+            <!--            </v-chip>-->
         </v-card-text>
         <v-card-actions>
             <v-btn
@@ -26,6 +43,7 @@
                     color="success"
             >Upload attachment
             </v-btn>
+            <v-btn @click="closeClick">Close</v-btn>
             <input
                     type="file"
                     name="file"
@@ -38,21 +56,23 @@
 </template>
 <script lang="ts">
     import {mapState} from "vuex";
-    import {Component, Vue, Watch, Prop} from "vue-property-decorator";
+    import {Component, Vue, Prop} from "vue-property-decorator";
     import Attachment from "../models/api/attachment";
     import {
         DownloadAttachmentQuery,
         UploadAttachmentCommand,
         DeleteAttachmentCommand
-    } from "../store/actions/attachments";
-    import {resources} from "../resources";
+    } from "@/store/actions/attachments";
+    import {resources} from "@/resources";
+    import {UiStateModel} from "@/models/store/uiStateModel";
 
     @Component({
         components: {},
-        computed: mapState(["attachments"])
+        computed: mapState(["attachments", "uiState"])
     })
     export default class Attachments extends Vue {
         attachments!: Attachment[];
+        uiState!: UiStateModel;
 
         @Prop()
         noteId!: number;
@@ -85,7 +105,6 @@
         }
 
         loadFromFile(ev: any) {
-            const file = ev.target.files[0];
             for (let file of ev.target.files) {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -104,6 +123,10 @@
                     this.$store.dispatch("uploadAttachment", command);
                 };
             }
+        }
+
+        closeClick() {
+            this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
         }
 
         private reloadData() {

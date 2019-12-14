@@ -27,10 +27,8 @@
                     @click="previewing = !previewing"
             >{{!previewing ? "Preview note" : "Go back to form"}}
             </v-btn>
-            <v-dialog v-model="attachmentsOpened" v-if="noteId">
-                <v-card>
-                    <Attachments :noteId="note.id"/>
-                </v-card>
+            <v-dialog scrollable v-model="uiState.attachmentDialogOpened" v-if="noteId">
+                <Attachments :noteId="note.id"/>
             </v-dialog>
 
             <div v-if="!previewing">
@@ -79,15 +77,16 @@
     import {Component, Vue, Watch} from "vue-property-decorator";
     import Note from "../models/api/note";
     import Notebook from "../models/api/notebook";
-    import {getNoteTypeArray, NoteType} from "../models/api/enums/noteType";
-    import {KeyValuePair} from "../models/keyValuePair";
-    import {resources} from "../resources";
+    import {getNoteTypeArray, NoteType} from "@/models/api/enums/noteType";
+    import {KeyValuePair} from "@/models/keyValuePair";
+    import {resources} from "@/resources";
     import NoteRender from "@/components/NoteRender.vue";
     import Attachments from "@/components/Attachments.vue";
+    import {UiStateModel} from "@/models/store/uiStateModel";
 
     @Component({
         components: {NoteRender, Attachments},
-        computed: mapState(["notebooks", "currentNote"]),
+        computed: mapState(["notebooks", "currentNote", "uiState"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;
             if (!form.formDirty || confirm(resources.unsavedChanges)) {
@@ -102,7 +101,7 @@
         note: Note = this.emptyNote();
         formDirty: boolean = false;
         previewing: boolean = false;
-        attachmentsOpened: boolean = false;
+        uiState!: UiStateModel;
 
         constructor() {
             super();
@@ -174,7 +173,7 @@
         }
 
         showAttachments() {
-            this.attachmentsOpened = !this.attachmentsOpened;
+            this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened; 
         }
     }
 </script>

@@ -59,7 +59,8 @@ const state: StateModel = {
     token: ''
   },
   uiState: {
-    isOnTop: true
+    isOnTop: true,
+    attachmentDialogOpened: false
   }
 };
 
