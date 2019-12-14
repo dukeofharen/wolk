@@ -17,7 +17,7 @@
                     label="Search"
                     prepend-inner-icon="mdi-magnify"
                     v-model="searchTerm"
-                    @keyup="searchTermChanged"
+                    @input="searchTermChanged"
                     v-if="isSignedIn"
             />
             <div class="flex-grow-1"></div>
