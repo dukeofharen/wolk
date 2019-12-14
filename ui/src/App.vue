@@ -41,7 +41,6 @@
             </v-container>
         </v-content>
         <ToastMessages/>
-        <BottomButtonBar/>
         <DocumentEvents/>
     </v-app>
 </template>
@@ -51,11 +50,10 @@
     import {Component, Vue} from "vue-property-decorator";
     import NotebookBar from "@/components/NotebookBar.vue";
     import ToastMessages from "@/components/ToastMessages.vue";
-    import BottomButtonBar from "@/components/BottomButtonBar.vue";
     import DocumentEvents from "@/components/DocumentEvents.vue";
 
     @Component({
-        components: {NotebookBar, ToastMessages, BottomButtonBar, DocumentEvents},
+        components: {NotebookBar, ToastMessages, DocumentEvents},
         computed: mapState(["notebooks"])
     })
     export default class App extends Vue {

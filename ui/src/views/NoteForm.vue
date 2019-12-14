@@ -59,6 +59,7 @@
                 <v-btn title="Preview note" @click="previewing = !previewing">
                     <v-icon>{{!previewing ? "mdi-eye-outline" : "mdi-arrow-left"}}</v-icon>
                 </v-btn>
+                <BackToTop/>
             </v-bottom-navigation>
         </v-col>
     </v-row>
@@ -75,9 +76,10 @@
     import NoteRender from "@/components/NoteRender.vue";
     import Attachments from "@/components/Attachments.vue";
     import {UiStateModel} from "@/models/store/uiStateModel";
+    import BackToTop from "@/components/BackToTop.vue";
 
     @Component({
-        components: {NoteRender, Attachments},
+        components: {NoteRender, Attachments, BackToTop},
         computed: mapState(["notebooks", "currentNote", "uiState"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;

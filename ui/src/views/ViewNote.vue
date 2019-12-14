@@ -35,6 +35,7 @@
                 <v-btn title="Delete note" @click="deleteNote">
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
+                <BackToTop/>
             </v-bottom-navigation>
         </v-col>
     </v-row>
@@ -49,9 +50,10 @@
     import NoteRender from "@/components/NoteRender.vue";
     import Attachments from "@/components/Attachments.vue";
     import {UiStateModel} from "@/models/store/uiStateModel";
+    import BackToTop from "@/components/BackToTop.vue";
 
     @Component({
-        components: {NoteRender, Attachments},
+        components: {NoteRender, Attachments, BackToTop},
         computed: mapState(["currentNote", "uiState"])
     })
     export default class ViewNote extends Vue {
