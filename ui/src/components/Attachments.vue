@@ -7,12 +7,10 @@
                 <v-list-item-group>
                     <v-list-item v-for="attachment of attachments" :key="attachment.id">
                         <v-list-item-icon>
-                            <v-icon>mdi-file</v-icon>
-                            <v-icon>mdi-file</v-icon>
-                            <v-icon>mdi-file</v-icon>
+                            <v-icon @click="deleteAttachment(attachment)">mdi-delete</v-icon>
                         </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title @click="openAttachment(attachment)">
+                        <v-list-item-content @click="openAttachment(attachment)">
+                            <v-list-item-title>
                                 {{attachment.filename}} ({{attachment.fileSize | filesize}})
                             </v-list-item-title>
                         </v-list-item-content>

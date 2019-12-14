@@ -13,6 +13,7 @@
             <v-btn
                     title="Attachments"
                     @click="showAttachments"
+                    v-if="noteId"
                     color="success"
             >Attachments
             </v-btn>
