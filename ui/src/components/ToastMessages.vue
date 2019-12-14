@@ -1,5 +1,5 @@
 <template>
-    <v-snackbar v-model="showSnackbar" :color="color" multi-line @click="executeCallback" :class="cssClass">
+    <v-snackbar v-model="showSnackbar" :color="color" multi-line @click="executeCallback" :class="cssClass" top>
         <span v-if="!multipleMessages">{{message.message}}</span>
         <span v-if="multipleMessages">
             <template v-for="text of message.message">{{text}}<br/></template>
