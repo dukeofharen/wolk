@@ -1,6 +1,9 @@
 <template>
     <v-card>
         <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
+        <v-snackbar v-model="snackbar">TEST
+            <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
+        </v-snackbar>
         <v-divider/>
         <v-card-text>
             <v-list>
@@ -8,7 +11,9 @@
                     <v-list-item v-for="attachment of attachments" :key="attachment.id">
                         <v-list-item-icon>
                             <v-icon @click="deleteAttachment(attachment)" title="Delete attachment">mdi-delete</v-icon>
-                            <v-icon @click="getAttachmentLink(attachment)" title="Get link for sharing or inserting attachment">mdi-link</v-icon>
+                            <v-icon @click="getAttachmentLink(attachment)"
+                                    title="Get link for sharing or inserting attachment">mdi-link
+                            </v-icon>
                         </v-list-item-icon>
                         <v-list-item-content @click="openAttachment(attachment)">
                             <v-list-item-title>
@@ -39,7 +44,7 @@
 </template>
 <script lang="ts">
     import {mapState} from "vuex";
-    import {Component, Vue, Prop} from "vue-property-decorator";
+    import {Component, Vue, Prop, Watch} from "vue-property-decorator";
     import Attachment from "../models/api/attachment";
     import {
         DownloadAttachmentQuery,
@@ -51,11 +56,13 @@
 
     @Component({
         components: {},
-        computed: mapState(["attachments", "uiState"])
+        computed: mapState(["attachments", "uiState", "attachmentAccessUrl"])
     })
     export default class Attachments extends Vue {
         attachments!: Attachment[];
         uiState!: UiStateModel;
+        attachmentAccessUrl!: string;
+        snackbar: boolean = true;
 
         @Prop()
         noteId!: number;
@@ -111,7 +118,7 @@
         closeClick() {
             this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
         }
-        
+
         getAttachmentLink(attachment: Attachment) {
             let command: CreateAttachmentAccessTokenCommand = {
                 attachmentId: attachment.id,
@@ -119,6 +126,13 @@
                 noteId: attachment.noteId
             };
             this.$store.dispatch("createAttachmentAccessToken", command);
+        }
+
+        @Watch("attachmentAccessUrl")
+        onCurrentNoteChanged(value: string) {
+            if (value) {
+
+            }
         }
 
         private reloadData() {

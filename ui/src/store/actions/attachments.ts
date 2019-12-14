@@ -71,7 +71,6 @@ export interface CreateAttachmentAccessTokenCommand {
 export function createAttachmentAccessToken({commit}: ActionContext<StateModel, StateModel>, command: CreateAttachmentAccessTokenCommand) {
     axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
         .then((response: AxiosResponse<AccessTokenResultModel>) => {
-            let location = response.headers['location'];
-            console.log(location);
+            store.state.attachmentAccessUrl = response.headers['location'];
         });
 }

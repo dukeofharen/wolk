@@ -19,7 +19,7 @@
                     v-model="searchTerm"
                     v-debounce:200ms="searchTermChanged"
                     v-if="isSignedIn"
-            ></v-text-field>
+            />
             <div class="flex-grow-1"></div>
         </v-app-bar>
 
