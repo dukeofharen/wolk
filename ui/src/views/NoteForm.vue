@@ -53,7 +53,7 @@
                 <v-btn title="Attachments" @click="showAttachments" v-if="noteId">
                     <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
-                <v-btn title="View note" @click="viewNote" v-if="viewNote">
+                <v-btn title="View note" @click="viewNote" v-if="noteId">
                     <v-icon>mdi-eye</v-icon>
                 </v-btn>
                 <v-btn title="Preview note" @click="previewing = !previewing">

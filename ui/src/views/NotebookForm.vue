@@ -7,11 +7,12 @@
         type="text"
         v-model="notebook.name"
         @change="onChange"
-      ></v-text-field>
-      <v-btn
-        color="success"
-        @click="saveNotebook"
-      >Save notebook</v-btn>
+      />
+      <v-bottom-navigation color="indigo" fixed>
+        <v-btn title="Save notebook" @click="saveNotebook">
+          <v-icon>mdi-content-save</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
     </v-col>
   </v-row>
 </template>

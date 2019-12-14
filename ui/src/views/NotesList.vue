@@ -3,34 +3,26 @@
     <v-col>
       <h1>{{currentNotebook.name}}</h1>
       <v-row>
-        <v-col class="buttons">
-          <v-btn
-            title="Add note"
-            :to="{ name: 'noteForm'}"
-            color="success"
-          >Add note</v-btn>
-          <v-btn
-            title="Update notebook"
-            :to="{ name: 'notebookForm', params: {id: currentNotebook.id}}"
-            color="success"
-          >Update notebook</v-btn>
-          <v-btn
-            title="Delete notebook"
-            @click="deleteNotebook"
-            color="error"
-          >Delete notebook</v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col>
           <OverviewNote
             v-for="note of notes"
             :key="note.id"
             v-bind:note="note"
-          ></OverviewNote>
+          />
         </v-col>
       </v-row>
     </v-col>
+    <v-bottom-navigation color="indigo" fixed>
+      <v-btn title="Add note" :to="{ name: 'noteForm'}">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <v-btn title="Update notebook" :to="{ name: 'notebookForm', params: {id: currentNotebook.id}}">
+        <v-icon>mdi-lead-pencil</v-icon>
+      </v-btn>
+      <v-btn title="Delete notebook" @click="deleteNotebook">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-row>
 </template>
 
