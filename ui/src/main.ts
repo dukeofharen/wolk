@@ -27,7 +27,6 @@ import '@/filters/filesize';
 import '@/utilities/primitiveOverrides';
 
 // Other Vue components
-Vue.use(require('vue-debounce'));
 Vue.use(require('vue-shortkey'));
 
 Vue.config.productionTip = false;
