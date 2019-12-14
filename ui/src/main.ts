@@ -15,9 +15,6 @@ import '@/interceptors/renewTokenInterceptor';
 // Fonts
 import 'typeface-roboto';
 
-// Toastr
-import 'toastr/build/toastr.css';
-
 // Style
 import '@/css/style.css';
 import { SignedInModel } from './models/api/signedInModel';
