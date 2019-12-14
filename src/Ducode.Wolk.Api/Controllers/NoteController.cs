@@ -170,7 +170,7 @@ namespace Ducode.Wolk.Api.Controllers
             var result = await Mediator.Send(command);
             return CreatedAtAction(
                 nameof(GetAttachmentByAccessToken),
-                new {noteId, attachmentId, token = result.Token},
+                new {noteId, attachmentId, token = result.Token, filename = result.Filename},
                 result);
         }
 
@@ -180,7 +180,7 @@ namespace Ducode.Wolk.Api.Controllers
         /// <param name="token"></param>
         /// <returns>The attachment binary.</returns>
         [AllowAnonymous]
-        [HttpGet("{noteId}/attachments/{attachmentId}/accessTokens/{token}")]
+        [HttpGet("{noteId}/attachments/{attachmentId}/accessTokens/{token}/{filename?}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetAttachmentByAccessToken([FromRoute]string token)

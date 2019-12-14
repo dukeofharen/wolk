@@ -37,11 +37,13 @@ namespace Ducode.Wolk.Application.Attachments.Commands.CreateAttachmentAccessTok
                 throw new NotFoundException(nameof(Attachment), request.AttachmentId);
             }
 
-            return await _createAccessTokenService.CreateAccessTokenAsync(
+            var result = await _createAccessTokenService.CreateAccessTokenAsync(
                 attachment.Id,
                 AccessTokenType.Attachment,
                 request.ExpirationDateTime,
                 cancellationToken);
+            result.Filename = attachment.Filename;
+            return result;
         }
     }
 }

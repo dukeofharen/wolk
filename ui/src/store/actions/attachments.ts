@@ -24,12 +24,16 @@ export interface DownloadAttachmentQuery {
 }
 
 export function downloadAttachment({commit}: ActionContext<StateModel, StateModel>, query: DownloadAttachmentQuery) {
-    axios.get(`${urls.rootUrl}api/note/${query.noteId}/attachments/${query.attachmentId}`, {responseType: 'blob'})
-        .then((response: AxiosResponse<any>) => {
-            let attachment = response.data;
-            let filename = getDownloadFilename(response.headers["content-disposition"]);
-
-            downloadBlob(filename, attachment);
+    let now = new Date();
+    let expiry = new Date(now.getTime() + 60000);
+    let command: CreateAttachmentAccessTokenCommand = {
+        attachmentId: query.attachmentId,
+        expirationDateTime: expiry,
+        noteId: query.noteId
+    };
+    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
+        .then((response: AxiosResponse<AccessTokenResultModel>) => {
+            document.location = response.headers['location'];
         });
 }
 
