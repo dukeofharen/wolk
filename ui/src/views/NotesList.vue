@@ -32,8 +32,8 @@
     import {Component, Vue, Watch} from "vue-property-decorator";
     import OverviewNote from "@/components/OverviewNote.vue";
     import Notebook from "../models/api/notebook";
-    import {resources} from "../resources";
-    import {LoadNotesQueryModel} from "../models/store/loadNotesQueryModel";
+    import {resources} from "@/resources";
+    import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import BackToTop from "@/components/BackToTop.vue";
 
     @Component({
@@ -45,6 +45,11 @@
 
         constructor() {
             super();
+        }
+        
+        beforeMount() {
+            this.$store.commit("SET_CURRENT_NOTEBOOK", this.emptyNotebook());
+            this.$store.commit("SET_NOTES", []);
         }
 
         mounted() {
@@ -65,6 +70,15 @@
             if (confirm(resources.areYouSureDeleteNotebook)) {
                 this.$store.dispatch("deleteNotebook", this.currentNotebook.id);
             }
+        }
+
+        emptyNotebook(): Notebook {
+            return {
+                id: 0,
+                name: "",
+                created: new Date(),
+                updated: new Date()
+            };
         }
 
         private reloadData() {
