@@ -6,13 +6,13 @@
             </transition>
             <v-row>
                 <v-col>
-                    <transition name="fade">
+                    <transition-group name="fade">
                         <OverviewNote
                                 v-for="note of notes"
                                 :key="note.id"
                                 v-bind:note="note"
                         />
-                    </transition>
+                    </transition-group>
                 </v-col>
             </v-row>
         </v-col>
