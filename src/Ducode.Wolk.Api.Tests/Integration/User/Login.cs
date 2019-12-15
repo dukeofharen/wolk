@@ -117,5 +117,29 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, notebookResponse.StatusCode);
         }
+
+        [TestMethod]
+        public async Task Authenticate_CredentialsCorrect_RehashPassword()
+        {
+            // Arrange
+            var pass = "Pass123";
+            var hash = PasswordUtilities.CreateDeprecatedPasswordHash(pass);
+            var url = "/api/user/authenticate";
+            var user = await WolkDbContext.CreateAndSaveUser(u => u.PasswordHash = hash);
+            var model = new SignInModel {Email = user.Email, Password = pass};
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
+            };
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            // Check that the password hash has changed
+            Assert.AreNotEqual(hash, user.PasswordHash);
+        }
     }
 }

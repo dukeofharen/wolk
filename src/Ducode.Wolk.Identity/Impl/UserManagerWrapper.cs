@@ -1,24 +1,25 @@
-using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Domain.Entities;
 using Ducode.Wolk.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ducode.Wolk.Identity.Impl
 {
     internal class UserManagerWrapper : IUserManager
     {
+        private readonly IPasswordHasher<User> _passwordHasher;
         private readonly UserManager<User> _userManager;
         private readonly IWolkDbContext _wolkDbContext;
 
         public UserManagerWrapper(
+            IPasswordHasher<User> passwordHasher,
             UserManager<User> userManager,
             IWolkDbContext wolkDbContext)
         {
+            _passwordHasher = passwordHasher;
             _userManager = userManager;
             _wolkDbContext = wolkDbContext;
         }
@@ -27,18 +28,9 @@ namespace Ducode.Wolk.Identity.Impl
 
         public async Task UpdatePasswordAsync(User user, string password)
         {
-            await AsserCorrectIdentityResult(() => _userManager.RemovePasswordAsync(user));
-            await AsserCorrectIdentityResult(() => _userManager.AddPasswordAsync(user, password));
+            var actualUser = await _wolkDbContext.Users.SingleAsync(u => u.Id == user.Id);
+            actualUser.PasswordHash = _passwordHasher.HashPassword(actualUser, password);
             await _wolkDbContext.SaveChangesAsync(CancellationToken.None);
-        }
-
-        private async Task AsserCorrectIdentityResult(Func<Task<IdentityResult>> action)
-        {
-            var result = await action();
-            if (!result.Succeeded)
-            {
-                throw new ValidationException(result.Errors.Select(e => e.Description));
-            }
         }
     }
 }
