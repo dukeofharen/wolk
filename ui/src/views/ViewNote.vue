@@ -32,7 +32,7 @@
                 <v-btn title="Attachments" @click="showAttachments" >
                     <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
-                <v-btn title="Delete note" @click="deleteNote">
+                <v-btn title="Delete note" @click="deleteNote" color="error">
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
                 <BackToTop/>

@@ -19,7 +19,7 @@
             <v-btn title="Update notebook" :to="{ name: 'notebookForm', params: {id: currentNotebook.id}}">
                 <v-icon>mdi-lead-pencil</v-icon>
             </v-btn>
-            <v-btn title="Delete notebook" @click="deleteNotebook">
+            <v-btn title="Delete notebook" @click="deleteNotebook" color="error">
                 <v-icon>mdi-delete</v-icon>
             </v-btn>
             <BackToTop/>
