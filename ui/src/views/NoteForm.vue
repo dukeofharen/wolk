@@ -91,7 +91,7 @@
         computed: mapState(["notebooks", "currentNote", "uiState"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;
-            if (form.contentHash === form.calculateHash() || confirm(resources.unsavedChanges)) {
+            if (form.calculateHash() === 0 || form.contentHash === form.calculateHash() || confirm(resources.unsavedChanges)) {
                 next();
             }
         }
@@ -178,7 +178,7 @@
         contentInput(e: InputEvent) {
             NoteForm.updateContentInputSize(e.target as HTMLElement);
         }
-        
+
         private static updateContentInputSize(element: HTMLElement) {
             if (element) {
                 element.style.height = `${element.scrollHeight}px`;
@@ -201,7 +201,11 @@
         }
 
         private calculateHash(): number {
-            let inputString = `${this.note.title}:${this.note.content}:${this.note.noteType}`;
+            if (!this.note.title && !this.note.content && !this.note.noteType && !this.note.notebookId) {
+                return 0;
+            }
+            
+            let inputString = `${this.note.title}:${this.note.content}:${this.note.noteType}:${this.note.notebookId}`;
             return inputString.hashCode();
         }
     }
