@@ -15,4 +15,5 @@ export interface StateModel {
     signedInUser: SignedInModel;
     uiState: UiStateModel;
     attachmentAccessUrl: string;
+    pageSubTitle: string;
 }
