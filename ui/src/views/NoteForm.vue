@@ -91,7 +91,7 @@
         computed: mapState(["notebooks", "currentNote", "uiState"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;
-            if (!form.formDirty || confirm(resources.unsavedChanges)) {
+            if (form.contentHash === form.calculateHash() || confirm(resources.unsavedChanges)) {
                 next();
             }
         }
@@ -101,9 +101,9 @@
         noteTypeNames: Array<KeyValuePair<NoteType, string>> = getNoteTypeArray();
         notebooks!: Notebook[];
         note: Note = this.emptyNote();
-        formDirty: boolean = false;
         previewing: boolean = false;
         showMeta: boolean = true;
+        contentHash: number = 0;
         uiState!: UiStateModel;
 
         constructor() {
@@ -120,14 +120,14 @@
         onCurrentNoteChanged(value: Note) {
             this.note = value;
             this.$store.commit("SET_PAGE_SUB_TITLE", value.title);
+            this.contentHash = this.calculateHash();
         }
 
         mounted() {
             this.reloadData();
         }
 
-        onChange(e: any) {
-            this.formDirty = true;
+        onChange() {
             this.$store.commit("SET_PAGE_SUB_TITLE", this.note.title);
         }
 
@@ -149,27 +149,11 @@
                 });
             }
 
-            this.formDirty = false;
+            this.contentHash = this.calculateHash();
         }
 
         viewNote() {
             this.$router.push({name: "viewNote", params: <any>{id: this.noteId}});
-        }
-
-        private reloadData() {
-            this.noteId = <string>this.$route.params.id;
-            if (!this.noteId) {
-                this.note = this.emptyNote();
-            } else {
-                this.$store.dispatch("loadNote", this.noteId);
-            }
-
-            this.previewing = false;
-            this.formDirty = false;
-            let notebookId = <string>this.$route.query.notebookId;
-            if (notebookId) {
-                this.note.notebookId = parseInt(notebookId);
-            }
         }
 
         emptyNote(): Note {
@@ -188,6 +172,26 @@
 
         showAttachments() {
             this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
+        }
+
+        private reloadData() {
+            this.noteId = <string>this.$route.params.id;
+            if (!this.noteId) {
+                this.note = this.emptyNote();
+            } else {
+                this.$store.dispatch("loadNote", this.noteId);
+            }
+
+            this.previewing = false;
+            let notebookId = <string>this.$route.query.notebookId;
+            if (notebookId) {
+                this.note.notebookId = parseInt(notebookId);
+            }
+        }
+        
+        private calculateHash(): number {
+            let inputString = `${this.note.title}:${this.note.content}:${this.note.noteType}`;
+            return inputString.hashCode();
         }
     }
 </script>
