@@ -181,7 +181,7 @@
                 preview: "",
                 noteType: NoteType.NotSet,
                 created: new Date(),
-                updated: new Date(),
+                changed: new Date(),
                 opened: new Date()
             };
         }

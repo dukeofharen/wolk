@@ -1,27 +1,36 @@
 <template>
     <v-row>
         <v-col>
-            <h1>{{note.title}}</h1>
+            <transition name="fade">
+                <h1 v-if="note.title">{{note.title}}</h1>
+            </transition>
             <div>
-                <v-chip title="Date/time created">
-                    <v-icon left>mdi-clock</v-icon>
-                    {{note.created | datetime}}
-                </v-chip>
-                <v-chip
-                        title="Date/time updated"
-                        v-if="note.changed"
-                >
-                    <v-icon left>mdi-clock</v-icon>
-                    {{note.changed | datetime}}
-                </v-chip>
+                <transition name="fade">
+                    <v-chip title="Date/time created" v-if="note.created">
+                        <v-icon left>mdi-clock</v-icon>
+                        {{note.created | datetime}}
+                    </v-chip>
+                </transition>
+                <transition name="fade">
+                    <v-chip
+                            title="Date/time updated"
+                            v-if="note.changed"
+                    >
+                        <v-icon left>mdi-clock</v-icon>
+                        {{note.changed | datetime}}
+                    </v-chip>
+                </transition>
             </div>
             <v-dialog scrollable v-model="uiState.attachmentDialogOpened">
                 <Attachments :noteId="note.id"/>
             </v-dialog>
-            <NoteRender
-                    :contents="note.content"
-                    :noteType="note.noteType"
-            />
+            <transition name="fade">
+                <NoteRender
+                        v-if="note.content"
+                        :contents="note.content"
+                        :noteType="note.noteType"
+                />
+            </transition>
             <v-bottom-navigation color="indigo" fixed>
                 <v-btn title="Update note" :to="{ name: 'noteForm', params: {id: note.id}}">
                     <v-icon>mdi-lead-pencil</v-icon>
@@ -29,7 +38,7 @@
                 <v-btn title="Reload note" @click="reloadData">
                     <v-icon>mdi-refresh</v-icon>
                 </v-btn>
-                <v-btn title="Attachments" @click="showAttachments" >
+                <v-btn title="Attachments" @click="showAttachments">
                     <v-icon>mdi-paperclip</v-icon>
                 </v-btn>
                 <v-btn title="Delete note" @click="deleteNote" color="error">
@@ -68,7 +77,7 @@
             preview: "",
             noteType: NoteType.NotSet,
             created: new Date(),
-            updated: new Date(),
+            changed: new Date(),
             opened: new Date()
         };
         uiState!: UiStateModel;

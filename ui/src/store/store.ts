@@ -54,7 +54,7 @@ const state: StateModel = {
         preview: '',
         title: '',
         noteType: NoteType.NotSet,
-        updated: new Date(),
+        changed: new Date(),
         opened: new Date()
     },
     notes: [],

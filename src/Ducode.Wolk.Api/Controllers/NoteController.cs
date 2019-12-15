@@ -154,6 +154,7 @@ namespace Ducode.Wolk.Api.Controllers
         /// <summary>
         /// An endpoint where access tokens can be created for sharing attachments.
         /// </summary>
+        /// <param name="noteId"></param>
         /// <param name="attachmentId">The attachment ID.</param>
         /// <param name="model">The model.</param>
         /// <returns>The created token.</returns>
