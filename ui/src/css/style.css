@@ -14,6 +14,11 @@ input[type="file"] {
     display: none;
 }
 
+.v-item-group.v-bottom-navigation .v-btn {
+    min-width: 0;
+    width: 55px;
+}
+
 /* Animations */
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
