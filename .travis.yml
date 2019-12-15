@@ -3,7 +3,7 @@ mono: none
 dotnet: 3.1.100
 branches:
   only:
-    - manually
+    - master
 before_install:
 - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash
 - nvm install node
