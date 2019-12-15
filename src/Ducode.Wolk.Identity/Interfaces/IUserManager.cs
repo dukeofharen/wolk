@@ -7,5 +7,7 @@ namespace Ducode.Wolk.Identity.Interfaces
     internal interface IUserManager
     {
         Task<IdentityResult> CreateAsync(User user, string password);
+
+        Task UpdatePasswordAsync(User user, string password);
     }
 }
