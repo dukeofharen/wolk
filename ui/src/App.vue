@@ -6,10 +6,7 @@
                 color="blue lighten-1"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer"/>
-            <span class="title ml-3 mr-5">
-        Wolk&nbsp;
-        <span class="font-weight-light">Notes</span>
-      </span>
+            <span class="title ml-3 mr-5">Wolk&nbsp;</span>
             <v-text-field
                     solo-inverted
                     flat
