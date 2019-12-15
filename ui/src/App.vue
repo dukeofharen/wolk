@@ -34,7 +34,9 @@
                     fluid
                     class="lighten-4"
             >
-                <router-view/>
+                <transition name="fade" mode="out-in">
+                    <router-view :key="'a' + $route.params.id"/>
+                </transition>
             </v-container>
         </v-content>
         <ToastMessages/>
@@ -66,7 +68,7 @@
             if (this.timeoutRef) {
                 clearTimeout(this.timeoutRef);
             }
-            
+
             this.timeoutRef = setTimeout(() => {
                 if (this.searchTerm) {
                     this.$router.push({

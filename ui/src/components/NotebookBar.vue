@@ -1,59 +1,69 @@
 <template>
     <v-row>
         <v-col>
-            <v-list-item
-                    :to="{ name: 'noteForm'}"
-                    v-if="isSignedIn && notebooks.length > 0"
-            >
-                <v-list-item-action>
-                    <v-icon>mdi-plus</v-icon>
-                </v-list-item-action>
-                <v-list-item-title class="grey--text">Add note</v-list-item-title>
-            </v-list-item>
-            <v-list-item
-                    :to="{ name: 'notebookForm'}"
-                    v-if="isSignedIn"
-            >
-                <v-list-item-action>
-                    <v-icon>mdi-plus</v-icon>
-                </v-list-item-action>
-                <v-list-item-title class="grey--text">Add notebook</v-list-item-title>
-            </v-list-item>
-            <v-list-item
-                    @click="logOut"
-                    v-if="isSignedIn"
-            >
-                <v-list-item-action>
-                    <v-icon>mdi-exit-to-app</v-icon>
-                </v-list-item-action>
-                <v-list-item-title class="grey--text">Log out</v-list-item-title>
-            </v-list-item>
-            <v-divider
-                    dark
-                    class="my-4"
-                    v-if="isSignedIn"
-            />
-            <div v-if="isSignedIn">
+            <transition name="fade">
                 <v-list-item
-                        :to="{ name: 'overview'}"
+                        :to="{ name: 'noteForm'}"
+                        v-if="isSignedIn && notebooks.length > 0"
+                >
+                    <v-list-item-action>
+                        <v-icon>mdi-plus</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title class="grey--text">Add note</v-list-item-title>
+                </v-list-item>
+            </transition>
+            <transition name="fade">
+                <v-list-item
+                        :to="{ name: 'notebookForm'}"
                         v-if="isSignedIn"
                 >
                     <v-list-item-action>
-                        <v-icon>mdi-view-list</v-icon>
+                        <v-icon>mdi-plus</v-icon>
                     </v-list-item-action>
-                    <v-list-item-title class="grey--text">Note overview</v-list-item-title>
+                    <v-list-item-title class="grey--text">Add notebook</v-list-item-title>
                 </v-list-item>
+            </transition>
+            <transition name="fade">
                 <v-list-item
-                        :to="{ name: 'notesList', params: {id: notebook.id}}"
-                        v-for="notebook of notebooks"
-                        :key="notebook.id"
+                        @click="logOut"
+                        v-if="isSignedIn"
                 >
                     <v-list-item-action>
-                        <v-icon>mdi-notebook</v-icon>
+                        <v-icon>mdi-exit-to-app</v-icon>
                     </v-list-item-action>
-                    <v-list-item-title class="grey--text">{{notebook.name}}</v-list-item-title>
+                    <v-list-item-title class="grey--text">Log out</v-list-item-title>
                 </v-list-item>
-            </div>
+            </transition>
+            <transition name="fade">
+                <v-divider
+                        dark
+                        class="my-4"
+                        v-if="isSignedIn"
+                />
+            </transition>
+            <transition name="fade">
+                <div v-if="isSignedIn">
+                    <v-list-item
+                            :to="{ name: 'overview'}"
+                            v-if="isSignedIn"
+                    >
+                        <v-list-item-action>
+                            <v-icon>mdi-view-list</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-title class="grey--text">Note overview</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                            :to="{ name: 'notesList', params: {id: notebook.id}}"
+                            v-for="notebook of notebooks"
+                            :key="notebook.id"
+                    >
+                        <v-list-item-action>
+                            <v-icon>mdi-notebook</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-title class="grey--text">{{notebook.name}}</v-list-item-title>
+                    </v-list-item>
+                </div>
+            </transition>
         </v-col>
     </v-row>
 </template>
