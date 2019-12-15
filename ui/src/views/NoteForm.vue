@@ -64,7 +64,7 @@
                 <v-btn title="View note" @click="viewNote" v-if="noteId">
                     <v-icon>mdi-eye</v-icon>
                 </v-btn>
-                <v-btn title="Preview note" @click="previewing = !previewing">
+                <v-btn title="Preview note" @click="togglePreview">
                     <v-icon>{{!previewing ? "mdi-eye-outline" : "mdi-arrow-left"}}</v-icon>
                 </v-btn>
                 <BackToTop/>
@@ -177,6 +177,11 @@
 
         contentInput(e: InputEvent) {
             NoteForm.updateContentInputSize(e.target as HTMLElement);
+        }
+        
+        togglePreview() {
+            this.previewing = !this.previewing;
+            setTimeout(() => NoteForm.updateContentInputSize(this.$refs.content as HTMLElement), 10);
         }
 
         private static updateContentInputSize(element: HTMLElement) {

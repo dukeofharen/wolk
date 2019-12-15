@@ -9,6 +9,7 @@ using Ducode.Wolk.Application.Users.Models;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Utilities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -62,12 +63,13 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             var result = new JwtSecurityTokenHandler().ValidateToken(viewModel.Token,
-            new TokenValidationParameters
-            {
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IdentityConfiguration.JwtSecret)),
-                ValidateAudience = false,
-                ValidateIssuer = false
-            }, out var validatedToken);
+                new TokenValidationParameters
+                {
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IdentityConfiguration.JwtSecret)),
+                    ValidateAudience = false,
+                    ValidateIssuer = false
+                }, out var validatedToken);
 
             Assert.AreEqual(user.Id.ToString(), result.Claims.Single(c => c.Type == "sub").Value);
 
@@ -116,6 +118,35 @@ namespace Ducode.Wolk.Api.Tests.Integration.User
 
             // Assert
             Assert.AreEqual(HttpStatusCode.Unauthorized, notebookResponse.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Authenticate_CredentialsCorrect_RehashPassword()
+        {
+            // Arrange
+            var pass = "Pass123";
+            var hash = PasswordUtilities.CreateDeprecatedPasswordHash(pass);
+            var url = "/api/user/authenticate";
+            var user = await WolkDbContext.CreateAndSaveUser(u => u.PasswordHash = hash);
+            var model = new SignInModel {Email = user.Email, Password = pass};
+            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, MimeTypes.Json)
+            };
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            // Check that the password hash has changed
+            Assert.AreNotEqual(hash, user.PasswordHash);
+
+            var passwordHasher = new PasswordHasher<Domain.Entities.User>();
+            Assert.AreEqual(
+                PasswordVerificationResult.Success,
+                passwordHasher.VerifyHashedPassword(user, user.PasswordHash, pass));
         }
     }
 }

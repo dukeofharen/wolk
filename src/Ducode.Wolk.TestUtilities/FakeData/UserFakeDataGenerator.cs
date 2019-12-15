@@ -28,9 +28,10 @@ namespace Ducode.Wolk.TestUtilities.FakeData
             return user;
         }
 
-        public static async Task<User> CreateAndSaveUser(this IWolkDbContext wolkDbContext)
+        public static async Task<User> CreateAndSaveUser(this IWolkDbContext wolkDbContext, Action<User> action = null)
         {
             var user = CreateUser();
+            action?.Invoke(user);
             wolkDbContext.Users.Add(user);
             await wolkDbContext.SaveChangesAsync(CancellationToken.None);
             return user;
