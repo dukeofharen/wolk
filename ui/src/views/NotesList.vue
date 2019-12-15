@@ -1,14 +1,18 @@
 <template>
     <v-row>
         <v-col>
-            <h1>{{currentNotebook.name}}</h1>
+            <transition name="fade">
+                <h1 v-if="currentNotebook.name">{{currentNotebook.name}}</h1>
+            </transition>
             <v-row>
                 <v-col>
-                    <OverviewNote
-                            v-for="note of notes"
-                            :key="note.id"
-                            v-bind:note="note"
-                    />
+                    <transition name="fade">
+                        <OverviewNote
+                                v-for="note of notes"
+                                :key="note.id"
+                                v-bind:note="note"
+                        />
+                    </transition>
                 </v-col>
             </v-row>
         </v-col>
@@ -46,7 +50,7 @@
         constructor() {
             super();
         }
-        
+
         beforeMount() {
             this.$store.commit("SET_CURRENT_NOTEBOOK", this.emptyNotebook());
             this.$store.commit("SET_NOTES", []);
@@ -60,7 +64,7 @@
         onRouteChanged() {
             this.reloadData();
         }
-        
+
         @Watch("currentNotebook")
         onCurrentNotebookChanged(newValue: Notebook) {
             this.$store.commit("SET_PAGE_SUB_TITLE", newValue.name);
