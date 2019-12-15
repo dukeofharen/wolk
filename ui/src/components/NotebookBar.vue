@@ -32,7 +32,7 @@
                     dark
                     class="my-4"
                     v-if="isSignedIn"
-            ></v-divider>
+            />
             <div v-if="isSignedIn">
                 <v-list-item
                         :to="{ name: 'overview'}"

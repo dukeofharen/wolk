@@ -1,5 +1,5 @@
 <template>
-  <v-row v-shortkey="['ctrl', 's']" @shortkey="saveNotebook">
+  <v-row v-shortkey="{ctrls: ['ctrl', 's'], enter: ['enter']}" @shortkey="saveNotebook">
     <v-col>
       <h1>{{notebookId ? "Update" : "Create"}} notebook</h1>
       <v-text-field
@@ -21,8 +21,8 @@
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Notebook from "../models/api/notebook";
-import { resources } from "../resources";
-import { UpdateNotebookCommand } from "../store/actions/notebooks";
+import { resources } from "@/resources";
+import { UpdateNotebookCommand } from "@/store/actions/notebooks";
 
 @Component({
   components: {},
