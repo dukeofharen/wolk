@@ -18,7 +18,7 @@
     import {mapState} from "vuex";
     import {Component, Vue, Watch} from "vue-property-decorator";
     import OverviewNote from "@/components/OverviewNote.vue";
-    import {LoadNotesQueryModel} from "../models/store/loadNotesQueryModel";
+    import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import BackToTop from "@/components/BackToTop.vue";
 
     @Component({

@@ -15,30 +15,38 @@
                         type="text"
                         v-model="note.title"
                         @keyup="onChange"
+                        @focus="showMetaInputs"
                 />
-                <v-select
-                        :items="notebooks"
-                        placeholder="Select notebook..."
-                        v-model="note.notebookId"
-                        item-text="name"
-                        item-value="id"
-                        clearable
-                        @change="onChange"
-                />
-                <v-select
-                        :items="noteTypeNames"
-                        placeholder="Select note type..."
-                        v-model="note.noteType"
-                        item-text="value"
-                        item-value="key"
-                        clearable
-                        @change="onChange"
-                />
+                <transition name="fade">
+                    <v-select
+                            :items="notebooks"
+                            placeholder="Select notebook..."
+                            v-model="note.notebookId"
+                            item-text="name"
+                            item-value="id"
+                            clearable
+                            @change="onChange"
+                            v-if="showMeta"
+                    />
+                </transition>
+                <transition name="fade">
+                    <v-select
+                            :items="noteTypeNames"
+                            placeholder="Select note type..."
+                            v-model="note.noteType"
+                            item-text="value"
+                            item-value="key"
+                            clearable
+                            @change="onChange"
+                            v-if="showMeta"
+                    />
+                </transition>
                 <v-textarea
                         label="Note contents"
                         v-model="note.content"
                         auto-grow
                         @change="onChange"
+                        @focus="hideMetaInputs"
                 />
             </div>
             <NoteRender
@@ -95,6 +103,7 @@
         note: Note = this.emptyNote();
         formDirty: boolean = false;
         previewing: boolean = false;
+        showMeta: boolean = true;
         uiState!: UiStateModel;
 
         constructor() {
@@ -104,6 +113,7 @@
         @Watch("$route")
         onRouteChanged() {
             this.reloadData();
+            this.showMetaInputs()
         }
 
         @Watch("currentNote")
@@ -117,6 +127,14 @@
 
         onChange(e: any) {
             this.formDirty = true;
+        }
+
+        hideMetaInputs() {
+            this.showMeta = false;
+        }
+
+        showMetaInputs() {
+            this.showMeta = true;
         }
 
         saveNote() {
@@ -167,7 +185,7 @@
         }
 
         showAttachments() {
-            this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened; 
+            this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
         }
     }
 </script>
