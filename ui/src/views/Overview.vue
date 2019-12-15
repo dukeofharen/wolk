@@ -32,6 +32,7 @@
 
         mounted() {
             this.loadNotes();
+            this.$store.commit("SET_PAGE_SUB_TITLE", "Notes overview");
         }
 
         @Watch("$route")

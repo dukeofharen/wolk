@@ -19,10 +19,17 @@
                 }
             });
         }
-        
+
         @Watch("pageSubTitle")
         onPageSubTitleChanged(newValue: string) {
-            console.log(newValue);
+            let title;
+            if (newValue) {
+                title = `${newValue} - Wolk`;
+            } else {
+                title = "Wolk";
+            }
+            
+            document.title = title;
         }
     }
 </script>

@@ -6,7 +6,7 @@
         label="Notebook name"
         type="text"
         v-model="notebook.name"
-        @change="onChange"
+        @keyup="onChange"
       />
       <v-bottom-navigation color="indigo" fixed>
         <v-btn title="Save notebook" @click="saveNotebook">
@@ -46,6 +46,7 @@ export default class NotebookForm extends Vue {
   @Watch("currentNotebook")
   onCurrentNotebookChanged(value: Notebook) {
     this.notebook = value;
+    this.$store.commit("SET_PAGE_SUB_TITLE", value.name);
   }
 
   @Watch("$route")
@@ -74,6 +75,7 @@ export default class NotebookForm extends Vue {
 
   onChange() {
     this.formDirty = true;
+    this.$store.commit("SET_PAGE_SUB_TITLE", this.notebook.name);
   }
 
   private reloadData() {

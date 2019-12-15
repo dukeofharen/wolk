@@ -53,6 +53,7 @@
 
         mounted() {
             this.handleLogin();
+            this.$store.commit("SET_PAGE_SUB_TITLE", "Log in");
         }
 
         get signedInUser(): SignedInModel {

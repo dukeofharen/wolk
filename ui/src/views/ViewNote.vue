@@ -84,6 +84,7 @@
         @Watch("currentNote")
         onCurrentNoteChanged(value: Note) {
             this.note = value;
+            this.$store.commit("SET_PAGE_SUB_TITLE", value.title);
         }
 
         @Watch("$route")

@@ -55,6 +55,11 @@
         onRouteChanged() {
             this.reloadData();
         }
+        
+        @Watch("currentNotebook")
+        onCurrentNotebookChanged(newValue: Notebook) {
+            this.$store.commit("SET_PAGE_SUB_TITLE", newValue.name);
+        }
 
         deleteNotebook() {
             if (confirm(resources.areYouSureDeleteNotebook)) {
