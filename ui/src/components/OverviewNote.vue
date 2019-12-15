@@ -1,9 +1,9 @@
 <template>
   <v-row>
     <v-col>
-      <v-card @click="viewNote">
-        <v-card-title>{{note.title}}</v-card-title>
-        <v-card-text>
+      <v-card>
+        <v-card-title><v-btn text :to="{ name: 'noteForm', params: {id: note.id}}"><v-icon>mdi-lead-pencil</v-icon></v-btn><span @click="viewNote">{{note.title}}</span></v-card-title>
+        <v-card-text @click="viewNote">
           <div>
             <v-chip title="Date/time created">
               <v-icon left>mdi-clock</v-icon>{{note.created | datetime}}
@@ -53,4 +53,7 @@ export default class OverviewNote extends Vue {
 </script>
 
 <style scoped>
+  .v-card {
+    cursor: pointer;
+  }
 </style>
