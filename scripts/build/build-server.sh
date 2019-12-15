@@ -19,7 +19,7 @@ find "$SRC_FOLDER" -name "*.Tests.csproj" | while read FILENAME; do
 done
 
 # Build for Windows
-WIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.0/win-x64/publish"
+WIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
 ZIP_LOCATION="$DIST_FOLDER/wolk_windows.zip"
 
 echo "Building Wolk for Windows"
@@ -32,7 +32,7 @@ cd "$WIN_BIN_DIR"
 zip -r "$ZIP_LOCATION" .
 
 # Build for Linux
-LIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.0/linux-x64/publish"
+LIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
 TAR_LOCATION="$DIST_FOLDER/wolk_linux.tar.gz"
 
 echo "Building Wolk for Linux"
