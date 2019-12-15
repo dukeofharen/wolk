@@ -26,9 +26,9 @@
                     title="Upload attachment"
                     @click="uploadAttachment"
                     color="success"
-            >Upload attachment
+            ><v-icon>mdi-cloud-upload</v-icon>
             </v-btn>
-            <v-btn @click="closeClick">Close</v-btn>
+            <v-btn @click="closeClick" title="Close dialog"><v-icon>mdi-close</v-icon></v-btn>
             <input
                     type="file"
                     name="file"

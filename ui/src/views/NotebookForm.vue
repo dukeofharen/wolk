@@ -1,17 +1,18 @@
 <template>
-  <v-row v-shortkey="['ctrl', 's']" @shortkey="saveNotebook">
+  <v-row v-shortkey="{ctrls: ['ctrl', 's'], enter: ['enter']}" @shortkey="saveNotebook">
     <v-col>
       <h1>{{notebookId ? "Update" : "Create"}} notebook</h1>
       <v-text-field
         label="Notebook name"
         type="text"
         v-model="notebook.name"
-        @change="onChange"
-      ></v-text-field>
-      <v-btn
-        color="success"
-        @click="saveNotebook"
-      >Save notebook</v-btn>
+        @keyup="onChange"
+      />
+      <v-bottom-navigation color="indigo" fixed>
+        <v-btn title="Save notebook" @click="saveNotebook">
+          <v-icon>mdi-content-save</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
     </v-col>
   </v-row>
 </template>
@@ -20,8 +21,8 @@
 import { mapState } from "vuex";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Notebook from "../models/api/notebook";
-import { resources } from "../resources";
-import { UpdateNotebookCommand } from "../store/actions/notebooks";
+import { resources } from "@/resources";
+import { UpdateNotebookCommand } from "@/store/actions/notebooks";
 
 @Component({
   components: {},
@@ -45,6 +46,7 @@ export default class NotebookForm extends Vue {
   @Watch("currentNotebook")
   onCurrentNotebookChanged(value: Notebook) {
     this.notebook = value;
+    this.$store.commit("SET_PAGE_SUB_TITLE", value.name);
   }
 
   @Watch("$route")
@@ -73,6 +75,7 @@ export default class NotebookForm extends Vue {
 
   onChange() {
     this.formDirty = true;
+    this.$store.commit("SET_PAGE_SUB_TITLE", this.notebook.name);
   }
 
   private reloadData() {

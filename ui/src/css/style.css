@@ -1,10 +1,11 @@
-.toast {
-    font-family: "Roboto", sans-serif;
+body{
+    margin-bottom: 40px;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }
 
-.v-btn {
-    margin-right: 10px;
-    margin-top: 10px;
+.toast {
+    font-family: "Roboto", sans-serif;
 }
 
 .v-chip {
@@ -13,4 +14,17 @@
 
 input[type="file"] {
     display: none;
+}
+
+.v-item-group.v-bottom-navigation .v-btn {
+    min-width: 0;
+    width: 55px;
+}
+
+/* Animations */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }

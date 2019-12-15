@@ -12,7 +12,7 @@ import {SET_NOTEBOOKS, SET_CURRENT_NOTEBOOK} from '@/store/mutations/notebooks';
 import {SET_NOTES, SET_CURRENT_NOTE} from '@/store/mutations/notes';
 import {SET_MESSAGE} from '@/store/mutations/general';
 import {SET_SIGNED_IN_USER, UNSET_SIGNED_IN_USER} from '@/store/mutations/users';
-import {SET_IS_ON_TOP} from "@/store/mutations/ui";
+import {SET_IS_ON_TOP, SET_PAGE_SUB_TITLE} from "@/store/mutations/ui";
 
 import {
     loadAttachments,
@@ -54,7 +54,7 @@ const state: StateModel = {
         preview: '',
         title: '',
         noteType: NoteType.NotSet,
-        updated: new Date(),
+        changed: new Date(),
         opened: new Date()
     },
     notes: [],
@@ -68,7 +68,8 @@ const state: StateModel = {
         isOnTop: true,
         attachmentDialogOpened: false
     },
-    attachmentAccessUrl: ""
+    attachmentAccessUrl: "",
+    pageSubTitle: ""
 };
 
 export default new Vuex.Store({
@@ -82,7 +83,8 @@ export default new Vuex.Store({
         SET_MESSAGE,
         SET_SIGNED_IN_USER,
         UNSET_SIGNED_IN_USER,
-        SET_IS_ON_TOP
+        SET_IS_ON_TOP,
+        SET_PAGE_SUB_TITLE
     },
     actions: {
         loadAttachments,

@@ -8,6 +8,6 @@ export default interface Note {
     noteType: NoteType;
     notebookId: number;
     created: Date;
-    updated: Date;
+    changed: Date;
     opened: Date;
 }

@@ -6,10 +6,7 @@
                 color="blue lighten-1"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer"/>
-            <span class="title ml-3 mr-5">
-        Wolk&nbsp;
-        <span class="font-weight-light">Notes</span>
-      </span>
+            <span class="title ml-3 mr-5">Wolk&nbsp;</span>
             <v-text-field
                     solo-inverted
                     flat
@@ -17,7 +14,7 @@
                     label="Search"
                     prepend-inner-icon="mdi-magnify"
                     v-model="searchTerm"
-                    @keyup="searchTermChanged"
+                    @input="searchTermChanged"
                     v-if="isSignedIn"
             />
             <div class="flex-grow-1"></div>
@@ -37,11 +34,12 @@
                     fluid
                     class="lighten-4"
             >
-                <router-view/>
+                <transition name="fade" mode="out-in">
+                    <router-view :key="'a' + $route.params.id"/>
+                </transition>
             </v-container>
         </v-content>
         <ToastMessages/>
-        <BottomButtonBar/>
         <DocumentEvents/>
     </v-app>
 </template>
@@ -51,11 +49,10 @@
     import {Component, Vue} from "vue-property-decorator";
     import NotebookBar from "@/components/NotebookBar.vue";
     import ToastMessages from "@/components/ToastMessages.vue";
-    import BottomButtonBar from "@/components/BottomButtonBar.vue";
     import DocumentEvents from "@/components/DocumentEvents.vue";
 
     @Component({
-        components: {NotebookBar, ToastMessages, BottomButtonBar, DocumentEvents},
+        components: {NotebookBar, ToastMessages, DocumentEvents},
         computed: mapState(["notebooks"])
     })
     export default class App extends Vue {
@@ -71,7 +68,7 @@
             if (this.timeoutRef) {
                 clearTimeout(this.timeoutRef);
             }
-            
+
             this.timeoutRef = setTimeout(() => {
                 if (this.searchTerm) {
                     this.$router.push({

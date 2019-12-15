@@ -3,9 +3,12 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
+    import {Component, Vue, Watch} from "vue-property-decorator";
+    import {mapState} from "vuex";
 
-    @Component
+    @Component({
+        computed: mapState(["pageSubTitle"])
+    })
     export default class DocumentEvents extends Vue {
         constructor() {
             super();
@@ -15,6 +18,18 @@
                     this.$store.commit('SET_IS_ON_TOP', isOnTop);
                 }
             });
+        }
+
+        @Watch("pageSubTitle")
+        onPageSubTitleChanged(newValue: string) {
+            let title;
+            if (newValue) {
+                title = `${newValue} - Wolk`;
+            } else {
+                title = "Wolk";
+            }
+            
+            document.title = title;
         }
     }
 </script>
