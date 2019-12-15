@@ -41,12 +41,12 @@
                             v-if="showMeta"
                     />
                 </transition>
-                <v-textarea
-                        label="Note contents"
+                <textarea
                         v-model="note.content"
-                        auto-grow
-                        @change="onChange"
+                        @input="contentInput"
                         @focus="hideMetaInputs"
+                        placeholder="Note contents..."
+                        ref="content"
                 />
             </div>
             <NoteRender
@@ -121,6 +121,7 @@
             this.note = value;
             this.$store.commit("SET_PAGE_SUB_TITLE", value.title);
             this.contentHash = this.calculateHash();
+            setTimeout(() => NoteForm.updateContentInputSize(this.$refs.content as HTMLElement), 10);
         }
 
         mounted() {
@@ -174,6 +175,16 @@
             this.uiState.attachmentDialogOpened = !this.uiState.attachmentDialogOpened;
         }
 
+        contentInput(e: InputEvent) {
+            NoteForm.updateContentInputSize(e.target as HTMLElement);
+        }
+        
+        private static updateContentInputSize(element: HTMLElement) {
+            if (element) {
+                element.style.height = `${element.scrollHeight}px`;
+            }
+        }
+
         private reloadData() {
             this.noteId = <string>this.$route.params.id;
             if (!this.noteId) {
@@ -188,10 +199,16 @@
                 this.note.notebookId = parseInt(notebookId);
             }
         }
-        
+
         private calculateHash(): number {
             let inputString = `${this.note.title}:${this.note.content}:${this.note.noteType}`;
             return inputString.hashCode();
         }
     }
 </script>
+<style scoped>
+    textarea {
+        width: 100%;
+        resize: none;
+    }
+</style>
