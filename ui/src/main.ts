@@ -7,11 +7,6 @@ import vuetify from './plugins/vuetify';
 import { keys } from './resources';
 import { getLocalValue } from './data/localDataHelper';
 
-// Axios interceptors
-import '@/interceptors/errorInterceptor';
-import '@/interceptors/addTokenToRequestInterceptor';
-import '@/interceptors/renewTokenInterceptor';
-
 // Fonts
 import 'typeface-roboto';
 

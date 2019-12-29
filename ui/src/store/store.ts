@@ -6,27 +6,9 @@ import VueAxios from 'vue-axios';
 
 import {StateModel} from '@/models/store/stateModel';
 import {MessageType} from '@/models/store/messageModel';
-
-import {SET_ATTACHMENTS} from '@/store/mutations/attachments';
-import {SET_NOTEBOOKS, SET_CURRENT_NOTEBOOK} from '@/store/mutations/notebooks';
-import {SET_NOTES, SET_CURRENT_NOTE} from '@/store/mutations/notes';
-import {SET_MESSAGE} from '@/store/mutations/general';
-import {SET_SIGNED_IN_USER, UNSET_SIGNED_IN_USER} from '@/store/mutations/users';
-import {SET_IS_ON_TOP, SET_PAGE_SUB_TITLE} from "@/store/mutations/ui";
-
-import {
-    loadAttachments,
-    downloadAttachment,
-    uploadAttachment,
-    deleteAttachment,
-    createAttachmentAccessToken
-} from '@/store/actions/attachments';
-import {loadNotebooks, loadNotebook, createNotebook, updateNotebook, deleteNotebook} from '@/store/actions/notebooks';
-import {loadNotes, loadNote, createNote, updateNote, deleteNote} from '@/store/actions/notes';
-import {authenticate} from '@/store/actions/users';
-
-import {signedInUser, isSignedIn} from '@/store/getters/users';
 import {NoteType} from '@/models/api/enums/noteType';
+
+import { constructStore } from '@/store/storeConstructor';
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -72,40 +54,4 @@ const state: StateModel = {
     pageSubTitle: ""
 };
 
-export default new Vuex.Store({
-    state,
-    mutations: {
-        SET_ATTACHMENTS,
-        SET_NOTEBOOKS,
-        SET_CURRENT_NOTEBOOK,
-        SET_NOTES,
-        SET_CURRENT_NOTE,
-        SET_MESSAGE,
-        SET_SIGNED_IN_USER,
-        UNSET_SIGNED_IN_USER,
-        SET_IS_ON_TOP,
-        SET_PAGE_SUB_TITLE
-    },
-    actions: {
-        loadAttachments,
-        downloadAttachment,
-        uploadAttachment,
-        deleteAttachment,
-        createAttachmentAccessToken,
-        loadNotebooks,
-        loadNotebook,
-        createNotebook,
-        updateNotebook,
-        deleteNotebook,
-        loadNotes,
-        loadNote,
-        createNote,
-        updateNote,
-        deleteNote,
-        authenticate
-    },
-    getters: {
-        signedInUser,
-        isSignedIn
-    },
-});
+export default new Vuex.Store(constructStore(state));
