@@ -3,6 +3,8 @@ interface String {
     format(...replacements: string[]): string;
 
     hashCode(): number;
+    
+    lines(): string[];
 }
 
 if (!String.prototype.format) {
@@ -32,5 +34,11 @@ if (!String.prototype.hashCode) {
         }
         
         return hash;
+    }
+}
+
+if(!String.prototype.lines) {
+    String.prototype.lines = function() {
+        return this.split(/\r?\n/);
     }
 }

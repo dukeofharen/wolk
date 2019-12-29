@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import {Component, Vue, Watch, Prop} from "vue-property-decorator";
-    import Note from "../../models/api/note";
+    import {stickyNotesToModel} from "@/services/stickyNoteService";
 
     @Component({
         components: {}
@@ -12,6 +12,10 @@
     export default class StickyNotes extends Vue {
         @Prop()
         contents!: string;
+        
+        mounted() {
+            console.log(stickyNotesToModel(this.contents));
+        }
     }
 </script>
 
