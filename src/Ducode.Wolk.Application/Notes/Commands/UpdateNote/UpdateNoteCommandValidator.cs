@@ -20,9 +20,6 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
                 .NotEmpty()
                 .MaximumLength(200);
 
-            RuleFor(c => c.Content)
-                .NotEmpty();
-
             RuleFor(c => c.NoteType)
                 .IsInEnum()
                 .NotEqual(NoteType.NotSet);
