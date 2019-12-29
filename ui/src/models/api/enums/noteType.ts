@@ -4,13 +4,15 @@ export enum NoteType {
     NotSet = 0,
     PlainText = 1,
     Markdown = 2,
-    TodoTxt = 3
+    TodoTxt = 3,
+    StickyNotes = 4
 };
 
 export const NoteTypeMap = new Map<NoteType, string>([
     [NoteType.Markdown, 'Markdown'],
     [NoteType.PlainText, 'Plain text'],
-    [NoteType.TodoTxt, 'todo.txt']
+    [NoteType.TodoTxt, 'todo.txt'],
+    [NoteType.StickyNotes, 'Sticky notes']
 ]);
 
 export function getNoteTypeArray(): Array<KeyValuePair<NoteType, string>> {
