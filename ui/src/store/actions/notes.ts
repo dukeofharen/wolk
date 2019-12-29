@@ -8,6 +8,7 @@ import {resources} from '@/resources';
 
 import router from '@/router';
 import {LoadNotesQueryModel} from '@/models/store/loadNotesQueryModel';
+import {NoteType} from "@/models/api/enums/noteType";
 
 export function loadNotes({commit}: ActionContext<StateModel, StateModel>, queryModel?: LoadNotesQueryModel) {
     let url = `${urls.rootUrl}api/note`;
@@ -36,7 +37,14 @@ export function createNote({commit}: ActionContext<StateModel, StateModel>, note
     instance.post(`${urls.rootUrl}api/note`, note)
         .then(r => r.data)
         .then((addedNote: Note) => {
-            router.push({name: 'noteForm', params: <any>{id: addedNote.id}});
+            let routeName;
+            if(addedNote.noteType === NoteType.StickyNotes || addedNote.noteType === NoteType.TodoTxt) {
+                routeName = "viewNote";
+            } else {
+                routeName = "noteForm";
+            }
+            
+            router.push({name: routeName, params: <any>{id: addedNote.id}});
             successMessage(resources.noteCreated);
         });
 }

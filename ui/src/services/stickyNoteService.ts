@@ -15,7 +15,7 @@ export function stickyNotesToModel(input: string): StickyNotesModel[] {
                 title: parseTitle(line),
                 contents: ""
             });
-        } else {
+        } else if(result.length > 0) {
             result[result.length - 1].contents += `${line}\n`;
         }
     }
