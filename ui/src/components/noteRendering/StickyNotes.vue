@@ -5,21 +5,30 @@
                 <v-card class="pa-2 sticky-note" tile>
                     <v-card-title class="sticky-title">
                         <div v-if="indexEditing !== i" @click="edit(i)">{{model.title}}</div>
-                        <v-text-field
-                                label="Note title"
-                                type="text"
-                                v-model="model.title"
-                                v-if="indexEditing === i"
-                        />
+                        <div v-if="indexEditing === i">
+                            <v-text-field
+                                    label="Note title"
+                                    type="text"
+                                    v-model="model.title"
+                            />
+                        </div>
                     </v-card-title>
                     <v-card-text class="sticky-contents">
-                        <div v-if="indexEditing !== i" v-html="marked(model.contents)" @click="edit(i)" />
+                        <div v-if="indexEditing !== i" v-html="marked(model.contents)" @click="edit(i)"/>
                         <textarea
                                 v-model="model.contents"
                                 v-if="indexEditing === i"
                                 placeholder="Note contents"
                         />
                     </v-card-text>
+                    <v-card-actions>
+                        <v-btn title="Save note" @click="saveNote" v-if="indexEditing === i" text>
+                            <v-icon>mdi-content-save</v-icon>
+                        </v-btn>
+                        <v-btn title="Cancel editing" @click="cancelEditing" v-if="indexEditing === i" text>
+                            <v-icon>mdi-cancel</v-icon>
+                        </v-btn>
+                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
@@ -46,9 +55,9 @@
 
         models: StickyNotesModel[] = [];
         indexEditing: number = -1;
-        
+
         data() {
-            return{
+            return {
                 marked: marked
             }
         }
@@ -56,17 +65,21 @@
         mounted() {
             this.models = stickyNotesToModel(this.contents);
         }
-        
+
         edit(index: number) {
-            if(this.indexEditing != -1) {
+            if (this.indexEditing != -1) {
                 this.saveNote();
             }
-            
+
             this.indexEditing = index;
         }
         
+        cancelEditing() {
+            this.indexEditing = -1;
+        }
+
         saveNote() {
-            if(this.note) {
+            if (this.note) {
                 this.note.content = stickyNotesToString(this.models);
                 let command: UpdateNoteCommand = {
                     id: this.note.id,
@@ -82,13 +95,22 @@
     .sticky-note {
         margin: 10px;
     }
-    
-    .sticky-title, .sticky-contents{
+
+    .sticky-title, .sticky-contents {
         cursor: pointer;
     }
-    
+
+    .sticky-title > div {
+        width: 100%;
+    }
+
     .sticky-contents textarea {
         width: 100%;
         min-height: 200px;
+    }
+    
+    .sticky-note .v-btn {
+        min-width: 0;
+        width: 55px;
     }
 </style>
