@@ -55,6 +55,9 @@
 
         models: StickyNotesModel[] = [];
         indexEditing: number = -1;
+        
+        oldTitle = "";
+        oldContents = "";
 
         data() {
             return {
@@ -70,15 +73,24 @@
             if (this.indexEditing != -1) {
                 this.saveNote();
             }
-
+            
+            let model = this.models[index];
+            this.oldTitle = model.title;
+            this.oldContents = model.contents;
             this.indexEditing = index;
         }
         
         cancelEditing() {
+            let model = this.models[this.indexEditing];
+            model.title = this.oldTitle;
+            model.contents = this.oldContents;
             this.indexEditing = -1;
         }
 
         saveNote() {
+            let model = this.models[this.indexEditing];
+            this.oldTitle = model.title;
+            this.oldContents = model.contents;
             if (this.note) {
                 this.note.content = stickyNotesToString(this.models);
                 let command: UpdateNoteCommand = {
