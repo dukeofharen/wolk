@@ -1,6 +1,11 @@
 <template>
     <v-container class="lighten-5">
         <v-row no-gutters>
+            <v-col cols="12" sm="12">
+                <v-btn title="Add note" @click="addNote(0)" text>
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </v-col>
             <v-col cols="12" sm="4" v-for="(model, i) of models" :key="i">
                 <v-card class="pa-2 sticky-note" tile>
                     <v-card-title class="sticky-title">
@@ -36,6 +41,12 @@
                         </v-btn>
                         <v-btn title="Move one higher" @click="moveOneHigher(i)" v-if="indexEditing !== i" text>
                             <v-icon>mdi-arrow-up-bold</v-icon>
+                        </v-btn>
+                        <v-btn title="Add before" @click="addNote(i)" v-if="indexEditing !== i" text>
+                            <v-icon>mdi-table-column-plus-before</v-icon>
+                        </v-btn>
+                        <v-btn title="Add after" @click="addNote(i+1)" v-if="indexEditing !== i" text>
+                            <v-icon>mdi-table-column-plus-after</v-icon>
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -96,6 +107,14 @@
             model.title = this.oldTitle;
             model.contents = this.oldContents;
             this.indexEditing = -1;
+        }
+
+        addNote(index: number) {
+            this.models.splice(index, 0, {
+                contents: "",
+                title: ""
+            });
+            this.edit(index);
         }
 
         saveNote() {
