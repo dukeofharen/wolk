@@ -1,17 +1,18 @@
 import urls from '@/urls';
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {ActionContext} from 'vuex';
 import {StateModel} from '@/models/store/stateModel';
 import Attachment from '@/models/api/attachment';
-import {downloadBlob, getDownloadFilename} from "@/utilities/downloadHelper";
 import store from '../store';
+import createInstance from '@/axios/axiosInstanceFactory';
 
 import {successMessage} from '@/utilities/messenger';
 import {resources} from '@/resources';
 import {AccessTokenResultModel} from "@/models/api/accessTokenResultModel";
 
 export function loadAttachments({commit}: ActionContext<StateModel, StateModel>, noteId: number) {
-    axios.get(`${urls.rootUrl}api/note/${noteId}/attachments`)
+    let instance = createInstance();
+    instance.get(`${urls.rootUrl}api/note/${noteId}/attachments`)
         .then(r => r.data)
         .then((attachments: Attachment[]) => {
             commit('SET_ATTACHMENTS', attachments)
@@ -31,7 +32,8 @@ export function downloadAttachment({commit}: ActionContext<StateModel, StateMode
         expirationDateTime: expiry,
         noteId: query.noteId
     };
-    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
+    let instance = createInstance();
+    instance.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
         .then((response: AxiosResponse<AccessTokenResultModel>) => {
             document.location = response.headers['location'];
         });
@@ -44,7 +46,8 @@ export interface UploadAttachmentCommand {
 }
 
 export function uploadAttachment({commit}: ActionContext<StateModel, StateModel>, command: UploadAttachmentCommand) {
-    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments`, command)
+    let instance = createInstance();
+    instance.post(`${urls.rootUrl}api/note/${command.noteId}/attachments`, command)
         .then(r => r.data)
         .then((attachment: Attachment) => {
             successMessage(resources.attachmentUploaded.format(attachment.filename));
@@ -58,7 +61,8 @@ export interface DeleteAttachmentCommand {
 }
 
 export function deleteAttachment({commit}: ActionContext<StateModel, StateModel>, command: DeleteAttachmentCommand) {
-    axios.delete(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}`)
+    let instance = createInstance();
+    instance.delete(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}`)
         .then(r => r.data)
         .then(() => {
             successMessage(resources.attachmentDeleted);
@@ -73,7 +77,8 @@ export interface CreateAttachmentAccessTokenCommand {
 }
 
 export function createAttachmentAccessToken({commit}: ActionContext<StateModel, StateModel>, command: CreateAttachmentAccessTokenCommand) {
-    axios.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
+    let instance = createInstance();
+    instance.post(`${urls.rootUrl}api/note/${command.noteId}/attachments/${command.attachmentId}/accessTokens`, command)
         .then((response: AxiosResponse<AccessTokenResultModel>) => {
             store.state.attachmentAccessUrl = response.headers['location'];
         });

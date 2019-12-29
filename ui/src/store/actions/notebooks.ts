@@ -1,6 +1,6 @@
 import Notebook from '@/models/api/notebook';
 import urls from '@/urls';
-import axios from 'axios';
+import createInstance from '@/axios/axiosInstanceFactory';
 import { ActionContext } from 'vuex';
 import { StateModel } from '@/models/store/stateModel';
 import store from '@/store/store';
@@ -10,7 +10,8 @@ import { successMessage } from '@/utilities/messenger';
 import { resources } from '@/resources';
 
 export function loadNotebooks({ commit }: ActionContext<StateModel, StateModel>) {
-    axios.get(`${urls.rootUrl}api/notebook`)
+    let instance = createInstance();
+    instance.get(`${urls.rootUrl}api/notebook`)
         .then(r => r.data)
         .then((notebooks: Notebook[]) => {
             commit('SET_NOTEBOOKS', notebooks)
@@ -18,7 +19,8 @@ export function loadNotebooks({ commit }: ActionContext<StateModel, StateModel>)
 }
 
 export function loadNotebook({ commit }: ActionContext<StateModel, StateModel>, notebookId: string) {
-    axios.get(`${urls.rootUrl}api/notebook/${notebookId}`)
+    let instance = createInstance();
+    instance.get(`${urls.rootUrl}api/notebook/${notebookId}`)
         .then(r => r.data)
         .then((notebooks: Notebook[]) => {
             commit('SET_CURRENT_NOTEBOOK', notebooks)
@@ -26,7 +28,8 @@ export function loadNotebook({ commit }: ActionContext<StateModel, StateModel>, 
 }
 
 export function createNotebook({ commit }: ActionContext<StateModel, StateModel>, notebook: Notebook) {
-    axios.post(`${urls.rootUrl}api/notebook`, notebook)
+    let instance = createInstance();
+    instance.post(`${urls.rootUrl}api/notebook`, notebook)
         .then(r => r.data)
         .then((addedNotebook: Notebook) => {
             store.dispatch('loadNotebooks');
@@ -40,7 +43,8 @@ export interface UpdateNotebookCommand {
     notebook: Notebook;
 }
 export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>, command: UpdateNotebookCommand) {
-    axios.put(`${urls.rootUrl}api/notebook/${command.id}`, command.notebook)
+    let instance = createInstance();
+    instance.put(`${urls.rootUrl}api/notebook/${command.id}`, command.notebook)
         .then(r => r.data)
         .then(() => {
             store.dispatch('loadNotebooks');
@@ -50,7 +54,8 @@ export function updateNotebook({ commit }: ActionContext<StateModel, StateModel>
 }
 
 export function deleteNotebook({ commit }: ActionContext<StateModel, StateModel>, id: number) {
-    axios.delete(`${urls.rootUrl}api/notebook/${id}`)
+    let instance = createInstance();
+    instance.delete(`${urls.rootUrl}api/notebook/${id}`)
         .then(r => r.data)
         .then(() => {
             router.push({ name: 'overview' });
