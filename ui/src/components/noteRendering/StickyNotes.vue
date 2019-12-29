@@ -28,6 +28,15 @@
                         <v-btn title="Cancel editing" @click="cancelEditing" v-if="indexEditing === i" text>
                             <v-icon>mdi-cancel</v-icon>
                         </v-btn>
+                        <v-btn title="Delete note" @click="deleteNote(i)" v-if="indexEditing !== i" text>
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                        <v-btn title="Move one lower" @click="moveOneLower(i)" v-if="indexEditing !== i" text>
+                            <v-icon>mdi-arrow-down-bold</v-icon>
+                        </v-btn>
+                        <v-btn title="Move one higher" @click="moveOneHigher(i)" v-if="indexEditing !== i" text>
+                            <v-icon>mdi-arrow-up-bold</v-icon>
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -42,6 +51,8 @@
     import marked from "marked";
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import Note from "@/models/api/note";
+    import {resources} from "@/resources";
+    import arrayMove from 'array-move';
 
     @Component({
         components: {}
@@ -55,7 +66,7 @@
 
         models: StickyNotesModel[] = [];
         indexEditing: number = -1;
-        
+
         oldTitle = "";
         oldContents = "";
 
@@ -73,13 +84,13 @@
             if (this.indexEditing != -1) {
                 this.saveNote();
             }
-            
+
             let model = this.models[index];
             this.oldTitle = model.title;
             this.oldContents = model.contents;
             this.indexEditing = index;
         }
-        
+
         cancelEditing() {
             let model = this.models[this.indexEditing];
             model.title = this.oldTitle;
@@ -88,9 +99,12 @@
         }
 
         saveNote() {
-            let model = this.models[this.indexEditing];
-            this.oldTitle = model.title;
-            this.oldContents = model.contents;
+            if (this.indexEditing > -1 && this.models.length > this.indexEditing) {
+                let model = this.models[this.indexEditing];
+                this.oldTitle = model.title;
+                this.oldContents = model.contents;
+            }
+
             if (this.note) {
                 this.note.content = stickyNotesToString(this.models);
                 let command: UpdateNoteCommand = {
@@ -98,6 +112,27 @@
                     note: this.note
                 };
                 this.$store.dispatch("updateNote", command);
+            }
+        }
+
+        deleteNote(index: number) {
+            if (confirm(resources.areYouSureDeleteStickyNote)) {
+                this.models.splice(index, 1);
+                this.saveNote();
+            }
+        }
+
+        moveOneLower(index: number) {
+            if (index < this.models.length - 1) {
+                this.models = arrayMove(this.models, index, index + 1);
+                this.saveNote();
+            }
+        }
+
+        moveOneHigher(index: number) {
+            if (index > 0) {
+                this.models = arrayMove(this.models, index, index - 1);
+                this.saveNote();
             }
         }
     }
@@ -120,9 +155,9 @@
         width: 100%;
         min-height: 200px;
     }
-    
+
     .sticky-note .v-btn {
         min-width: 0;
-        width: 55px;
+        width: 35px;
     }
 </style>
