@@ -39,11 +39,10 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.UpdateNote
             var result = await _validator.ValidateAsync(command);
 
             // Assert
-            Assert.AreEqual(4, result.Errors.Count);
+            Assert.AreEqual(3, result.Errors.Count);
             Assert.IsTrue(result.Errors.ElementAt(0).ErrorMessage.Contains("200 characters or fewer"));
-            Assert.IsTrue(result.Errors.ElementAt(1).ErrorMessage.Contains("must not be empty"));
-            Assert.IsTrue(result.Errors.ElementAt(2).ErrorMessage.Contains("must not be equal to"));
-            Assert.IsTrue(result.Errors.ElementAt(3).ErrorMessage.Contains("Notebook with ID"));
+            Assert.IsTrue(result.Errors.ElementAt(1).ErrorMessage.Contains("must not be equal to"));
+            Assert.IsTrue(result.Errors.ElementAt(2).ErrorMessage.Contains("Notebook with ID"));
         }
 
         [TestMethod]
