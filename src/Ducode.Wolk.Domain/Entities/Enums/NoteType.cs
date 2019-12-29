@@ -5,6 +5,7 @@ namespace Ducode.Wolk.Domain.Entities.Enums
         NotSet = 0,
         PlainText = 1,
         Markdown = 2,
-        TodoTxt = 3
+        TodoTxt = 3,
+        StickyNotes = 4
     }
 }
