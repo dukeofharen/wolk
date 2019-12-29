@@ -21,7 +21,7 @@ const storeMap = [{
     content: require('@/store/actions/notes')
 }, {
     type: storeTypeEnum.ACTION,
-    content: require('@/store/actions/notes')
+    content: require('@/store/actions/users')
 }, {
     type: storeTypeEnum.MUTATION,
     content: require('@/store/mutations/attachments')
