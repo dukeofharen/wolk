@@ -27,3 +27,13 @@ export function stickyNotesToModel(input: string): StickyNotesModel[] {
 
     return result;
 }
+
+export function stickyNotesToString(notes: StickyNotesModel[]) {
+    let result = "";
+    for (let note of notes) {
+        result += `===== ${note.title} =====\n\n`;
+        result += `${note.contents}\n\n`;
+    }
+
+    return result;
+}
