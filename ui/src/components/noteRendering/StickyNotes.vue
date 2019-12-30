@@ -1,5 +1,5 @@
 <template>
-    <v-container class="lighten-5">
+    <v-container class="lighten-5" v-shortkey="['ctrl', 's']" @shortkey="saveNote">
         <v-row no-gutters>
             <v-col cols="12" sm="12">
                 <v-btn title="Add note" @click="addNote(0)" text>
@@ -54,7 +54,7 @@
                                     @click="setColor(i, scheme)"
                                     v-for="scheme of colorSchemes"
                                     :key="scheme.key"
-                                   :style="{ backgroundColor: scheme.backgroundColor }">
+                                    :style="{ backgroundColor: scheme.backgroundColor }">
                                 &nbsp;
                             </v-btn>
                         </div>
