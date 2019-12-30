@@ -7,7 +7,7 @@
                 </v-btn>
             </v-col>
             <v-col cols="12" sm="4" v-for="(model, i) of models" :key="i">
-                <v-card class="pa-2 sticky-note" tile style="background-color: green;">
+                <v-card class="pa-2 sticky-note" tile :style="{ backgroundColor: model.metadata.backgroundColor }">
                     <v-card-title class="sticky-title">
                         <div v-if="indexEditing !== i" @click="edit(i)">{{model.title}}</div>
                         <div v-if="indexEditing === i">
@@ -49,7 +49,12 @@
                             <v-icon>mdi-table-column-plus-after</v-icon>
                         </v-btn>
                         <div class="color-buttons" v-if="indexEditing === i">
-                            <v-btn title="Save note" @click="saveNote" v-for="scheme of colorSchemes" :key="scheme.key" :style="{ color: scheme.fontColor, backgroundColor: scheme.backgroundColor }">
+                            <v-btn
+                                    title="Save note"
+                                    @click="setColor(i, scheme)"
+                                    v-for="scheme of colorSchemes"
+                                    :key="scheme.key"
+                                   :style="{ backgroundColor: scheme.backgroundColor }">
                                 &nbsp;
                             </v-btn>
                         </div>
@@ -92,48 +97,31 @@
                 colorSchemes: [
                     {
                         key: "white",
-                        backgroundColor: "#FFFFFF",
-                        fontColor: "#000000"
+                        backgroundColor: "#FFFFFF"
                     },
                     {
                         key: "red",
-                        backgroundColor: "#ff5e5e",
-                        fontColor: "#000000"
+                        backgroundColor: "#ff5e5e"
                     },
                     {
                         key: "yellow",
-                        backgroundColor: "#e4e954",
-                        fontColor: "#000000"
+                        backgroundColor: "#e4e954"
                     },
                     {
                         key: "orange",
-                        backgroundColor: "#ff9f1e",
-                        fontColor: "#000000"
+                        backgroundColor: "#ff9f1e"
                     },
                     {
                         key: "green",
-                        backgroundColor: "#15bf00",
-                        fontColor: "#000000"
+                        backgroundColor: "#15bf00"
                     },
                     {
                         key: "blue",
-                        backgroundColor: "#475bff",
-                        fontColor: "#000000"
+                        backgroundColor: "#475bff"
                     },
                     {
                         key: "purple",
-                        backgroundColor: "#9b4bff",
-                        fontColor: "#000000"
-                    },
-                    {
-                        key: "black",
-                        backgroundColor: "#000000",
-                        fontColor: "#ffffff"
-                    },
-                    {
-                        key: "gray",
-                        backgroundColor: "#909090",
-                        fontColor: "#000000"
+                        backgroundColor: "#9b4bff"
                     }
                 ]
             }
@@ -164,7 +152,11 @@
         addNote(index: number) {
             this.models.splice(index, 0, {
                 contents: "",
-                title: ""
+                title: "",
+                metadata: {
+                    backgroundColor: "#FFFFFF",
+                    fontColor: "#000000"
+                }
             });
             this.edit(index);
         }
@@ -184,6 +176,12 @@
                 };
                 this.$store.dispatch("updateNote", command);
             }
+        }
+
+        setColor(index: number, colorScheme: any) {
+            let model = this.models[index];
+            model.metadata.backgroundColor = colorScheme.backgroundColor;
+            model.metadata.fontColor = colorScheme.fontColor;
         }
 
         deleteNote(index: number) {
@@ -231,8 +229,10 @@
         min-width: 0;
         width: 35px;
     }
-    
+
     .color-buttons .v-btn {
         border-radius: 30px;
+        margin-left: 10px !important;
+        margin-top: 10px !important;
     }
 </style>

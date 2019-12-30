@@ -4,6 +4,10 @@ function parseTitle(line: string): string {
     return line.replace(/=====/g, "").trim();
 }
 
+function parseMetadata(line: string): string {
+    return JSON.parse(line.replace(/-----/g, "").trim());
+}
+
 export function stickyNotesToModel(input: string): StickyNotesModel[] {
     let result: StickyNotesModel[] = [];
 
@@ -13,9 +17,14 @@ export function stickyNotesToModel(input: string): StickyNotesModel[] {
             // New sticky note...
             result.push({
                 title: parseTitle(line),
-                contents: ""
+                contents: "",
+                metadata: {
+                    backgroundColor: "#FFFFFF"
+                }
             });
-        } else if(result.length > 0) {
+        } else if (line.indexOf("-----") > -1) {
+            result[result.length - 1].metadata = parseMetadata(line);
+        } else if (result.length > 0) {
             result[result.length - 1].contents += `${line}\n`;
         }
     }
@@ -31,7 +40,8 @@ export function stickyNotesToModel(input: string): StickyNotesModel[] {
 export function stickyNotesToString(notes: StickyNotesModel[]) {
     let result = "";
     for (let note of notes) {
-        result += `===== ${note.title} =====\n\n`;
+        result += `===== ${note.title} =====\n`;
+        result += `----- ${JSON.stringify(note.metadata)} -----\n\n`;
         result += `${note.contents}\n\n`;
     }
 
