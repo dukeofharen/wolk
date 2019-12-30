@@ -7,7 +7,7 @@
                 </v-btn>
             </v-col>
             <v-col cols="12" sm="4" v-for="(model, i) of models" :key="i">
-                <v-card class="pa-2 sticky-note" tile>
+                <v-card class="pa-2 sticky-note" tile style="background-color: green;">
                     <v-card-title class="sticky-title">
                         <div v-if="indexEditing !== i" @click="edit(i)">{{model.title}}</div>
                         <div v-if="indexEditing === i">
@@ -48,6 +48,11 @@
                         <v-btn title="Add after" @click="addNote(i+1)" v-if="indexEditing !== i" text>
                             <v-icon>mdi-table-column-plus-after</v-icon>
                         </v-btn>
+                        <div class="color-buttons" v-if="indexEditing === i">
+                            <v-btn title="Save note" @click="saveNote" v-for="scheme of colorSchemes" :key="scheme.key" :style="{ color: scheme.fontColor, backgroundColor: scheme.backgroundColor }">
+                                &nbsp;
+                            </v-btn>
+                        </div>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -83,7 +88,54 @@
 
         data() {
             return {
-                marked: marked
+                marked: marked,
+                colorSchemes: [
+                    {
+                        key: "white",
+                        backgroundColor: "#FFFFFF",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "red",
+                        backgroundColor: "#ff5e5e",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "yellow",
+                        backgroundColor: "#e4e954",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "orange",
+                        backgroundColor: "#ff9f1e",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "green",
+                        backgroundColor: "#15bf00",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "blue",
+                        backgroundColor: "#475bff",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "purple",
+                        backgroundColor: "#9b4bff",
+                        fontColor: "#000000"
+                    },
+                    {
+                        key: "black",
+                        backgroundColor: "#000000",
+                        fontColor: "#ffffff"
+                    },
+                    {
+                        key: "gray",
+                        backgroundColor: "#909090",
+                        fontColor: "#000000"
+                    }
+                ]
             }
         }
 
@@ -178,5 +230,9 @@
     .sticky-note .v-btn {
         min-width: 0;
         width: 35px;
+    }
+    
+    .color-buttons .v-btn {
+        border-radius: 30px;
     }
 </style>
