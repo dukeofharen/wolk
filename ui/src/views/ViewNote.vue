@@ -26,9 +26,9 @@
             </v-dialog>
             <transition name="fade">
                 <NoteRender
-                        v-if="note.content"
                         :contents="note.content"
                         :noteType="note.noteType"
+                        :note="note"
                 />
             </transition>
             <v-bottom-navigation color="indigo" fixed>

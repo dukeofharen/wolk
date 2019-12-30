@@ -1,3 +1,4 @@
+import {NoteType} from "@/models/api/enums/noteType";
 <template>
     <v-row
             v-shortkey="['ctrl', 's']"
@@ -42,6 +43,7 @@
                     />
                 </transition>
                 <textarea
+                        v-if="showTextarea"
                         v-model="note.content"
                         @input="contentInput"
                         @focus="hideMetaInputs"
@@ -182,6 +184,10 @@
         togglePreview() {
             this.previewing = !this.previewing;
             setTimeout(() => NoteForm.updateContentInputSize(this.$refs.content as HTMLElement), 10);
+        }
+        
+        get showTextarea() {
+            return this.noteId || this.note.noteType !== NoteType.StickyNotes && this.note.noteType !== NoteType.TodoTxt;
         }
 
         private static updateContentInputSize(element: HTMLElement) {
