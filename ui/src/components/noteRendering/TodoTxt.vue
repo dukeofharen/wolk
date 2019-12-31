@@ -1,6 +1,6 @@
 <template>
     <v-card class="pa-2" tile>
-        <v-list-item two-line v-for="(model, i) of models" :key="i">
+        <v-list-item two-line v-for="(model, i) of models" :key="i" v-shortkey="['ctrl', 's']" @shortkey="editItem">
             <!-- View -->
             <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)" v-if="indexEditing !== i">
                 <span>{{model.priority}}</span>
@@ -15,10 +15,7 @@
             
             <!-- Edit -->
             <v-list-item-avatar class="done-button" v-if="indexEditing === i">
-<!--                <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>-->
-<!--                    <v-icon>mdi-check</v-icon>-->
-<!--                </v-btn>-->
-                <v-btn title="Save" @click="editItem(model, i)" text>
+                <v-btn title="Save" @click="editItem" text>
                     <v-icon>mdi-content-save</v-icon>
                 </v-btn>
             </v-list-item-avatar>
@@ -62,9 +59,10 @@
             this.models = todoTxtToModels(this.contents);
         }
         
-        editItem(model: TodoTxtModel, index: number) {
+        editItem() {
+            let model = this.models[this.indexEditing];
             let newModel = singleTodoTxtToModel(model.fullText);
-            this.models.splice(index, 1, newModel);
+            this.models.splice(this.indexEditing, 1, newModel);
             this.save();
         }
 
