@@ -1,12 +1,15 @@
 <template>
     <v-card class="pa-2" tile>
         <v-list-item two-line v-for="(model, i) of models" :key="i">
-            <v-list-item-avatar class="priority">
+            <v-list-item-avatar class="priority" :class="{ done: model.completed }">
                 <span>{{model.priority}}</span>
             </v-list-item-avatar>
-            <v-list-item-content>
+            <v-list-item-content :class="{ done: model.completed }">
                 <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
-                <v-list-item-subtitle><span v-if="model.creationDate">created: {{model.creationDate | date}}</span><span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span></v-list-item-subtitle>
+                <v-list-item-subtitle>
+                    <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
+                    <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
+                </v-list-item-subtitle>
             </v-list-item-content>
         </v-list-item>
     </v-card>
@@ -48,11 +51,16 @@
     .todo-description {
         white-space: normal;
     }
-    
+
     .priority {
         height: 10px !important;
         width: 10px !important;
         min-width: 10px !important;
         margin-right: 16px !important;
+    }
+    
+    .done {
+        text-decoration: line-through;
+        color: #aaaaaa !important;
     }
 </style>
