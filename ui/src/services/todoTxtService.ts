@@ -39,8 +39,8 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
             parts.shift();
             parts.shift();
         } else if (parts[0].match(dateReg)) {
-            // Only completed is set.
-            model.completionDate = new Date(parts[0]);
+            // Only created is set.
+            model.creationDate = new Date(parts[0]);
             parts.shift();
         }
 
