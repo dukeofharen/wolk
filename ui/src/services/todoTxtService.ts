@@ -1,10 +1,15 @@
 import {TodoTxtModel} from "@/models/todoTxtModel";
 import {firstBy} from "thenby";
+import moment from 'moment'
 
 export function todoTxtToModels(input: string): TodoTxtModel[] {
     let result: TodoTxtModel[] = [];
     let lines = input.lines();
     for (let line of lines) {
+        if (!line) {
+            continue;
+        }
+
         let model: TodoTxtModel = {
             completed: false,
             priority: "",
@@ -57,16 +62,42 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
 
         result.push(model);
     }
-    
+
     // Retrieve all not-done models with priority
     let prioResults = result.filter(r => !r.completed && !!r.priority);
     prioResults.sort(firstBy("priority"));
-    
+
     // Retrieve all not-done models without priority
     let noPrioResults = result.filter(r => !r.completed && !r.priority);
-    
+
     // Retrieve all done models
     let doneModels = result.filter(r => r.completed);
-    
+
     return prioResults.concat(noPrioResults).concat(doneModels);
+}
+
+export function todoTxtToString(models: TodoTxtModel[]) {
+    let result = "";
+    for (let model of models) {
+        if (model.completed) {
+            result += "x ";
+        }
+
+        if (model.priority) {
+            result += `(${model.priority}) `;
+        }
+
+        if (model.creationDate) {
+            if (model.completionDate) {
+                result += `${moment(model.completionDate).format('YYYY-MM-DD')} `;
+            }
+
+            result += `${moment(model.creationDate).format('YYYY-MM-DD')} `;
+        }
+
+        result += model.description;
+        result += '\n';
+    }
+
+    return result;
 }
