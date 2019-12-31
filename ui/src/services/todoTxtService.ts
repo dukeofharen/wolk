@@ -1,6 +1,16 @@
 import {TodoTxtModel} from "@/models/todoTxtModel";
 import {firstBy} from "thenby";
 import moment from 'moment'
+import {timeUnitsInSeconds} from "@/resources";
+
+export enum DueStatusType {
+    NOT_SET,
+    NOT_DUE_YET,
+    DUE_IN_A_WEEK,
+    DUE_IN_A_DAY,
+    DUE_TODAY,
+    OVERDUE
+}
 
 export function singleTodoTxtToModel(line: string): TodoTxtModel {
     let model: TodoTxtModel = {
@@ -8,6 +18,8 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
         priority: "",
         completionDate: undefined,
         creationDate: undefined,
+        dueDate: undefined,
+        dueStatus: DueStatusType.NOT_SET,
         contextTags: [],
         description: "",
         fullText: line,
@@ -42,7 +54,31 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
         parts.shift();
     }
 
-    model.description = parts.join(" ");
+    let duePart = parts.find(p => p.indexOf("due:") === 0);
+    if (duePart) {
+        let dueDateText = duePart.replace("due:", "");
+        if (dueDateText.match(dateReg)) {
+            let dueDate = new Date(dueDateText);
+            model.dueDate = dueDate;
+
+            // Set due status
+            let actualDue = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate(), 23, 59, 59);
+            let now = new Date();
+            let diff = Math.round((actualDue.getTime() - now.getTime()) / 1000);
+            if (diff < 0) {
+                model.dueStatus = DueStatusType.OVERDUE;
+            } else if (diff <= timeUnitsInSeconds.day) {
+                model.dueStatus = DueStatusType.DUE_TODAY;
+            } else if (diff > timeUnitsInSeconds.day && diff <= timeUnitsInSeconds.day * 2) {
+                model.dueStatus = DueStatusType.DUE_IN_A_DAY;
+            } else if (diff > timeUnitsInSeconds.day * 2 && diff <= timeUnitsInSeconds.week) {
+                model.dueStatus = DueStatusType.DUE_IN_A_WEEK;
+            } else {
+                model.dueStatus = DueStatusType.NOT_DUE_YET;
+            }
+        }
+    }
+
     for (let part of parts) {
         if (part.indexOf("+") === 0) {
             model.projectTags.push(part);
@@ -53,6 +89,8 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
         }
     }
 
+    model.description = parts.filter(p => !duePart || p.indexOf(duePart) === -1).join(" ");
+    console.log(model);
     return model;
 }
 
@@ -98,7 +136,11 @@ export function singleTodoTxtToString(model: TodoTxtModel) {
         result += `${moment(model.creationDate).format('YYYY-MM-DD')} `;
     }
 
-    result += model.description;
+    result += `${model.description} `;
+    if (model.dueDate) {
+        result += `due:${moment(model.dueDate).format('YYYY-MM-DD')}`;
+    }
+
     return result;
 }
 

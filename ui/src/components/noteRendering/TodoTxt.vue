@@ -44,6 +44,7 @@
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
+                    <span v-if="model.dueDate">, due: {{model.dueDate | date}}</span>
                 </v-list-item-subtitle>
             </v-list-item-content>
 

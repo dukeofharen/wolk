@@ -24,3 +24,9 @@ export const resources = {
 export const keys = {
     signedInUserKey: "SignedInUser"
 };
+
+export const timeUnitsInSeconds = {
+    hour: 3600,
+    day: (24 * 3600),
+    week: (24 * 3600 * 7)
+};
