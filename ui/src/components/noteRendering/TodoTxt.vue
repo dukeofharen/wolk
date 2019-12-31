@@ -31,15 +31,24 @@
                 </v-col>
             </v-row>
         </v-card-actions>
-        <v-list-item two-line v-for="(model, i) of filteredModels" :key="i" v-shortkey="['ctrl', 's']"
-                     @shortkey="editItem">
+        <v-list-item
+                two-line
+                v-for="(model, i) of filteredModels"
+                :key="i" v-shortkey="['ctrl', 's']"
+                @shortkey="editItem">
             <!-- View -->
-            <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)"
-                                v-if="indexEditing !== i">
+            <v-list-item-avatar
+                    class="priority"
+                    :class="{ done: model.completed }"
+                    @click="editMode(i)"
+                    v-if="indexEditing !== i">
                 <span>{{model.priority}}</span>
             </v-list-item-avatar>
-            <v-list-item-content :class="{ done: model.completed }" class="todo-item" @click="editMode(i)"
-                                 v-if="indexEditing !== i">
+            <v-list-item-content
+                    :class="{ done: model.completed }"
+                    class="todo-item"
+                    @click="editMode(i)"
+                    v-if="indexEditing !== i">
                 <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
