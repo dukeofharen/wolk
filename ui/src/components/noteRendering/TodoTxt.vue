@@ -2,10 +2,10 @@
     <v-card class="pa-2" tile>
         <v-list-item two-line v-for="(model, i) of models" :key="i">
             <!-- View -->
-            <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editItem(i)" v-if="indexEditing !== i">
+            <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)" v-if="indexEditing !== i">
                 <span>{{model.priority}}</span>
             </v-list-item-avatar>
-            <v-list-item-content :class="{ done: model.completed }" class="todo-item" @click="editItem(i)" v-if="indexEditing !== i">
+            <v-list-item-content :class="{ done: model.completed }" class="todo-item" @click="editMode(i)" v-if="indexEditing !== i">
                 <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
@@ -15,13 +15,25 @@
             
             <!-- Edit -->
             <v-list-item-avatar class="done-button" v-if="indexEditing === i">
+<!--                <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>-->
+<!--                    <v-icon>mdi-check</v-icon>-->
+<!--                </v-btn>-->
+                <v-btn title="Save" @click="editItem(model, i)" text>
+                    <v-icon>mdi-content-save</v-icon>
+                </v-btn>
+            </v-list-item-avatar>
+            <v-list-item-subtitle v-if="indexEditing === i">
+                <v-text-field
+                        label="Todo item..."
+                        type="text"
+                        v-model="model.fullText"
+                />
+            </v-list-item-subtitle>
+            <v-list-item-avatar class="done-button" v-if="indexEditing === i">
                 <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>
                     <v-icon>mdi-check</v-icon>
                 </v-btn>
             </v-list-item-avatar>
-            <v-list-item-subtitle v-if="indexEditing === i">
-                
-            </v-list-item-subtitle>
         </v-list-item>
     </v-card>
 </template>
@@ -29,9 +41,8 @@
 <script lang="ts">
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
-    import {todoTxtToModels, todoTxtToString} from "@/services/todoTxtService";
+    import {todoTxtToModels, todoTxtToString, singleTodoTxtToModel} from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
-    import {stickyNotesToString} from "@/services/stickyNoteService";
     import {UpdateNoteCommand} from "@/store/actions/notes";
 
     @Component({
@@ -50,6 +61,12 @@
         mounted() {
             this.models = todoTxtToModels(this.contents);
         }
+        
+        editItem(model: TodoTxtModel, index: number) {
+            let newModel = singleTodoTxtToModel(model.fullText);
+            this.models.splice(index, 1, newModel);
+            this.save();
+        }
 
         save() {
             let todoTxtText = todoTxtToString(this.models);
@@ -65,7 +82,7 @@
             }
         }
         
-        editItem(index: number) {
+        editMode(index: number) {
             this.indexEditing = index;
         }
         
