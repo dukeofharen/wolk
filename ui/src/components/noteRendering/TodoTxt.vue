@@ -2,14 +2,14 @@
     <v-card class="pa-2" tile>
         <v-card-actions>
             <v-row no-gutters>
-                <v-col cols="2">
+                <v-col cols="12">
                     <v-row>
                         <v-btn title="Add todo item" @click="addTodoItem" text>
                             <v-icon>mdi-plus</v-icon>
                         </v-btn>
                     </v-row>
                 </v-col>
-                <v-col cols="5">
+                <v-col cols="12">
                     <v-row>
                         <v-select
                                 :items="projectTags"
@@ -19,11 +19,11 @@
                         />
                     </v-row>
                 </v-col>
-                <v-col cols="5">
+                <v-col cols="12">
                     <v-row>
                         <v-select
                                 :items="contextTags"
-                                placeholder="Filter on project tag..."
+                                placeholder="Filter on context tag..."
                                 v-model="contextTagFilter"
                                 clearable
                         />
