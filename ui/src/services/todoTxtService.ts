@@ -52,7 +52,7 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
             model.contextTags.push(part);
         }
     }
-    
+
     return model;
 }
 
@@ -63,7 +63,7 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
         if (!line) {
             continue;
         }
-        
+
         result.push(singleTodoTxtToModel(line));
     }
 
@@ -109,4 +109,32 @@ export function todoTxtToString(models: TodoTxtModel[]) {
     }
 
     return result.join('\n');
+}
+
+export function extractProjectTags(models: TodoTxtModel[]): string[] {
+    let result: string[] = [];
+    models = models.filter(m => !m.completed);
+    for (let model of models) {
+        for (let tag of model.projectTags) {
+            if (result.indexOf(tag) === -1) {
+                result.push(tag);
+            }
+        }
+    }
+
+    return result;
+}
+
+export function extractContextTags(models: TodoTxtModel[]): string[] {
+    let result: string[] = [];
+    models = models.filter(m => !m.completed);
+    for (let model of models) {
+        for (let tag of model.contextTags) {
+            if (result.indexOf(tag) === -1) {
+                result.push(tag);
+            }
+        }
+    }
+
+    return result;
 }

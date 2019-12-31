@@ -1,11 +1,38 @@
 <template>
     <v-card class="pa-2" tile>
         <v-card-actions>
-            <v-btn title="Add todo item" @click="addTodoItem" text>
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
+            <v-row no-gutters>
+                <v-col cols="2">
+                    <v-row>
+                        <v-btn title="Add todo item" @click="addTodoItem" text>
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </v-row>
+                </v-col>
+                <v-col cols="5">
+                    <v-row>
+                        <v-select
+                                :items="projectTags"
+                                placeholder="Filter on project tag..."
+                                v-model="projectTagFilter"
+                                clearable
+                        />
+                    </v-row>
+                </v-col>
+                <v-col cols="5">
+                    <v-row>
+                        <v-select
+                                :items="contextTags"
+                                placeholder="Filter on project tag..."
+                                v-model="contextTagFilter"
+                                clearable
+                        />
+                    </v-row>
+                </v-col>
+            </v-row>
         </v-card-actions>
-        <v-list-item two-line v-for="(model, i) of models" :key="i" v-shortkey="['ctrl', 's']" @shortkey="editItem">
+        <v-list-item two-line v-for="(model, i) of filteredModels" :key="i" v-shortkey="['ctrl', 's']"
+                     @shortkey="editItem">
             <!-- View -->
             <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)"
                                 v-if="indexEditing !== i">
@@ -50,7 +77,13 @@
 <script lang="ts">
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
-    import {todoTxtToModels, todoTxtToString, singleTodoTxtToModel} from "@/services/todoTxtService";
+    import {
+        todoTxtToModels,
+        todoTxtToString,
+        singleTodoTxtToModel,
+        extractContextTags,
+        extractProjectTags
+    } from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
@@ -59,7 +92,7 @@
     @Component({
         components: {}
     })
-    export default class StickyNotes extends Vue {
+    export default class TodoTxt extends Vue {
         @Prop()
         contents!: string;
 
@@ -69,6 +102,8 @@
         models: TodoTxtModel[] = [];
         indexEditing: number = -1;
         oldText: string = "";
+        projectTagFilter: string = "";
+        contextTagFilter: string = "";
 
         mounted() {
             this.models = todoTxtToModels(this.contents);
@@ -136,6 +171,27 @@
             model.completionDate = model.completed ? undefined : new Date();
             model.completed = !model.completed;
             this.save();
+        }
+
+        get projectTags() {
+            return extractProjectTags(this.models);
+        }
+        
+        get contextTags() {
+            return extractContextTags(this.models);
+        }
+
+        get filteredModels() {
+            let result = this.models;
+            if (this.projectTagFilter) {
+                result = result.filter(r => r.projectTags.indexOf(this.projectTagFilter) > -1);
+            }
+            
+            if(this.contextTagFilter) {
+                result = result.filter(r => r.contextTags.indexOf(this.contextTagFilter) > -1);
+            }
+            
+            return result;
         }
     }
 </script>
