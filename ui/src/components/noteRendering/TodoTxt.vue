@@ -2,35 +2,36 @@
     <v-card class="pa-2" tile>
         <v-list-item two-line v-for="(model, i) of models" :key="i" v-shortkey="['ctrl', 's']" @shortkey="editItem">
             <!-- View -->
-            <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)" v-if="indexEditing !== i">
+            <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)"
+                                v-if="indexEditing !== i">
                 <span>{{model.priority}}</span>
             </v-list-item-avatar>
-            <v-list-item-content :class="{ done: model.completed }" class="todo-item" @click="editMode(i)" v-if="indexEditing !== i">
+            <v-list-item-content :class="{ done: model.completed }" class="todo-item" @click="editMode(i)"
+                                 v-if="indexEditing !== i">
                 <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
                 </v-list-item-subtitle>
             </v-list-item-content>
-            
+
             <!-- Edit -->
-            <v-list-item-avatar class="done-button" v-if="indexEditing === i">
+            <v-list-item-content v-if="indexEditing === i">
+                <v-list-item-subtitle>
+                    <textarea
+                            v-model="model.fullText"
+                            placeholder="Todo item..."
+                    />
+                </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action v-if="indexEditing === i">
                 <v-btn title="Save" @click="editItem" text>
                     <v-icon>mdi-content-save</v-icon>
                 </v-btn>
-            </v-list-item-avatar>
-            <v-list-item-subtitle v-if="indexEditing === i">
-                <v-text-field
-                        label="Todo item..."
-                        type="text"
-                        v-model="model.fullText"
-                />
-            </v-list-item-subtitle>
-            <v-list-item-avatar class="done-button" v-if="indexEditing === i">
                 <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>
                     <v-icon>mdi-check</v-icon>
                 </v-btn>
-            </v-list-item-avatar>
+            </v-list-item-action>
         </v-list-item>
     </v-card>
 </template>
@@ -58,7 +59,7 @@
         mounted() {
             this.models = todoTxtToModels(this.contents);
         }
-        
+
         editItem() {
             let model = this.models[this.indexEditing];
             let newModel = singleTodoTxtToModel(model.fullText);
@@ -79,11 +80,11 @@
                 this.$store.dispatch("updateNote", command);
             }
         }
-        
+
         editMode(index: number) {
             this.indexEditing = index;
         }
-        
+
         setCompletedStatus(model: TodoTxtModel) {
             model.completionDate = model.completed ? undefined : new Date();
             model.completed = !model.completed;
@@ -107,13 +108,17 @@
         min-width: 10px !important;
         margin-right: 16px !important;
     }
-    
+
     .done {
         text-decoration: line-through;
         color: #aaaaaa !important;
     }
-    
+
     .priority, .todo-item {
         cursor: pointer;
+    }
+    
+    textarea {
+        width: 100%;
     }
 </style>
