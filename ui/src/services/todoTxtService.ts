@@ -90,32 +90,41 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
     }
 
     model.description = parts.filter(p => !duePart || p.indexOf(duePart) === -1).join(" ");
-    console.log(model);
     return model;
 }
 
 export function todoTxtToModels(input: string): TodoTxtModel[] {
-    let result: TodoTxtModel[] = [];
+    let subResult: TodoTxtModel[] = [];
     let lines = input.lines();
     for (let line of lines) {
         if (!line) {
             continue;
         }
 
-        result.push(singleTodoTxtToModel(line));
+        subResult.push(singleTodoTxtToModel(line));
     }
+    
+    let result: TodoTxtModel[] = [];
+    
+    // Retrieve all overdue items
+    result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.OVERDUE && result.indexOf(r) === -1));
+
+    // Retrieve all items which are due today
+    result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.DUE_TODAY && result.indexOf(r) === -1));
+
+    // Retrieve all items which are due in a day
+    result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.DUE_IN_A_DAY && result.indexOf(r) === -1));
 
     // Retrieve all not-done models with priority
-    let prioResults = result.filter(r => !r.completed && !!r.priority);
-    prioResults.sort(firstBy("priority"));
+    result = result.concat(subResult.filter(r => !r.completed && !!r.priority && result.indexOf(r) === -1));
 
     // Retrieve all not-done models without priority
-    let noPrioResults = result.filter(r => !r.completed && !r.priority);
+    result = result.concat(subResult.filter(r => !r.completed && !r.priority && result.indexOf(r) === -1));
 
     // Retrieve all done models
-    let doneModels = result.filter(r => r.completed);
+    result = result.concat(subResult.filter(r => r.completed && result.indexOf(r) === -1));
 
-    return prioResults.concat(noPrioResults).concat(doneModels);
+    return result;
 }
 
 export function singleTodoTxtToString(model: TodoTxtModel) {
