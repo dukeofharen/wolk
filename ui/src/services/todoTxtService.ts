@@ -57,8 +57,16 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
 
         result.push(model);
     }
-
-    result.sort(firstBy("completed").thenBy(<any>"priority"));
-
-    return result;
+    
+    // Retrieve all not-done models with priority
+    let prioResults = result.filter(r => !r.completed && !!r.priority);
+    prioResults.sort(firstBy("priority"));
+    
+    // Retrieve all not-done models without priority
+    let noPrioResults = result.filter(r => !r.completed && !r.priority);
+    
+    // Retrieve all done models
+    let doneModels = result.filter(r => r.completed);
+    
+    return prioResults.concat(noPrioResults).concat(doneModels);
 }
