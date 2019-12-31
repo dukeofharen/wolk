@@ -31,6 +31,12 @@
                 <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>
                     <v-icon>mdi-check</v-icon>
                 </v-btn>
+                <v-btn title="Delete" @click="deleteItem" text>
+                    <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <v-btn title="Cancel editing" @click="cancelEditing" text>
+                    <v-icon>mdi-cancel</v-icon>
+                </v-btn>
             </v-list-item-action>
         </v-list-item>
     </v-card>
@@ -42,6 +48,7 @@
     import {todoTxtToModels, todoTxtToString, singleTodoTxtToModel} from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
     import {UpdateNoteCommand} from "@/store/actions/notes";
+    import {resources} from "@/resources";
 
     @Component({
         components: {}
@@ -55,6 +62,7 @@
 
         models: TodoTxtModel[] = [];
         indexEditing: number = -1;
+        oldText: string = "";
 
         mounted() {
             this.models = todoTxtToModels(this.contents);
@@ -81,7 +89,24 @@
             }
         }
 
+        deleteItem() {
+            if(confirm(resources.areYouSureDeleteTodoItem)) {
+                this.models.splice(this.indexEditing, 1);
+                this.save();
+            }
+        }
+
+        cancelEditing() {
+            let model = this.models[this.indexEditing];
+            model.fullText = this.oldText;
+            let newModel = singleTodoTxtToModel(model.fullText);
+            this.models.splice(this.indexEditing, 1, newModel);
+            this.indexEditing = -1;
+        }
+
         editMode(index: number) {
+            let model = this.models[index];
+            this.oldText = model.fullText;
             this.indexEditing = index;
         }
 
