@@ -1,5 +1,10 @@
 <template>
     <v-card class="pa-2" tile>
+        <v-card-actions>
+            <v-btn title="Add todo item" @click="addTodoItem" text>
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+        </v-card-actions>
         <v-list-item two-line v-for="(model, i) of models" :key="i" v-shortkey="['ctrl', 's']" @shortkey="editItem">
             <!-- View -->
             <v-list-item-avatar class="priority" :class="{ done: model.completed }" @click="editMode(i)"
@@ -49,6 +54,7 @@
     import {TodoTxtModel} from "@/models/todoTxtModel";
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
+    import moment from "moment";
 
     @Component({
         components: {}
@@ -90,10 +96,26 @@
         }
 
         deleteItem() {
-            if(confirm(resources.areYouSureDeleteTodoItem)) {
+            if (confirm(resources.areYouSureDeleteTodoItem)) {
                 this.models.splice(this.indexEditing, 1);
                 this.save();
             }
+        }
+
+        addTodoItem() {
+            let now = moment(new Date()).format('YYYY-MM-DD');
+            let model: TodoTxtModel = {
+                fullText: `(A) ${now} note-description +project-tag @context-tag`,
+                completed: false,
+                creationDate: undefined,
+                completionDate: undefined,
+                description: "",
+                priority: "",
+                contextTags: [],
+                projectTags: []
+            };
+            this.models.unshift(model);
+            this.indexEditing = 0;
         }
 
         cancelEditing() {
@@ -142,8 +164,9 @@
     .priority, .todo-item {
         cursor: pointer;
     }
-    
+
     textarea {
         width: 100%;
+        height: 100px;
     }
 </style>
