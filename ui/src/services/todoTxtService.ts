@@ -116,7 +116,9 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
     result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.DUE_IN_A_DAY && result.indexOf(r) === -1));
 
     // Retrieve all not-done models with priority
-    result = result.concat(subResult.filter(r => !r.completed && !!r.priority && result.indexOf(r) === -1));
+    let prioResults = subResult.filter(r => !r.completed && !!r.priority && result.indexOf(r) === -1);
+    prioResults.sort(firstBy("priority"));
+    result = result.concat(prioResults);
 
     // Retrieve all not-done models without priority
     result = result.concat(subResult.filter(r => !r.completed && !r.priority && result.indexOf(r) === -1));
