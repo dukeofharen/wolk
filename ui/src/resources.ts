@@ -13,6 +13,7 @@ export const resources = {
     areYouSureDeleteNotebook: "Are you sure you want to delete this notebook? All notes will be deleted! This can not be undone.",
     areYouSureDeleteAttachment: "Are you sure you want to delete this attachment? This can not be undone.",
     areYouSureDeleteStickyNote: "Are you sure you want to delete this sticky note?",
+    areYouSureDeleteTodoItem: "Are you sure you want to delete this todo item?",
     unsavedChanges: "There are unsaved changes. Continue?",
     notFound: "This item could not be found (anymore).",
     serverError: "The server returned an error. Try again.",
@@ -22,4 +23,10 @@ export const resources = {
 
 export const keys = {
     signedInUserKey: "SignedInUser"
+};
+
+export const timeUnitsInSeconds = {
+    hour: 3600,
+    day: (24 * 3600),
+    week: (24 * 3600 * 7)
 };

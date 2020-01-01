@@ -1,68 +1,66 @@
 <template>
-    <v-container class="lighten-5" v-shortkey="['ctrl', 's']" @shortkey="saveNote">
-        <v-row no-gutters>
-            <v-col cols="12" sm="12">
-                <v-btn title="Add note" @click="addNote(0)" text>
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
-            </v-col>
-            <v-col cols="12" sm="4" v-for="(model, i) of models" :key="i">
-                <v-card class="pa-2 sticky-note" tile :style="{ backgroundColor: model.metadata.backgroundColor }">
-                    <v-card-title class="sticky-title">
-                        <div v-if="indexEditing !== i" @click="edit(i)">{{model.title}}</div>
-                        <div v-if="indexEditing === i">
-                            <v-text-field
-                                    label="Note title"
-                                    type="text"
-                                    v-model="model.title"
-                            />
-                        </div>
-                    </v-card-title>
-                    <v-card-text class="sticky-contents">
-                        <div v-if="indexEditing !== i" v-html="marked(model.contents)" @click="edit(i)"/>
-                        <textarea
-                                v-model="model.contents"
-                                v-if="indexEditing === i"
-                                placeholder="Note contents"
+    <v-row no-gutters v-shortkey="['ctrl', 's']" @shortkey="saveNote">
+        <v-col cols="12" sm="12">
+            <v-btn title="Add note" @click="addNote(0)" text>
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+        </v-col>
+        <v-col cols="12" sm="4" v-for="(model, i) of models" :key="i">
+            <v-card class="pa-2 sticky-note" tile :style="{ backgroundColor: model.metadata.backgroundColor }">
+                <v-card-title class="sticky-title">
+                    <div v-if="indexEditing !== i" @click="edit(i)">{{model.title}}</div>
+                    <div v-if="indexEditing === i">
+                        <v-text-field
+                                label="Note title"
+                                type="text"
+                                v-model="model.title"
                         />
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-btn title="Save note" @click="saveNote" v-if="indexEditing === i" text>
-                            <v-icon>mdi-content-save</v-icon>
+                    </div>
+                </v-card-title>
+                <v-card-text class="sticky-contents">
+                    <div v-if="indexEditing !== i" v-html="marked(model.contents)" @click="edit(i)"/>
+                    <textarea
+                            v-model="model.contents"
+                            v-if="indexEditing === i"
+                            placeholder="Note contents"
+                    />
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn title="Save note" @click="saveNote" v-if="indexEditing === i" text>
+                        <v-icon>mdi-content-save</v-icon>
+                    </v-btn>
+                    <v-btn title="Cancel editing" @click="cancelEditing" v-if="indexEditing === i" text>
+                        <v-icon>mdi-cancel</v-icon>
+                    </v-btn>
+                    <v-btn title="Delete note" @click="deleteNote(i)" v-if="indexEditing !== i" text>
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                    <v-btn title="Move one lower" @click="moveOneLower(i)" v-if="indexEditing !== i" text>
+                        <v-icon>mdi-arrow-down-bold</v-icon>
+                    </v-btn>
+                    <v-btn title="Move one higher" @click="moveOneHigher(i)" v-if="indexEditing !== i" text>
+                        <v-icon>mdi-arrow-up-bold</v-icon>
+                    </v-btn>
+                    <v-btn title="Add before" @click="addNote(i)" v-if="indexEditing !== i" text>
+                        <v-icon>mdi-table-column-plus-before</v-icon>
+                    </v-btn>
+                    <v-btn title="Add after" @click="addNote(i+1)" v-if="indexEditing !== i" text>
+                        <v-icon>mdi-table-column-plus-after</v-icon>
+                    </v-btn>
+                    <div class="color-buttons" v-if="indexEditing === i">
+                        <v-btn
+                                title="Save note"
+                                @click="setColor(i, scheme)"
+                                v-for="scheme of colorSchemes"
+                                :key="scheme.key"
+                                :style="{ backgroundColor: scheme.backgroundColor }">
+                            &nbsp;
                         </v-btn>
-                        <v-btn title="Cancel editing" @click="cancelEditing" v-if="indexEditing === i" text>
-                            <v-icon>mdi-cancel</v-icon>
-                        </v-btn>
-                        <v-btn title="Delete note" @click="deleteNote(i)" v-if="indexEditing !== i" text>
-                            <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                        <v-btn title="Move one lower" @click="moveOneLower(i)" v-if="indexEditing !== i" text>
-                            <v-icon>mdi-arrow-down-bold</v-icon>
-                        </v-btn>
-                        <v-btn title="Move one higher" @click="moveOneHigher(i)" v-if="indexEditing !== i" text>
-                            <v-icon>mdi-arrow-up-bold</v-icon>
-                        </v-btn>
-                        <v-btn title="Add before" @click="addNote(i)" v-if="indexEditing !== i" text>
-                            <v-icon>mdi-table-column-plus-before</v-icon>
-                        </v-btn>
-                        <v-btn title="Add after" @click="addNote(i+1)" v-if="indexEditing !== i" text>
-                            <v-icon>mdi-table-column-plus-after</v-icon>
-                        </v-btn>
-                        <div class="color-buttons" v-if="indexEditing === i">
-                            <v-btn
-                                    title="Save note"
-                                    @click="setColor(i, scheme)"
-                                    v-for="scheme of colorSchemes"
-                                    :key="scheme.key"
-                                    :style="{ backgroundColor: scheme.backgroundColor }">
-                                &nbsp;
-                            </v-btn>
-                        </div>
-                    </v-card-actions>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+                    </div>
+                </v-card-actions>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script lang="ts">
