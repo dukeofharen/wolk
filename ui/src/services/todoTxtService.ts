@@ -169,7 +169,7 @@ export function extractProjectTags(models: TodoTxtModel[]): string[] {
     models = models.filter(m => !m.completed);
     for (let model of models) {
         for (let tag of model.projectTags) {
-            if (result.indexOf(tag) === -1) {
+            if (result.indexOf(tag) === -1 && tag !== "+") {
                 result.push(tag);
             }
         }
@@ -183,7 +183,7 @@ export function extractContextTags(models: TodoTxtModel[]): string[] {
     models = models.filter(m => !m.completed);
     for (let model of models) {
         for (let tag of model.contextTags) {
-            if (result.indexOf(tag) === -1) {
+            if (result.indexOf(tag) === -1 && tag !== "@") {
                 result.push(tag);
             }
         }
