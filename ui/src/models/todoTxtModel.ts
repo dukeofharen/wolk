@@ -7,7 +7,7 @@ export interface TodoTxtModel {
     completionDate?: Date;
     creationDate?: Date;
     dueDate?: Date;
-    dueStatus: DueStatusType;
+    dueStatus?: DueStatusType;
     description: string;
     projectTags: string[];
     contextTags: string[];

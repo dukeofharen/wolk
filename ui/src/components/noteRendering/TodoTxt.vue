@@ -1,3 +1,5 @@
+import {DueStatusType} from "@/services/todoTxtService";
+import {DueStatusType} from "@/services/todoTxtService";
 <template>
     <v-card class="pa-2" tile>
         <v-card-actions>
@@ -35,7 +37,8 @@
                 two-line
                 v-for="(model, i) of filteredModels"
                 :key="i" v-shortkey="['ctrl', 's']"
-                @shortkey="editItem">
+                @shortkey="editItem"
+                :style="{backgroundColor: getDueStatusColor(model)}">
             <!-- View -->
             <v-list-item-avatar
                     class="priority"
@@ -58,14 +61,6 @@
             </v-list-item-content>
 
             <!-- Edit -->
-            <v-list-item-content v-if="indexEditing === i">
-                <v-list-item-subtitle>
-                    <textarea
-                            v-model="model.fullText"
-                            placeholder="Todo item..."
-                    />
-                </v-list-item-subtitle>
-            </v-list-item-content>
             <v-list-item-action v-if="indexEditing === i">
                 <v-btn title="Save" @click="editItem" text>
                     <v-icon>mdi-content-save</v-icon>
@@ -80,6 +75,14 @@
                     <v-icon>mdi-cancel</v-icon>
                 </v-btn>
             </v-list-item-action>
+            <v-list-item-content v-if="indexEditing === i">
+                <v-list-item-subtitle>
+                    <textarea
+                            v-model="model.fullText"
+                            placeholder="Todo item..."
+                    />
+                </v-list-item-subtitle>
+            </v-list-item-content>
         </v-list-item>
     </v-card>
 </template>
@@ -88,11 +91,12 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        todoTxtToModels,
-        todoTxtToString,
-        singleTodoTxtToModel,
+        DueStatusType,
         extractContextTags,
-        extractProjectTags
+        extractProjectTags,
+        singleTodoTxtToModel,
+        todoTxtToModels,
+        todoTxtToString
     } from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
     import {UpdateNoteCommand} from "@/store/actions/notes";
@@ -183,10 +187,28 @@
             this.save();
         }
 
+        getDueStatusColor(model: TodoTxtModel) {
+            let defaultColor = "#ffffff";
+            if (model.completed) {
+                return defaultColor;
+            }
+            
+            switch(model.dueStatus) {
+                case DueStatusType.OVERDUE:
+                    return "#ff8f8f";
+                case DueStatusType.DUE_TODAY:
+                    return "#ffcf8f";
+                case DueStatusType.DUE_IN_A_DAY:
+                    return "#faff8f";
+                default:
+                    return defaultColor;
+            }
+        }
+
         get projectTags() {
             return extractProjectTags(this.models);
         }
-        
+
         get contextTags() {
             return extractContextTags(this.models);
         }
@@ -196,11 +218,11 @@
             if (this.projectTagFilter) {
                 result = result.filter(r => r.projectTags.indexOf(this.projectTagFilter) > -1);
             }
-            
-            if(this.contextTagFilter) {
+
+            if (this.contextTagFilter) {
                 result = result.filter(r => r.contextTags.indexOf(this.contextTagFilter) > -1);
             }
-            
+
             return result;
         }
     }
