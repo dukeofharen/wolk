@@ -51,7 +51,11 @@ const state: StateModel = {
         attachmentDialogOpened: false
     },
     attachmentAccessUrl: "",
-    pageSubTitle: ""
+    pageSubTitle: "",
+    event: {
+        key: "",
+        timestamp: 0
+    }
 };
 
 export default new Vuex.Store(constructStore(state));

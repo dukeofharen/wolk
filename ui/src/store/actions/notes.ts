@@ -4,7 +4,7 @@ import urls from '@/urls';
 import createInstance from '@/axios/axiosInstanceFactory';
 import Note from '@/models/api/note';
 import {successMessage} from '@/utilities/messenger';
-import {resources} from '@/resources';
+import {eventKeys, resources} from '@/resources';
 
 import router from '@/router';
 import {LoadNotesQueryModel} from '@/models/store/loadNotesQueryModel';
@@ -50,6 +50,7 @@ export function createNote({commit}: ActionContext<StateModel, StateModel>, note
 
             router.push({name: routeName, params: <any>{id: addedNote.id}});
             successMessage(resources.noteCreated);
+            commit("SEND_EVENT", eventKeys.noteCreated);
         });
 }
 
@@ -64,6 +65,7 @@ export function updateNote({commit}: ActionContext<StateModel, StateModel>, comm
         .then(r => r.data)
         .then(() => {
             successMessage(resources.noteUpdated);
+            commit("SEND_EVENT", eventKeys.noteUpdated);
         });
 }
 
