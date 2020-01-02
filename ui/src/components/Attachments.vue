@@ -3,7 +3,7 @@
         <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
         <v-divider/>
         <v-card-text>
-            <v-list>
+            <v-list v-if="attachments.length > 0">
                 <v-list-item-group>
                     <v-list-item v-for="attachment of attachments" :key="attachment.id">
                         <v-list-item-icon>
@@ -20,6 +20,7 @@
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
+            <div v-if="attachments.length === 0" class="no-attachments">No attachments uploaded yet.</div>
         </v-card-text>
         <v-card-actions>
             <v-btn
@@ -143,4 +144,7 @@
 </script>
 
 <style scoped>
+    .no-attachments {
+        color: #bbbbbb;
+    }
 </style>
