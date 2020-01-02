@@ -1,6 +1,6 @@
 <template>
     <v-row>
-        <v-col>
+        <v-col class="notebook-bar">
             <transition name="fade">
                 <v-list-item
                         :to="{ name: 'noteForm'}"
@@ -116,4 +116,7 @@
 </script>
 
 <style scoped>
+    .notebook-bar {
+        margin-bottom: 50px;
+    }
 </style>
