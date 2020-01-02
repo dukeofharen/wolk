@@ -41,7 +41,7 @@
                     <v-list-item-content
                             :class="{ done: model.completed }"
                             class="todo-item">
-                        <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
+                        <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)" />
                         <v-list-item-subtitle>
                             <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                             <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
@@ -67,6 +67,7 @@
     import {mapState} from "vuex";
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import {NoteType} from "@/models/api/enums/noteType";
+    import marked from "marked";
 
     @Component({
         components: {},
@@ -109,6 +110,10 @@
                 params: <any>{id: noteId},
                 query: <any>{hashCode: hashCode}
             });
+        }
+
+        parseMarkdown(input: string) {
+            return marked.inlineLexer(input, []);
         }
 
         get projectTags() {

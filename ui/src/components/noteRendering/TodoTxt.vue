@@ -50,7 +50,7 @@
                     class="todo-item"
                     @click="editMode(i)"
                     v-if="indexEditing !== i">
-                <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
+                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)" />
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
@@ -100,6 +100,7 @@
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
     import moment from "moment";
+    import marked from "marked";
 
     @Component({
         components: {}
@@ -215,6 +216,10 @@
                 default:
                     return defaultColor;
             }
+        }
+        
+        parseMarkdown(input: string) {
+            return marked.inlineLexer(input, []);
         }
 
         get projectTags() {
