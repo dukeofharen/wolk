@@ -26,6 +26,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.General
         [DataRow("/api/notebook/1", "GET")]
         [DataRow("/api/notebook", "GET")]
         [DataRow("/api/notebook/1", "PUT")]
+        [DataRow("/api/backup", "GET")]
         public async Task CheckUnauthorized(string url, string method)
         {
             // Arrange
