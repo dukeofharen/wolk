@@ -36,7 +36,7 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNotes
 
             if (request.NoteType.HasValue)
             {
-                query = query.Where(n => n.NoteType != request.NoteType.Value);
+                query = query.Where(n => n.NoteType == request.NoteType.Value);
             }
 
             return _mapper.Map<IEnumerable<NoteDto>>(await query.ToArrayAsync(cancellationToken));

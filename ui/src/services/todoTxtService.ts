@@ -2,6 +2,7 @@ import {TodoTxtModel} from "@/models/todoTxtModel";
 import {firstBy} from "thenby";
 import moment from 'moment'
 import {timeUnitsInSeconds} from "@/resources";
+import Note from "@/models/api/note";
 
 export enum DueStatusType {
     NOT_SET,
@@ -12,8 +13,9 @@ export enum DueStatusType {
     OVERDUE
 }
 
-export function singleTodoTxtToModel(line: string): TodoTxtModel {
+export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtModel {
     let model: TodoTxtModel = {
+        noteId: noteId,
         completed: false,
         priority: "",
         completionDate: undefined,
@@ -93,19 +95,9 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
     return model;
 }
 
-export function todoTxtToModels(input: string): TodoTxtModel[] {
-    let subResult: TodoTxtModel[] = [];
-    let lines = input.lines();
-    for (let line of lines) {
-        if (!line) {
-            continue;
-        }
-
-        subResult.push(singleTodoTxtToModel(line));
-    }
-    
+function sortTodoItems(subResult: TodoTxtModel[]): TodoTxtModel[] {
     let result: TodoTxtModel[] = [];
-    
+
     // Retrieve all overdue items
     result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.OVERDUE && result.indexOf(r) === -1));
 
@@ -127,6 +119,29 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
     result = result.concat(subResult.filter(r => r.completed && result.indexOf(r) === -1));
 
     return result;
+}
+
+export function todoTxtNotesToModels(notes: Note[]): TodoTxtModel[] {
+    let subResult: TodoTxtModel[] = [];
+    for (let note of notes) {
+        subResult = subResult.concat(todoTxtToModels(note.content, note.id));
+    }
+
+    return sortTodoItems(subResult);
+}
+
+export function todoTxtToModels(input: string, noteId?: number): TodoTxtModel[] {
+    let subResult: TodoTxtModel[] = [];
+    let lines = input.lines();
+    for (let line of lines) {
+        if (!line) {
+            continue;
+        }
+
+        subResult.push(singleTodoTxtToModel(line, noteId));
+    }
+
+    return sortTodoItems(subResult);
 }
 
 export function singleTodoTxtToString(model: TodoTxtModel) {

@@ -12,6 +12,10 @@ import {NoteType} from "@/models/api/enums/noteType";
 
 export function loadNotes({commit}: ActionContext<StateModel, StateModel>, queryModel?: LoadNotesQueryModel) {
     let url = `${urls.rootUrl}api/note`;
+    if (queryModel && queryModel.includeFullContents) {
+        url += '/all';
+    }
+
     let instance = createInstance();
     let promise = !!queryModel ? instance.get(url, {
         params: queryModel
@@ -38,12 +42,12 @@ export function createNote({commit}: ActionContext<StateModel, StateModel>, note
         .then(r => r.data)
         .then((addedNote: Note) => {
             let routeName;
-            if(addedNote.noteType === NoteType.StickyNotes || addedNote.noteType === NoteType.TodoTxt) {
+            if (addedNote.noteType === NoteType.StickyNotes || addedNote.noteType === NoteType.TodoTxt) {
                 routeName = "viewNote";
             } else {
                 routeName = "noteForm";
             }
-            
+
             router.push({name: routeName, params: <any>{id: addedNote.id}});
             successMessage(resources.noteCreated);
         });

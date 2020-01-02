@@ -30,7 +30,7 @@ import {DueStatusType} from "@/services/todoTxtService";
                                 clearable
                         />
                     </v-row>
-                </v-col>
+                </v-col>  
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -120,7 +120,7 @@ import {DueStatusType} from "@/services/todoTxtService";
         contextTagFilter: string = "";
 
         mounted() {
-            this.models = todoTxtToModels(this.contents);
+            this.models = todoTxtToModels(this.contents, undefined);
         }
 
         editItem() {
