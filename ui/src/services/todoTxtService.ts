@@ -117,7 +117,9 @@ function sortTodoItems(subResult: TodoTxtModel[]): TodoTxtModel[] {
     result = result.concat(subResult.filter(r => !r.completed && !r.priority && result.indexOf(r) === -1));
 
     // Retrieve all done models
-    result = result.concat(subResult.filter(r => r.completed && result.indexOf(r) === -1));
+    let doneResults = subResult.filter(r => r.completed && result.indexOf(r) === -1);
+    doneResults.sort(firstBy("completionDate", -1));
+    result = result.concat(doneResults);
 
     return result;
 }
