@@ -1,54 +1,57 @@
-import {NoteType} from "@/models/api/enums/noteType";
-import {DueStatusType} from "@/services/todoTxtService";
-import {DueStatusType} from "@/services/todoTxtService";
 <template>
-    <v-card class="pa-2" tile>
-        <v-card-actions>
-            <v-row no-gutters>
-                <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="projectTags"
-                                placeholder="Filter on project tag..."
-                                v-model="projectTagFilter"
-                                clearable
-                        />
+    <v-row>
+        <v-col>
+            <h1>All todo items</h1>
+            <v-card class="pa-2" tile>
+                <v-card-actions>
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-row>
+                                <v-select
+                                        :items="projectTags"
+                                        placeholder="Filter on project tag..."
+                                        v-model="projectTagFilter"
+                                        clearable
+                                />
+                            </v-row>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-row>
+                                <v-select
+                                        :items="contextTags"
+                                        placeholder="Filter on context tag..."
+                                        v-model="contextTagFilter"
+                                        clearable
+                                />
+                            </v-row>
+                        </v-col>
                     </v-row>
-                </v-col>
-                <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="contextTags"
-                                placeholder="Filter on context tag..."
-                                v-model="contextTagFilter"
-                                clearable
-                        />
-                    </v-row>
-                </v-col>
-            </v-row>
-        </v-card-actions>
-        <v-list-item
-                two-line
-                v-for="(model, i) of filteredModels"
-                @click="goToNote(model.noteId)"
-                :style="{backgroundColor: getDueStatusColor(model)}">
-            <v-list-item-avatar
-                    class="priority"
-                    :class="{ done: model.completed }">
-                <span>{{model.priority}}</span>
-            </v-list-item-avatar>
-            <v-list-item-content
-                    :class="{ done: model.completed }"
-                    class="todo-item">
-                <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
-                <v-list-item-subtitle>
-                    <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
-                    <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
-                    <span v-if="model.dueDate">, due: {{model.dueDate | date}}</span>
-                </v-list-item-subtitle>
-            </v-list-item-content>
-        </v-list-item>
-    </v-card>
+                </v-card-actions>
+                <v-list-item
+                        two-line
+                        v-for="(model, i) of filteredModels"
+                        :key="i"
+                        @click="goToNote(model.noteId, model.hashCode)"
+                        :style="{backgroundColor: getDueStatusColor(model)}">
+                    <v-list-item-avatar
+                            class="priority"
+                            :class="{ done: model.completed }">
+                        <span>{{model.priority}}</span>
+                    </v-list-item-avatar>
+                    <v-list-item-content
+                            :class="{ done: model.completed }"
+                            class="todo-item">
+                        <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
+                        <v-list-item-subtitle>
+                            <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
+                            <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
+                            <span v-if="model.dueDate">, due: {{model.dueDate | date}}</span>
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-card>
+        </v-col>
+    </v-row>
 </template>
 
 <script lang="ts">
@@ -99,11 +102,12 @@ import {DueStatusType} from "@/services/todoTxtService";
                     return defaultColor;
             }
         }
-        
-        goToNote(noteId: number) {
+
+        goToNote(noteId: number, hashCode: number) {
             this.$router.push({
                 name: "viewNote",
-                params: <any>{id: noteId}
+                params: <any>{id: noteId},
+                query: <any>{hashCode: hashCode}
             });
         }
 

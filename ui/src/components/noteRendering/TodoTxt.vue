@@ -1,5 +1,3 @@
-import {DueStatusType} from "@/services/todoTxtService";
-import {DueStatusType} from "@/services/todoTxtService";
 <template>
     <v-card class="pa-2" tile>
         <v-card-actions>
@@ -30,7 +28,7 @@ import {DueStatusType} from "@/services/todoTxtService";
                                 clearable
                         />
                     </v-row>
-                </v-col>  
+                </v-col>
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -121,6 +119,16 @@ import {DueStatusType} from "@/services/todoTxtService";
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
+
+            // If hashCode is set, find the specific todoitem and open it
+            let hashCodeText = <string>this.$route.query.hashCode;
+            if (hashCodeText) {
+                let hashCode = parseInt(hashCodeText);
+                let item = this.models.find(m => m.hashCode === hashCode);
+                if (item) {
+                    this.editMode(this.models.indexOf(item));
+                }
+            }
         }
 
         editItem() {
@@ -161,17 +169,21 @@ import {DueStatusType} from "@/services/todoTxtService";
                 description: "",
                 priority: "",
                 contextTags: [],
-                projectTags: []
+                projectTags: [],
+                hashCode: 0
             };
             this.models.unshift(model);
             this.indexEditing = 0;
         }
 
         cancelEditing() {
-            let model = this.models[this.indexEditing];
-            model.fullText = this.oldText;
-            let newModel = singleTodoTxtToModel(model.fullText);
-            this.models.splice(this.indexEditing, 1, newModel);
+            if (this.oldText) {
+                let model = this.models[this.indexEditing];
+                model.fullText = this.oldText;
+                let newModel = singleTodoTxtToModel(model.fullText);
+                this.models.splice(this.indexEditing, 1, newModel);
+            }
+
             this.indexEditing = -1;
         }
 
@@ -192,8 +204,8 @@ import {DueStatusType} from "@/services/todoTxtService";
             if (model.completed) {
                 return defaultColor;
             }
-            
-            switch(model.dueStatus) {
+
+            switch (model.dueStatus) {
                 case DueStatusType.OVERDUE:
                     return "#ff8f8f";
                 case DueStatusType.DUE_TODAY:

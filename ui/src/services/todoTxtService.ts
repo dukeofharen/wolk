@@ -25,7 +25,8 @@ export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtMode
         contextTags: [],
         description: "",
         fullText: line,
-        projectTags: []
+        projectTags: [],
+        hashCode: line.hashCode()
     };
 
     let parts = line.trim().split(" ");
@@ -124,13 +125,13 @@ function sortTodoItems(subResult: TodoTxtModel[]): TodoTxtModel[] {
 export function todoTxtNotesToModels(notes: Note[]): TodoTxtModel[] {
     let subResult: TodoTxtModel[] = [];
     for (let note of notes) {
-        if(!note.content) {
+        if (!note.content) {
             continue;
         }
-        
+
         try {
             subResult = subResult.concat(todoTxtToModels(note.content, note.id));
-        } catch(e) {
+        } catch (e) {
             console.error(e);
         }
     }

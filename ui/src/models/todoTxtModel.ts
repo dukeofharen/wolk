@@ -12,4 +12,5 @@ export interface TodoTxtModel {
     description: string;
     projectTags: string[];
     contextTags: string[];
+    hashCode: number;
 }
