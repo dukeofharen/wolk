@@ -53,6 +53,15 @@
                         <v-list-item-title class="grey--text">Note overview</v-list-item-title>
                     </v-list-item>
                     <v-list-item
+                            :to="{ name: 'todoTxtOverview'}"
+                            v-if="isSignedIn"
+                    >
+                        <v-list-item-action>
+                            <v-icon>mdi-check-all</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-title class="grey--text">Todo item overview</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
                             :to="{ name: 'notesList', params: {id: notebook.id}}"
                             v-for="notebook of notebooks"
                             :key="notebook.id"

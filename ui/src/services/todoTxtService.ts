@@ -124,7 +124,15 @@ function sortTodoItems(subResult: TodoTxtModel[]): TodoTxtModel[] {
 export function todoTxtNotesToModels(notes: Note[]): TodoTxtModel[] {
     let subResult: TodoTxtModel[] = [];
     for (let note of notes) {
-        subResult = subResult.concat(todoTxtToModels(note.content, note.id));
+        if(!note.content) {
+            continue;
+        }
+        
+        try {
+            subResult = subResult.concat(todoTxtToModels(note.content, note.id));
+        } catch(e) {
+            console.error(e);
+        }
     }
 
     return sortTodoItems(subResult);
