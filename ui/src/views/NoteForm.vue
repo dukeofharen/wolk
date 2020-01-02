@@ -10,7 +10,7 @@ import {NoteType} from "@/models/api/enums/noteType";
                 <Attachments :noteId="note.id"/>
             </v-dialog>
 
-            <div v-if="!previewing">
+            <div v-if="!previewing" class="form">
                 <v-text-field
                         label="Note title"
                         type="text"
@@ -231,5 +231,8 @@ import {NoteType} from "@/models/api/enums/noteType";
     textarea {
         width: 100%;
         resize: none;
+    }
+    .form {
+        margin-bottom: 30px;
     }
 </style>
