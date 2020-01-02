@@ -34,6 +34,16 @@ namespace Ducode.Wolk.Api.Controllers
             Ok(Mapper.Map<IEnumerable<NoteOverviewDto>>(await Mediator.Send(query)));
 
         /// <summary>
+        /// Returns a list of all notes including full note content.
+        /// </summary>
+        /// <param name="query">The query parameters.</param>
+        /// <returns>A list of notes.</returns>
+        [HttpGet("all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<NoteDto>>> GetAllIncludingContent([FromQuery] GetNotesQuery query) =>
+            Ok(Mapper.Map<IEnumerable<NoteDto>>(await Mediator.Send(query)));
+
+        /// <summary>
         /// Returns a specific note. This returns the whole note, including the complete contents.
         /// </summary>
         /// <param name="id"></param>
@@ -124,7 +134,6 @@ namespace Ducode.Wolk.Api.Controllers
         /// <summary>
         /// Returns the actual attachment as binary.
         /// </summary>
-        /// <param name="query">The query.</param>
         /// <param name="attachmentId">The attachment ID.</param>
         /// <returns>The attachment as binary.</returns>
         [HttpGet("{noteId}/attachments/{attachmentId}")]

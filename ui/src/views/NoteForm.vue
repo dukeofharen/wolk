@@ -10,7 +10,7 @@ import {NoteType} from "@/models/api/enums/noteType";
                 <Attachments :noteId="note.id"/>
             </v-dialog>
 
-            <div v-if="!previewing">
+            <div v-if="!previewing" class="form">
                 <v-text-field
                         label="Note title"
                         type="text"
@@ -82,15 +82,16 @@ import {NoteType} from "@/models/api/enums/noteType";
     import Notebook from "../models/api/notebook";
     import {getNoteTypeArray, NoteType} from "@/models/api/enums/noteType";
     import {KeyValuePair} from "@/models/keyValuePair";
-    import {resources} from "@/resources";
+    import {eventKeys, resources} from "@/resources";
     import NoteRender from "@/components/NoteRender.vue";
     import Attachments from "@/components/Attachments.vue";
     import {UiStateModel} from "@/models/store/uiStateModel";
     import BackToTop from "@/components/BackToTop.vue";
+    import {EventModel} from "@/models/store/eventModel";
 
     @Component({
         components: {NoteRender, Attachments, BackToTop},
-        computed: mapState(["notebooks", "currentNote", "uiState"]),
+        computed: mapState(["notebooks", "currentNote", "uiState", "event"]),
         beforeRouteLeave(to, from, next) {
             let form: NoteForm = this as NoteForm;
             if (form.calculateHash() === 0 || form.contentHash === form.calculateHash() || confirm(resources.unsavedChanges)) {
@@ -126,6 +127,13 @@ import {NoteType} from "@/models/api/enums/noteType";
             setTimeout(() => NoteForm.updateContentInputSize(this.$refs.content as HTMLElement), 10);
         }
 
+        @Watch("event")
+        onEvent(value: EventModel) {
+            if (value.key === eventKeys.noteUpdated || value.key === eventKeys.noteCreated) {
+                this.contentHash = this.calculateHash();
+            }
+        }
+
         mounted() {
             this.reloadData();
         }
@@ -151,8 +159,6 @@ import {NoteType} from "@/models/api/enums/noteType";
                     id: this.noteId
                 });
             }
-
-            this.contentHash = this.calculateHash();
         }
 
         viewNote() {
@@ -180,12 +186,12 @@ import {NoteType} from "@/models/api/enums/noteType";
         contentInput(e: InputEvent) {
             NoteForm.updateContentInputSize(e.target as HTMLElement);
         }
-        
+
         togglePreview() {
             this.previewing = !this.previewing;
             setTimeout(() => NoteForm.updateContentInputSize(this.$refs.content as HTMLElement), 10);
         }
-        
+
         get showTextarea() {
             return this.noteId || this.note.noteType !== NoteType.StickyNotes && this.note.noteType !== NoteType.TodoTxt;
         }
@@ -215,7 +221,7 @@ import {NoteType} from "@/models/api/enums/noteType";
             if (!this.note.title && !this.note.content && !this.note.noteType && !this.note.notebookId) {
                 return 0;
             }
-            
+
             let inputString = `${this.note.title}:${this.note.content}:${this.note.noteType}:${this.note.notebookId}`;
             return inputString.hashCode();
         }
@@ -225,5 +231,8 @@ import {NoteType} from "@/models/api/enums/noteType";
     textarea {
         width: 100%;
         resize: none;
+    }
+    .form {
+        margin-bottom: 30px;
     }
 </style>

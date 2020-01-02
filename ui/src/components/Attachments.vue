@@ -3,7 +3,7 @@
         <v-card-title class="headline grey lighten-2">Attachments</v-card-title>
         <v-divider/>
         <v-card-text>
-            <v-list>
+            <v-list v-if="attachments.length > 0">
                 <v-list-item-group>
                     <v-list-item v-for="attachment of attachments" :key="attachment.id">
                         <v-list-item-icon>
@@ -13,13 +13,14 @@
                             </v-icon>
                         </v-list-item-icon>
                         <v-list-item-content @click="openAttachment(attachment)">
-                            <v-list-item-title>
-                                {{attachment.filename}} ({{attachment.fileSize | filesize}})
+                            <v-list-item-title class="attachment-description text-wrap">
+                                {{attachment.filename}} ({{attachment.fileSize | filesize}}, {{attachment.created | datetime}})
                             </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
+            <div v-if="attachments.length === 0">No attachments uploaded yet.</div>
         </v-card-text>
         <v-card-actions>
             <v-btn
@@ -143,4 +144,10 @@
 </script>
 
 <style scoped>
+    .no-attachments {
+        color: #bbbbbb;
+    }
+    
+    .attachment-description {
+    }
 </style>

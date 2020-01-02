@@ -17,7 +17,7 @@
             </v-row>
         </v-col>
         <v-bottom-navigation color="indigo" fixed>
-            <v-btn title="Add note" :to="{ name: 'noteForm'}">
+            <v-btn title="Add note" :to="{ name: 'noteForm', query: {notebookId: currentNotebook.id}}">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
             <v-btn title="Update notebook" :to="{ name: 'notebookForm', params: {id: currentNotebook.id}}">

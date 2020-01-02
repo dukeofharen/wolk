@@ -41,6 +41,11 @@ const router = new Router({
             name: 'viewNote',
             component: () => import(/* webpackChunkName: "viewNote" */ './views/ViewNote.vue'),
         },
+        {
+            path: '/todoTxtOverview',
+            name: 'todoTxtOverview',
+            component: () => import(/* webpackChunkName: "todoTxtOverview" */ './views/TodoTxtOverview.vue'),
+        }
     ],
 });
 

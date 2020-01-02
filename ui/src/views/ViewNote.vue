@@ -20,6 +20,16 @@
                         {{note.changed | datetime}}
                     </v-chip>
                 </transition>
+                <transition name="fade">
+                    <v-chip
+                            title="Notebook"
+                            v-if="currentNotebook.name"
+                            :to="{ name: 'notesList', params: {id: currentNotebook.id}}"
+                    >
+                        <v-icon left>mdi-notebook</v-icon>
+                        {{currentNotebook.name}}
+                    </v-chip>
+                </transition>
             </div>
             <v-dialog scrollable v-model="uiState.attachmentDialogOpened">
                 <Attachments :noteId="note.id"/>
@@ -60,10 +70,11 @@
     import Attachments from "@/components/Attachments.vue";
     import {UiStateModel} from "@/models/store/uiStateModel";
     import BackToTop from "@/components/BackToTop.vue";
+    import Notebook from "@/models/api/notebook";
 
     @Component({
         components: {NoteRender, Attachments, BackToTop},
-        computed: mapState(["currentNote", "uiState"])
+        computed: mapState(["currentNote", "uiState", "currentNotebook"])
     })
     export default class ViewNote extends Vue {
         NoteType = NoteType;
@@ -81,6 +92,7 @@
             opened: new Date()
         };
         uiState!: UiStateModel;
+        currentNotebook!: Notebook;
 
         constructor() {
             super();
@@ -94,6 +106,7 @@
         onCurrentNoteChanged(value: Note) {
             this.note = value;
             this.$store.commit("SET_PAGE_SUB_TITLE", value.title);
+            this.$store.dispatch("loadNotebook", value.notebookId);
         }
 
         @Watch("$route")

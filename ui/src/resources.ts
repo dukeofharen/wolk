@@ -25,6 +25,11 @@ export const keys = {
     signedInUserKey: "SignedInUser"
 };
 
+export const eventKeys = {
+    noteUpdated: "noteUpdated",
+    noteCreated: "noteCreated"
+};
+
 export const timeUnitsInSeconds = {
     hour: 3600,
     day: (24 * 3600),

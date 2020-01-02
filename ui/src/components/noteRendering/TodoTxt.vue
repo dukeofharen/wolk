@@ -1,5 +1,3 @@
-import {DueStatusType} from "@/services/todoTxtService";
-import {DueStatusType} from "@/services/todoTxtService";
 <template>
     <v-card class="pa-2" tile>
         <v-card-actions>
@@ -52,7 +50,7 @@ import {DueStatusType} from "@/services/todoTxtService";
                     class="todo-item"
                     @click="editMode(i)"
                     v-if="indexEditing !== i">
-                <v-list-item-title class="todo-description">{{model.description}}</v-list-item-title>
+                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)" />
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
@@ -102,6 +100,7 @@ import {DueStatusType} from "@/services/todoTxtService";
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
     import moment from "moment";
+    import marked from "marked";
 
     @Component({
         components: {}
@@ -120,7 +119,17 @@ import {DueStatusType} from "@/services/todoTxtService";
         contextTagFilter: string = "";
 
         mounted() {
-            this.models = todoTxtToModels(this.contents);
+            this.models = todoTxtToModels(this.contents, undefined);
+
+            // If hashCode is set, find the specific todoitem and open it
+            let hashCodeText = <string>this.$route.query.hashCode;
+            if (hashCodeText) {
+                let hashCode = parseInt(hashCodeText);
+                let item = this.models.find(m => m.hashCode === hashCode);
+                if (item) {
+                    this.editMode(this.models.indexOf(item));
+                }
+            }
         }
 
         editItem() {
@@ -161,17 +170,21 @@ import {DueStatusType} from "@/services/todoTxtService";
                 description: "",
                 priority: "",
                 contextTags: [],
-                projectTags: []
+                projectTags: [],
+                hashCode: 0
             };
             this.models.unshift(model);
             this.indexEditing = 0;
         }
 
         cancelEditing() {
-            let model = this.models[this.indexEditing];
-            model.fullText = this.oldText;
-            let newModel = singleTodoTxtToModel(model.fullText);
-            this.models.splice(this.indexEditing, 1, newModel);
+            if (this.oldText) {
+                let model = this.models[this.indexEditing];
+                model.fullText = this.oldText;
+                let newModel = singleTodoTxtToModel(model.fullText);
+                this.models.splice(this.indexEditing, 1, newModel);
+            }
+
             this.indexEditing = -1;
         }
 
@@ -192,8 +205,8 @@ import {DueStatusType} from "@/services/todoTxtService";
             if (model.completed) {
                 return defaultColor;
             }
-            
-            switch(model.dueStatus) {
+
+            switch (model.dueStatus) {
                 case DueStatusType.OVERDUE:
                     return "#ff8f8f";
                 case DueStatusType.DUE_TODAY:
@@ -203,6 +216,10 @@ import {DueStatusType} from "@/services/todoTxtService";
                 default:
                     return defaultColor;
             }
+        }
+        
+        parseMarkdown(input: string) {
+            return marked.inlineLexer(input, []);
         }
 
         get projectTags() {

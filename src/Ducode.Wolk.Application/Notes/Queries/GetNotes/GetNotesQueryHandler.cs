@@ -34,6 +34,11 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNotes
                 query = query.Where(n => EF.Functions.Like(n.Title, $"%{request.SearchTerm}%"));
             }
 
+            if (request.NoteType.HasValue)
+            {
+                query = query.Where(n => n.NoteType == request.NoteType.Value);
+            }
+
             return _mapper.Map<IEnumerable<NoteDto>>(await query.ToArrayAsync(cancellationToken));
         }
     }

@@ -4,6 +4,10 @@ body{
     overflow-wrap: break-word;
 }
 
+img {
+    max-width: 100%;
+}
+
 .toast {
     font-family: "Roboto", sans-serif;
 }

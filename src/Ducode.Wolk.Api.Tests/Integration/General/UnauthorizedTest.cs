@@ -16,6 +16,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.General
         [DataRow("/api/note/1/attachments/1", "DELETE")]
         [DataRow("/api/note/1", "GET")]
         [DataRow("/api/note", "GET")]
+        [DataRow("/api/note/all", "GET")]
         [DataRow("/api/note/1/attachments", "GET")]
         [DataRow("/api/note/1/attachments/1", "GET")]
         [DataRow("/api/note/1/attachments/1/accessTokens", "POST")]

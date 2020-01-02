@@ -2,6 +2,7 @@ import {TodoTxtModel} from "@/models/todoTxtModel";
 import {firstBy} from "thenby";
 import moment from 'moment'
 import {timeUnitsInSeconds} from "@/resources";
+import Note from "@/models/api/note";
 
 export enum DueStatusType {
     NOT_SET,
@@ -12,8 +13,9 @@ export enum DueStatusType {
     OVERDUE
 }
 
-export function singleTodoTxtToModel(line: string): TodoTxtModel {
+export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtModel {
     let model: TodoTxtModel = {
+        noteId: noteId,
         completed: false,
         priority: "",
         completionDate: undefined,
@@ -23,7 +25,8 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
         contextTags: [],
         description: "",
         fullText: line,
-        projectTags: []
+        projectTags: [],
+        hashCode: line.hashCode()
     };
 
     let parts = line.trim().split(" ");
@@ -93,19 +96,9 @@ export function singleTodoTxtToModel(line: string): TodoTxtModel {
     return model;
 }
 
-export function todoTxtToModels(input: string): TodoTxtModel[] {
-    let subResult: TodoTxtModel[] = [];
-    let lines = input.lines();
-    for (let line of lines) {
-        if (!line) {
-            continue;
-        }
-
-        subResult.push(singleTodoTxtToModel(line));
-    }
-    
+function sortTodoItems(subResult: TodoTxtModel[]): TodoTxtModel[] {
     let result: TodoTxtModel[] = [];
-    
+
     // Retrieve all overdue items
     result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.OVERDUE && result.indexOf(r) === -1));
 
@@ -116,15 +109,50 @@ export function todoTxtToModels(input: string): TodoTxtModel[] {
     result = result.concat(subResult.filter(r => !r.completed && r.dueStatus === DueStatusType.DUE_IN_A_DAY && result.indexOf(r) === -1));
 
     // Retrieve all not-done models with priority
-    result = result.concat(subResult.filter(r => !r.completed && !!r.priority && result.indexOf(r) === -1));
+    let prioResults = subResult.filter(r => !r.completed && !!r.priority && result.indexOf(r) === -1);
+    prioResults.sort(firstBy("priority"));
+    result = result.concat(prioResults);
 
     // Retrieve all not-done models without priority
     result = result.concat(subResult.filter(r => !r.completed && !r.priority && result.indexOf(r) === -1));
 
     // Retrieve all done models
-    result = result.concat(subResult.filter(r => r.completed && result.indexOf(r) === -1));
+    let doneResults = subResult.filter(r => r.completed && result.indexOf(r) === -1);
+    doneResults.sort(firstBy("completionDate", -1));
+    result = result.concat(doneResults);
 
     return result;
+}
+
+export function todoTxtNotesToModels(notes: Note[]): TodoTxtModel[] {
+    let subResult: TodoTxtModel[] = [];
+    for (let note of notes) {
+        if (!note.content) {
+            continue;
+        }
+
+        try {
+            subResult = subResult.concat(todoTxtToModels(note.content, note.id));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    return sortTodoItems(subResult);
+}
+
+export function todoTxtToModels(input: string, noteId?: number): TodoTxtModel[] {
+    let subResult: TodoTxtModel[] = [];
+    let lines = input.lines();
+    for (let line of lines) {
+        if (!line) {
+            continue;
+        }
+
+        subResult.push(singleTodoTxtToModel(line, noteId));
+    }
+
+    return sortTodoItems(subResult);
 }
 
 export function singleTodoTxtToString(model: TodoTxtModel) {
@@ -167,7 +195,7 @@ export function extractProjectTags(models: TodoTxtModel[]): string[] {
     models = models.filter(m => !m.completed);
     for (let model of models) {
         for (let tag of model.projectTags) {
-            if (result.indexOf(tag) === -1) {
+            if (result.indexOf(tag) === -1 && tag !== "+") {
                 result.push(tag);
             }
         }
@@ -181,7 +209,7 @@ export function extractContextTags(models: TodoTxtModel[]): string[] {
     models = models.filter(m => !m.completed);
     for (let model of models) {
         for (let tag of model.contextTags) {
-            if (result.indexOf(tag) === -1) {
+            if (result.indexOf(tag) === -1 && tag !== "@") {
                 result.push(tag);
             }
         }

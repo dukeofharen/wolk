@@ -69,5 +69,30 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             ShouldBeEqual(note1, notes[0]);
             ShouldBeEqual(note3, notes[1]);
         }
+
+        [TestMethod]
+        public async Task GetAllIncludingContent_HappyFlow()
+        {
+            // Arrange
+            var note1 = await WolkDbContext.CreateAndSaveNote();
+            var note2 = await WolkDbContext.CreateAndSaveNote();
+            var url = "/api/note/all";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var token = await GetJwt();
+            request.AddJwtBearer(token);
+
+            // Act
+            using var response = await HttpClient.SendAsync(request);
+
+            // Assert
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+            var content = await response.Content.ReadAsStringAsync();
+            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
+
+            ShouldBeEqual(note1, notes[0]);
+            ShouldBeEqual(note2, notes[1]);
+        }
     }
 }
