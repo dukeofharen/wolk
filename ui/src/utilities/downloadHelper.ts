@@ -1,9 +1,5 @@
 export function downloadBlob(filename: string, data: any) {
     let blob = data;
-    // if (typeof data === 'string') {
-    //     blob = new Blob([data], { type: 'application/octet-stream' });
-    // }
-
     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         // IE does not allow direct links to blobs.
         // See also: https://stackoverflow.com/questions/20310688/blob-download-is-not-working-in-ie

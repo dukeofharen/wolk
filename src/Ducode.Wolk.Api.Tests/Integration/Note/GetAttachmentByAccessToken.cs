@@ -50,12 +50,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
 
             var path = Path.Combine(UploadsRootPath, attachment.InternalFilename);
             var uploadedFile = new byte[] {3, 4, 1, 6, 12};
-            MockFileService
-                .Setup(m => m.FileExists(path))
-                .Returns(true);
-            MockFileService
-                .Setup(m => m.ReadAllBytes(path))
-                .Returns(uploadedFile);
+            EnsureFileExists(path, uploadedFile);
 
             // Act
             using var response = await HttpClient.SendAsync(request);

@@ -5,6 +5,7 @@ using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Domain.Entities;
 using Ducode.Wolk.Persistence.SaveChanges;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Ducode.Wolk.Persistence
 {
@@ -44,5 +45,7 @@ namespace Ducode.Wolk.Persistence
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+        public virtual IDbContextTransaction BeginTransaction() => Database.BeginTransaction();
     }
 }

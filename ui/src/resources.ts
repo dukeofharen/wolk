@@ -1,6 +1,7 @@
 export const resources = {
     unauthorized: "You're not not authorized. You should log in first.",
     credentialsIncorrect: "The provided credentials are incorrect.",
+    backupRestoredSuccessfully: "The backup was restored successfully. You need to log in again.",
     notebookCreated: "The notebook was added successfully.",
     notebookUpdated: "The notebook was updated successfully.",
     notebookDeleted: "The notebook was deleted successfully.",

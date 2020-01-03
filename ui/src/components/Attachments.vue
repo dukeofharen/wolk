@@ -20,7 +20,7 @@
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
-            <div v-if="attachments.length === 0">No attachments uploaded yet.</div>
+            <div v-if="attachments.length === 0" class="no-attachments">No attachments uploaded yet.</div>
         </v-card-text>
         <v-card-actions>
             <v-btn

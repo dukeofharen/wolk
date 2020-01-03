@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ducode.Wolk.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Ducode.Wolk.Application.Interfaces
 {
@@ -18,5 +19,7 @@ namespace Ducode.Wolk.Application.Interfaces
         DbSet<AccessToken> AccessTokens { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        IDbContextTransaction BeginTransaction();
     }
 }

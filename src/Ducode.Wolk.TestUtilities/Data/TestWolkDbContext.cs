@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.Persistence.SaveChanges;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+using Moq;
 
 namespace Ducode.Wolk.TestUtilities.Data
 {
@@ -20,5 +22,7 @@ namespace Ducode.Wolk.TestUtilities.Data
         }
 
         public override ValueTask DisposeAsync() => new ValueTask();
+
+        public override IDbContextTransaction BeginTransaction() => new Mock<IDbContextTransaction>().Object;
     }
 }

@@ -42,9 +42,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             request.AddJwtBearer(token);
 
             var expectedPath = Path.Combine(UploadsRootPath, attachment.InternalFilename);
-            MockFileService
-                .Setup(m => m.FileExists(expectedPath))
-                .Returns(true);
+            EnsureFileExists(expectedPath);
 
             // Act
             using var response = await HttpClient.SendAsync(request);
@@ -52,8 +50,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             // Assert
             Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
             Assert.IsFalse(await WolkDbContext.Attachments.AnyAsync());
-            MockFileService
-                .Verify(m => m.DeleteFile(expectedPath));
+            Assert.AreEqual(0, MockFileService.Files.Count);
         }
     }
 }

@@ -77,8 +77,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             var attachment = await WolkDbContext.Attachments.SingleAsync();
             ShouldBeEqual(attachment, returnedAttachment);
 
-            MockFileService
-                .Verify(m => m.WriteAllBytes(It.IsAny<string>(), It.IsAny<byte[]>()), Times.Once);
+            Assert.AreEqual(1, MockFileService.Files.Count);
         }
     }
 }

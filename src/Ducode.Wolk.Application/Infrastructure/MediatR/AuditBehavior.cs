@@ -85,7 +85,7 @@ namespace Ducode.Wolk.Application.Infrastructure.MediatR
 
         private string SanitizedJson(object input)
         {
-            var forbiddenKeywords = new[] {"content", "contents", "password"};
+            var forbiddenKeywords = new[] {"content", "contents", "password", "zipBytes"};
             var json = JsonConvert.SerializeObject(input);
             var jobject = JObject.Parse(json);
             var result = new Dictionary<string, string>();

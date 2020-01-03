@@ -24,4 +24,15 @@
       <ProjectReference Include="..\Ducode.Wolk.TestUtilities\Ducode.Wolk.TestUtilities.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Files" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Files\wolk-backup.zip" />
+      <Content Include="Files\wolk-backup.zip">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
