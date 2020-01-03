@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Ducode.Wolk.Common.Utilities
 
         public static byte[] ReadEntry(this ZipArchive zip, string filename, bool throwOnNotFound = true)
         {
-            var entry = zip.Entries.FirstOrDefault(e => e.Name == filename);
+            var entry = zip.Entries.FirstOrDefault(e => e.FullName == filename);
             if (entry == null)
             {
                 if (throwOnNotFound)
@@ -43,5 +44,10 @@ namespace Ducode.Wolk.Common.Utilities
             var result = zip.ReadEntry(filename, throwOnNotFound);
             return result == null ? null : Encoding.UTF8.GetString(result);
         }
+
+        public static IEnumerable<string> ReadEntryNames(this ZipArchive zip, string directory) =>
+            zip.Entries
+                .Where(e => e.FullName.StartsWith($"{directory}/"))
+                .Select(e => e.FullName);
     }
 }

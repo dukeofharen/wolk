@@ -6,6 +6,7 @@ namespace Ducode.Wolk.Infrastructure.Impl
 {
     internal class FileService : IFileService
     {
+
         public byte[] ReadAllBytes(string path) => File.ReadAllBytes(path);
 
         public string ReadAllText(string path) => File.ReadAllText(path);
@@ -33,5 +34,7 @@ namespace Ducode.Wolk.Infrastructure.Impl
         public string GetCurrentDirectory() => Directory.GetCurrentDirectory();
 
         public DateTime GetModicationDateTime(string path) => File.GetLastWriteTimeUtc(path);
+
+        public void MoveFile(string oldPath, string newPath) => File.Move(oldPath, newPath);
     }
 }

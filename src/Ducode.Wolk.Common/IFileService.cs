@@ -31,5 +31,7 @@ namespace Ducode.Wolk.Common
         string GetCurrentDirectory();
 
         DateTime GetModicationDateTime(string path);
+
+        void MoveFile(string oldPath, string newPath);
     }
 }

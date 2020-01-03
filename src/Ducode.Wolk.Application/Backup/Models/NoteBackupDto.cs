@@ -5,7 +5,7 @@ using Ducode.Wolk.Domain.Entities.Enums;
 
 namespace Ducode.Wolk.Application.Backup.Models
 {
-    public class NoteBackupDto : IMapFrom<Note>
+    public class NoteBackupDto : IMapFrom<Note>, IMapTo<Note>
     {
         public long Id { get; set; }
 

@@ -5,7 +5,7 @@ using Ducode.Wolk.Domain.Entities.Enums;
 
 namespace Ducode.Wolk.Application.Backup.Models
 {
-    public class AccessTokenBackupDto : IMapFrom<AccessToken>
+    public class AccessTokenBackupDto : IMapFrom<AccessToken>, IMapTo<AccessToken>
     {
         public long Id { get; set; }
 

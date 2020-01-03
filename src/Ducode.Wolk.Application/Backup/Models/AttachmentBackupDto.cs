@@ -4,7 +4,7 @@ using Ducode.Wolk.Domain.Entities;
 
 namespace Ducode.Wolk.Application.Backup.Models
 {
-    public class AttachmentBackupDto : IMapFrom<Attachment>
+    public class AttachmentBackupDto : IMapFrom<Attachment>, IMapTo<Attachment>
     {
         public long Id { get; set; }
 
