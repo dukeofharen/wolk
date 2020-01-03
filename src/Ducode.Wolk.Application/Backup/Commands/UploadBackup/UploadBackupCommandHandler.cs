@@ -68,6 +68,8 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
                 var users = await _wolkDbContext.Users.ToArrayAsync(cancellationToken);
                 _wolkDbContext.Users.RemoveRange(users);
 
+                await _wolkDbContext.SaveChangesAsync(cancellationToken);
+
                 using (var zipStream = new MemoryStream(request.ZipBytes))
                 {
                     using (var zip = new ZipArchive(zipStream))

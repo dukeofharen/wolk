@@ -84,6 +84,7 @@
                 includeFullContents: true
             };
             this.$store.dispatch("loadNotes", query);
+            this.$store.commit("SET_PAGE_SUB_TITLE", "All todo items");
         }
 
         getDueStatusColor(model: TodoTxtModel) {
