@@ -21,7 +21,6 @@ namespace Ducode.Wolk.Api.Tests.Integration.Backup
         public async Task UploadBackup_ShouldRestoreEntitiesCorrectly()
         {
             // Arrange
-
             for (var i = 0; i < 10; i++)
             {
                 await WolkDbContext.CreateAndSaveNote();
