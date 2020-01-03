@@ -64,10 +64,23 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
                 var notebooks = await _wolkDbContext.Notebooks.ToArrayAsync(cancellationToken);
                 _wolkDbContext.Notebooks.RemoveRange(notebooks);
 
+                // Delete old users.
+                var users = await _wolkDbContext.Users.ToArrayAsync(cancellationToken);
+                _wolkDbContext.Users.RemoveRange(users);
+
                 using (var zipStream = new MemoryStream(request.ZipBytes))
                 {
                     using (var zip = new ZipArchive(zipStream))
                     {
+                        var userEntryNames = zip.ReadEntryNames(BackupConstants.UsersFolder);
+                        foreach (var entryName in userEntryNames)
+                        {
+                            var entry = zip.ReadEntryAsText(entryName);
+                            var user =
+                                _mapper.Map<User>(JsonConvert.DeserializeObject<UserBackupDto>(entry));
+                            _wolkDbContext.Users.Add(user);
+                        }
+
                         var notebookEntryNames = zip.ReadEntryNames(BackupConstants.NotebooksFolder);
                         foreach (var entryName in notebookEntryNames)
                         {

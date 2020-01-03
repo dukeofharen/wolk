@@ -79,6 +79,14 @@ namespace Ducode.Wolk.Application.Backup.Queries.DownloadBackup
                         zip.AddEntry($"{BackupConstants.AccessTokensFolder}/{accessToken.Id}.json",
                             JsonConvert.SerializeObject(accessToken));
                     }
+
+                    var users = _mapper.Map<IEnumerable<UserBackupDto>>(
+                        await _wolkDbContext.Users.ToArrayAsync(cancellationToken));
+                    foreach (var user in users)
+                    {
+                        zip.AddEntry($"{BackupConstants.UsersFolder}/{user.Id}.json",
+                            JsonConvert.SerializeObject(user));
+                    }
                 }
 
                 return zipStream.ToArray();

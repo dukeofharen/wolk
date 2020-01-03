@@ -46,6 +46,6 @@ namespace Ducode.Wolk.Persistence
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-        public IDbContextTransaction BeginTransaction() => Database.BeginTransaction();
+        public virtual IDbContextTransaction BeginTransaction() => Database.BeginTransaction();
     }
 }

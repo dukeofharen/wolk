@@ -23,7 +23,7 @@ namespace Ducode.Wolk.Api.Controllers
             "wolk-backup.zip");
 
         /// <summary>
-        /// An endpoint for uploading a downloaded .zip Wolk backup file. All contents (excluding users) will be overwritten, so be careful!
+        /// An endpoint for uploading a downloaded .zip Wolk backup file. All contents (including users) will be overwritten, so be careful!
         /// </summary>
         /// <param name="model">The model containing the uploaded .zip file.</param>
         /// <returns>Status code indicating success.</returns>

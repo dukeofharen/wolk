@@ -11,5 +11,7 @@ namespace Ducode.Wolk.Application.Backup
         public const string AttachmentFilesFolder = "attachmentFiles";
 
         public const string AccessTokensFolder = "accessTokens";
+
+        public const string UsersFolder = "users";
     }
 }

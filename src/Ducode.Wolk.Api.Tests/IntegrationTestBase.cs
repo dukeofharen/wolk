@@ -7,6 +7,7 @@ using Ducode.Wolk.Common;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
+using Ducode.Wolk.TestUtilities.Files;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace Ducode.Wolk.Api.Tests
 
         protected string BaseAddress => TestServer.BaseAddress.ToString();
 
-        protected Mock<IFileService> MockFileService = new Mock<IFileService>();
+        protected MockFileService MockFileService = new MockFileService();
         protected Mock<IDateTime> MockDateTime = new Mock<IDateTime>();
 
         protected IServiceProvider ServiceProvider;
@@ -57,7 +58,7 @@ namespace Ducode.Wolk.Api.Tests
             InitializeDefaultDateTime();
             var wolkDbContext = InMemoryDbContextFactory.Create();
             servicesToReplace.Add((typeof(IWolkDbContext), wolkDbContext));
-            servicesToReplace.Add((typeof(IFileService), MockFileService.Object));
+            servicesToReplace.Add((typeof(IFileService), MockFileService));
             servicesToReplace.Add((typeof(IDateTime), MockDateTime.Object));
 
             var mockEnvironment = new Mock<IWebHostEnvironment>();
