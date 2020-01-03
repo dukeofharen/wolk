@@ -1,10 +1,11 @@
 using System;
+using AutoMapper;
 using Ducode.Wolk.Application.Interfaces.Mappings;
 using Ducode.Wolk.Domain.Entities;
 
 namespace Ducode.Wolk.Application.Backup.Models
 {
-    public class AttachmentBackupDto : IMapFrom<Attachment>, IMapTo<Attachment>
+    public class AttachmentBackupDto : IHaveCustomMapping
     {
         public long Id { get; set; }
 
@@ -21,5 +22,12 @@ namespace Ducode.Wolk.Application.Backup.Models
         public string InternalFilename { get; set; }
 
         public long NoteId { get; set;}
+
+        public void CreateMappings(Profile configuration)
+        {
+            configuration.CreateMap<Attachment, AttachmentBackupDto>();
+            configuration.CreateMap<AttachmentBackupDto, Attachment>()
+                .ForMember(dest => dest.Note, opt => opt.Ignore());
+        }
     }
 }
