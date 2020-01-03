@@ -45,6 +45,11 @@ const router = new Router({
             path: '/todoTxtOverview',
             name: 'todoTxtOverview',
             component: () => import(/* webpackChunkName: "todoTxtOverview" */ './views/TodoTxtOverview.vue'),
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: () => import(/* webpackChunkName: "settings" */ './views/Settings.vue'),
         }
     ],
 });

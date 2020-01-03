@@ -25,6 +25,17 @@
             </transition>
             <transition name="fade">
                 <v-list-item
+                        :to="{ name: 'settings'}"
+                        v-if="isSignedIn"
+                >
+                    <v-list-item-action>
+                        <v-icon>mdi-cogs</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-title class="grey--text">Settings</v-list-item-title>
+                </v-list-item>
+            </transition>
+            <transition name="fade">
+                <v-list-item
                         @click="logOut"
                         v-if="isSignedIn"
                 >

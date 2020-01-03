@@ -15,6 +15,9 @@ const storeMap = [{
     content: require('@/store/actions/attachments')
 }, {
     type: storeTypeEnum.ACTION,
+    content: require('@/store/actions/backups')
+}, {
+    type: storeTypeEnum.ACTION,
     content: require('@/store/actions/notebooks')
 }, {
     type: storeTypeEnum.ACTION,
