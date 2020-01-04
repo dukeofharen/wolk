@@ -2,7 +2,7 @@
   <br>
    <img src="./media/logo.png" alt="Wolk" title="Wolk" />
   <br>
-
+</h1>
 
 <p align="center">
   <a href="https://travis-ci.com/dukeofharen/wolk"><img src="https://api.travis-ci.com/dukeofharen/wolk.svg?branch=master"></a>
@@ -10,5 +10,5 @@
 </p>
 
 <p align="center">
-Welcome to the repository of Wolk. Wolk is a pretty minimalistic piece of note taking software written with .NET Core and Vue + Vuetify. Take care of your daily note taking needs, create sticky notes or organize your todo items using [todo.txt](http://todotxt.org/).
+Welcome to the repository of Wolk. Wolk is a pretty minimalistic piece of note taking software written with .NET Core and Vue + Vuetify. Take care of your daily note taking needs, create sticky notes or organize your todo items using the <a href="http://todotxt.org/">todo.txt</a> syntax.
 </p>
