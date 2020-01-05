@@ -6,7 +6,8 @@
                 color="blue lighten-1"
         >
             <v-app-bar-nav-icon @click="drawer = !drawer"/>
-            <a class="title ml-3 mr-5" href="#/overview">Wolk&nbsp;</a>
+
+            <a class="title ml-3 mr-5" href="#/overview"><img src="img/logo.png"/></a>
             <v-text-field
                     solo-inverted
                     flat
@@ -86,8 +87,9 @@
 </script>
 
 <style scoped>
-    a.title {
-        color: #000000 !important;
-        text-decoration: none;
+    a.title img {
+        text-decoration: none !important;
+        width: 85px;
+        margin-top: 10px;
     }
 </style>

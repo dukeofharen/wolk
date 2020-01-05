@@ -16,6 +16,8 @@ namespace Ducode.Wolk.Api
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+                .ConfigureWebHostDefaults(webBuilder => webBuilder
+                    .UseStartup<Startup>()
+                    .UseKestrel(o => o.Limits.MaxRequestBodySize = 100_000_000));
     }
 }

@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -58,18 +59,16 @@ namespace Ducode.Wolk.Api.Tests.Integration.Backup
             // Assert notebooks
             var notebooks = await WolkDbContext.Notebooks.ToArrayAsync();
             Assert.AreEqual(2, notebooks.Length);
-
-            Assert.AreEqual("Test notebook 1", notebooks[0].Name);
-            Assert.AreEqual("Test notebook 2", notebooks[1].Name);
+            Assert.IsTrue(notebooks.All(n => n.Name == "Test notebook 1" || n.Name == "Test notebook 2"));
 
             // Assert notes
             var notes = await WolkDbContext.Notes.ToArrayAsync();
             Assert.AreEqual(4, notes.Length);
-
-            Assert.AreEqual("Markdown test", notes[0].Title);
-            Assert.AreEqual("Plain text test", notes[1].Title);
-            Assert.AreEqual("Sticky notes test", notes[2].Title);
-            Assert.AreEqual("Todo.txt test", notes[3].Title);
+            Assert.IsTrue(notes.All(n =>
+                n.Title == "Markdown test" ||
+                n.Title == "Plain text test" ||
+                n.Title == "Sticky notes test" ||
+                n.Title == "Todo.txt test"));
 
             // Assert users
             var user = await WolkDbContext.Users.SingleAsync();

@@ -1,0 +1,17 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder "./../../..", "/wolk"
+  config.vm.box = "gusztavvargadr/windows-server"
+  config.vm.box_version = "1809.0.1912-standard"
+  config.vm.network :forwarded_port, guest: 3389, host: 3389
+  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.provision :shell, path: "bootstrap.ps1"
+
+  config.vm.provider "virtualbox" do |vb, override|
+    vb.name = "wolk-windows-server"
+    vb.memory = "4096"
+    vb.cpus = 2
+    vb.gui = true
+  end
+end

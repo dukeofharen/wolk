@@ -68,6 +68,8 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
                 var users = await _wolkDbContext.Users.ToArrayAsync(cancellationToken);
                 _wolkDbContext.Users.RemoveRange(users);
 
+                await _wolkDbContext.SaveChangesAsync(cancellationToken);
+
                 using (var zipStream = new MemoryStream(request.ZipBytes))
                 {
                     using (var zip = new ZipArchive(zipStream))
@@ -142,9 +144,9 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
             var attachments = _fileService.GetFiles(_wolkConfiguration.UploadsPath, string.Empty);
             foreach (var attachment in attachments)
             {
-                var parts = attachment.Split('/');
+                var parts = attachment.Split(Path.DirectorySeparatorChar);
                 parts[^1] = parts[^1].StartsWith("_") ? parts[^1] : $"_{parts[^1]}";
-                var tempFilePath = string.Join('/', parts);
+                var tempFilePath = string.Join(Path.DirectorySeparatorChar, parts);
                 if (_fileService.FileExists(tempFilePath))
                 {
                     _fileService.DeleteFile(tempFilePath);
@@ -159,9 +161,9 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
             var attachments = _fileService.GetFiles(_wolkConfiguration.UploadsPath, string.Empty);
             foreach (var attachment in attachments)
             {
-                var parts = attachment.Split('/');
+                var parts = attachment.Split(Path.DirectorySeparatorChar);
                 parts[^1] = parts[^1].StartsWith("_") ? parts[^1].Substring(1) : parts[^1];
-                _fileService.MoveFile(attachment, string.Join('/', parts));
+                _fileService.MoveFile(attachment, string.Join(Path.DirectorySeparatorChar, parts));
             }
         }
 

@@ -103,3 +103,4 @@ typings/
 dist/
 gui/
 !gui/.guiwillbeplacedhere
+.vagrant/
