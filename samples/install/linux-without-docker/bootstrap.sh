@@ -82,7 +82,7 @@ if [ -f "$NGINX_DEFAULT_PATH" ]; then
 fi
 
 cp "$LOCAL_NGINX_CONF_PATH" "$NGINX_AVAILABLE_PATH"
-ln -S "$NGINX_AVAILABLE_PATH/wolk.conf" "$NGINX_ENABLED_PATH/wolk.conf"
+ln -s "$NGINX_AVAILABLE_PATH/wolk.conf" "$NGINX_ENABLED_PATH/wolk.conf"
 systemctl restart nginx
 echo "Sleeping for 5 seconds; waiting for Wolk and Nginx to initialize"
 sleep 5

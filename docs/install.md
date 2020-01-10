@@ -18,4 +18,8 @@ The recommended way of installing Wolk on Windows is by hosting it in IIS by usi
 
 ## Install on Linux (without Docker)
 
+## Install on Linux (with Docker)
+
+## General
+
 When cloning this repository (and you installed Vagrant) go to any of the aforementioned Vagrant directories and run `vagrant up`. After the server has been configured correctly, you can go to `http://localhost:8080` and log in with `wolk@example.com` and `Password123!`.
