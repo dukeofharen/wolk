@@ -1,0 +1,24 @@
+[Unit]
+Description=Wolk
+After=network.target
+
+[Service]
+WorkingDirectory=$WOLKDIR
+ExecStart=$WOLKDIR/Ducode.Wolk.Api
+Restart=always
+RestartSec=10s
+StandardOutput=syslog
+StandardError=syslog
+KillSignal=SIGINT
+SyslogIdentifier=wolk
+Environment=ASPNETCORE_ENVIRONMENT='Production'
+Environment=ConnectionStrings__WolkDatabase='Data Source=$DB_PATH'
+Environment=IdentityConfiguration__JwtSecret=$JWT_SECRET
+Environment=IdentityConfiguration__ExpirationInSeconds=$JWT_EXPIRATION
+Environment=WolkConfiguration__DefaultLoginEmail=$DEFAULT_LOGIN_EMAIL
+Environment=WolkConfiguration__DefaultPassword=$DEFAULT_PASSWORD
+Environment=WolkConfiguration__UploadsPath=$WOLK_UPLOADS_ROOT
+Environment=urls=http://0.0.0.0:5001
+
+[Install]
+WantedBy=multi-user.target

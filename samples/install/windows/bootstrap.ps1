@@ -49,8 +49,7 @@ $hostingBundleUrl = "https://download.visualstudio.microsoft.com/download/pr/fa3
 $hostingBundlePath = Join-Path -Path $tmpFolder "hostingbundle-3.1.0.exe"
 if (Test-Path $hostingBundlePath) {
     Write-Host "Path $hostingBundlePath already exists, not downloading again."
-}
-else {
+} else {
     Write-Host "Downloading $hostingBundleUrl to $hostingBundlePath"
     Invoke-WebRequest -Uri $hostingBundleUrl -OutFile $hostingBundlePath -UseBasicParsing
 }
