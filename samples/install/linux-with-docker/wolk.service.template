@@ -1,0 +1,16 @@
+[Unit]
+Description=Wolk
+After=network.target
+
+[Service]
+WorkingDirectory=$WOLKDIR
+ExecStart=/bin/bash $WOLKDIR/run.sh
+Restart=always
+RestartSec=10s
+StandardOutput=syslog
+StandardError=syslog
+KillSignal=SIGINT
+SyslogIdentifier=wolk
+
+[Install]
+WantedBy=multi-user.target
