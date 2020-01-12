@@ -1,7 +1,8 @@
 import {TodoTxtModel} from "@/models/todoTxtModel";
 import {TodoTxtFilterModel} from "@/models/store/todoTxtFilterModel";
-import {DueStatusType} from "@/services/todoTxtService";
 import marked from "marked";
+import {DueStatusType} from "@/models/enums/dueStatusType";
+import {timeUnitsInSeconds} from "@/resources";
 
 export function filterTodoItems(models: TodoTxtModel[], filter: TodoTxtFilterModel) {
     let result = models;
@@ -15,6 +16,23 @@ export function filterTodoItems(models: TodoTxtModel[], filter: TodoTxtFilterMod
 
     if (filter.excludeDone) {
         result = result.filter(r => !r.completed);
+    }
+
+    let dueSeconds: number = -1;
+    if (filter.dueStatus === DueStatusType.OVERDUE) {
+        result = result.filter(r => r.dueStatus === DueStatusType.OVERDUE);
+    } else if (filter.dueStatus === DueStatusType.DUE_IN_A_MONTH) {
+        dueSeconds = timeUnitsInSeconds.month;
+    } else if (filter.dueStatus === DueStatusType.DUE_IN_A_WEEK) {
+        dueSeconds = timeUnitsInSeconds.week;
+    } else if (filter.dueStatus === DueStatusType.DUE_IN_A_DAY) {
+        dueSeconds = timeUnitsInSeconds.day * 2;
+    } else if (filter.dueStatus === DueStatusType.DUE_TODAY) {
+        dueSeconds = timeUnitsInSeconds.day;
+    }
+
+    if (dueSeconds > -1) {
+        result = result.filter(r => r.secondsToDue && r.secondsToDue <= dueSeconds);
     }
 
     return result;

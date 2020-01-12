@@ -1,4 +1,4 @@
-import {DueStatusType} from "@/services/todoTxtService";
+import {DueStatusType} from "@/models/enums/dueStatusType";
 
 export interface TodoTxtModel {
     noteId?: number;
@@ -9,6 +9,7 @@ export interface TodoTxtModel {
     creationDate?: Date;
     dueDate?: Date;
     dueStatus?: DueStatusType;
+    secondsToDue?: number;
     description: string;
     projectTags: string[];
     contextTags: string[];

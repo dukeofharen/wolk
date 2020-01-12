@@ -8,7 +8,8 @@ import {StateModel} from '@/models/store/stateModel';
 import {MessageType} from '@/models/store/messageModel';
 import {NoteType} from '@/models/api/enums/noteType';
 
-import { constructStore } from '@/store/storeConstructor';
+import {constructStore} from '@/store/storeConstructor';
+import {DueStatusType} from "@/models/enums/dueStatusType";
 
 Vue.use(Vuex);
 Vue.use(Vuex);
@@ -59,7 +60,8 @@ const state: StateModel = {
     todoTxtFilter: {
         contextTagFilter: "",
         projectTagFilter: "",
-        excludeDone: false
+        excludeDone: false,
+        dueStatus: DueStatusType.NOT_DUE_YET
     }
 };
 
