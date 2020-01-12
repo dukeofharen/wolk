@@ -28,6 +28,6 @@ I built Wolk with the idea of becoming more proficient with .NET Core and Vue. O
 <h2>Docs</h2>
 
 - [Installation](docs/install.md)
-- [Getting started](docs/getting-started.md)
+- [User manual](docs/user-manual.md)
 - [API](docs/api.md)
 - [Configuration](docs/configuration.md)

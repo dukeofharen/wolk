@@ -43,3 +43,14 @@ fi
 echo "Archiving binaries for Linux"
 cd "$LIN_BIN_DIR"
 tar -czvf "$TAR_LOCATION" -C "$LIN_BIN_DIR" .
+
+# Creating Swagger file
+SWAGGERGEN_ROOT_PATH="$SRC_FOLDER/Ducode.Wolk.SwaggerGenerator"
+SWAGGER_PATH="$SWAGGERGEN_ROOT_PATH/bin/Release/netcoreapp3.1/swagger.json"
+echo "Creating swagger.json file"
+if ! dotnet run -c Release --project "$SWAGGERGEN_ROOT_PATH"; then
+    exit 1
+fi
+
+echo "swagger.json file created successfully!"
+cp "$SWAGGER_PATH" "$DIST_FOLDER"

@@ -27,7 +27,9 @@ function Add-Env-Variable($envVarsElement, $name, $value) {
 
     $envVarsElement.AppendChild($element)
 }
-$wolkEnvContent = Get-Content "C:\wolk\samples\install\env.json" -Raw
+
+$samplesRootPath = "C:\wolk\samples"
+$wolkEnvContent = Get-Content (Join-Path -Path $samplesRootPath "install\env.json") -Raw
 $wolkEnv = ConvertFrom-Json $wolkEnvContent
 $iisUser = "IIS_IUSRS"
 $tmpFolder = $env:TEMP
@@ -47,8 +49,7 @@ $hostingBundleUrl = "https://download.visualstudio.microsoft.com/download/pr/fa3
 $hostingBundlePath = Join-Path -Path $tmpFolder "hostingbundle-3.1.0.exe"
 if (Test-Path $hostingBundlePath) {
     Write-Host "Path $hostingBundlePath already exists, not downloading again."
-}
-else {
+} else {
     Write-Host "Downloading $hostingBundleUrl to $hostingBundlePath"
     Invoke-WebRequest -Uri $hostingBundleUrl -OutFile $hostingBundlePath -UseBasicParsing
 }
@@ -149,4 +150,16 @@ Write-Host "Adding site to IIS."
 New-WebSite -Name Wolk -Port 80 -PhysicalPath "$env:systemdrive\bin\wolk" -Force
 Start-Website -Name Wolk -ErrorAction SilentlyContinue
 
-# TODO upload test backup to Wolk
+# First, retrieve a JWT from Wolk
+Write-Host "Requesting Wolk JSON web token"
+$loginBody = ConvertTo-Json @{email = $wolkEnv.DefaultLoginEmail; password = $wolkEnv.DefaultPassword}
+$response = Invoke-WebRequest -Method Post -Uri "http://localhost/api/user/authenticate" -Body $loginBody -ContentType "application/json" -UseBasicParsing
+$authenticationJson = ConvertFrom-Json $response.Content
+$jwt = $authenticationJson.token
+
+# Upload the backup to Wolk
+Write-Host "Restoring backup for testing purposes"
+$wolkBackupPath = Join-Path -Path $samplesRootPath "install\wolk-backup-test.zip"
+$base64Backup = [Convert]::ToBase64String([IO.File]::ReadAllBytes($wolkBackupPath))
+$backupBody = ConvertTo-Json @{zipBytes = $base64Backup}
+Invoke-WebRequest -Method Post -Uri "http://localhost/api/backup" -Body $backupBody -ContentType "application/json" -Headers @{"Authorization" = "Bearer $jwt"} -UseBasicParsing

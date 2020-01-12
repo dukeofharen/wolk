@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  wolk:
+    image: dukeofharen/wolk:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__WolkDatabase: Data Source=/var/wolk/wolk.db
+      IdentityConfiguration__JwtSecret: $JWT_SECRET
+      IdentityConfiguration__ExpirationInSeconds: $JWT_EXPIRATION
+      WolkConfiguration__DefaultLoginEmail: $DEFAULT_LOGIN_EMAIL
+      WolkConfiguration__DefaultPassword: $DEFAULT_PASSWORD
+      WolkConfiguration__UploadsPath: /var/wolk/uploads
+      urls: http://0.0.0.0:5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - $WOLK_ROOT:/var/wolk
+      - $WOLK_UPLOADS_ROOT:/var/wolk/uploads

@@ -34,7 +34,10 @@ namespace Ducode.Wolk.Api
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services) =>
+            ConfigureServicesStatic(services, Configuration);
+
+        public static void ConfigureServicesStatic(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMvc(o => o.Filters.Add(typeof(CustomExceptionFilterAttribute)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
@@ -43,8 +46,8 @@ namespace Ducode.Wolk.Api
                 .AddHttpContextAccessor()
                 .AddApplicationModule()
                 .AddInfrastructureModule()
-                .AddPersistenceModule(Configuration)
-                .AddIdentityModule(Configuration)
+                .AddPersistenceModule(configuration)
+                .AddIdentityModule(configuration)
                 .AddAutoMapper(
                     config => config.AllowNullCollections = true,
                     typeof(Startup).Assembly,
@@ -66,13 +69,13 @@ namespace Ducode.Wolk.Api
 
             services
                 .AddOptions<WolkConfiguration>()
-                .Configure<IConfiguration>((opt, conf) => Configuration.Bind(nameof(WolkConfiguration), opt));
+                .Configure<IConfiguration>((opt, conf) => configuration.Bind(nameof(WolkConfiguration), opt));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) =>
-            ConfigureInternal(app, env, true, true);
+            ConfigureStatic(app, env, true, true);
 
-        internal void ConfigureInternal(
+        public static void ConfigureStatic(
             IApplicationBuilder app,
             IWebHostEnvironment env,
             bool executeMigration,

@@ -845,19 +845,19 @@
 	],
 	"variable": [
 		{
-			"id": "429865fa-2c7b-4419-b95a-8b8c36d2f45a",
+			"id": "2bc1a014-9bc0-4ec1-9ce4-1c56374789b0",
 			"key": "rootUrl",
 			"value": "http://localhost:5010/",
 			"type": "string"
 		},
 		{
-			"id": "f10083a7-25fa-4ca3-841a-0346d9cb5a94",
+			"id": "24ac7cf3-4c15-4806-99e4-654a5b533c29",
 			"key": "username",
-			"value": "wolk@ducode.org",
+			"value": "wolk@example.com",
 			"type": "string"
 		},
 		{
-			"id": "450d7261-5a8d-49fd-afdf-ff2289a796dc",
+			"id": "f4819e67-9ca5-45df-aa2e-b97598b97efc",
 			"key": "password",
 			"value": "Password123!@",
 			"type": "string"
