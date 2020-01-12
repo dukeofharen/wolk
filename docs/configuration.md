@@ -25,6 +25,10 @@ The number of seconds a JSON web token is valid.
 
 The path where the uploads will be placed. E.g. `/srv/wolk/uploads/` or `C:\data\uploads`.
 
+**WolkConfiguration:EnableUserRegistration**
+
+`true` if you want to be able to register users through the API, `false otherwise (this is the default). ATTENTION! As of now, this endpoint does not have authentication.
+
 **WolkConfiguration:DefaultLoginEmail / WolkConfiguration:DefaultPassword**
 
 When set, a default admin user will be created with this email address and password.

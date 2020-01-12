@@ -43,4 +43,4 @@ If you want to install Wolk on Linux, you can either use a pre-built [Docker ima
 
 ## General
 
-When cloning this repository (and you installed Vagrant) go to any of the aforementioned Vagrant directories and run `vagrant up`. After the server has been configured correctly, you can go to `http://localhost:8080` and log in with `wolk@example.com` and `Password123!`.
+When cloning this repository (and you installed Vagrant) go to any of the aforementioned Vagrant directories and run `vagrant up`. After the server has been configured correctly, you can go to `http://localhost:8080` and log in with `wolk@example.com` and `Password123!@`.
