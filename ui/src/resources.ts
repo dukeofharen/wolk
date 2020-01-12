@@ -34,5 +34,6 @@ export const eventKeys = {
 export const timeUnitsInSeconds = {
     hour: 3600,
     day: (24 * 3600),
-    week: (24 * 3600 * 7)
+    week: (24 * 3600 * 7),
+    month: (24 * 3600 * 31)
 };

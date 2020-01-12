@@ -3,15 +3,7 @@ import {firstBy} from "thenby";
 import moment from 'moment'
 import {timeUnitsInSeconds} from "@/resources";
 import Note from "@/models/api/note";
-
-export enum DueStatusType {
-    NOT_SET,
-    NOT_DUE_YET,
-    DUE_IN_A_WEEK,
-    DUE_IN_A_DAY,
-    DUE_TODAY,
-    OVERDUE
-}
+import {DueStatusType} from "@/models/enums/dueStatusType";
 
 export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtModel {
     let model: TodoTxtModel = {
@@ -68,6 +60,7 @@ export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtMode
             let actualDue = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate(), 23, 59, 59);
             let now = new Date();
             let diff = Math.round((actualDue.getTime() - now.getTime()) / 1000);
+            model.secondsToDue = diff;
             if (diff < 0) {
                 model.dueStatus = DueStatusType.OVERDUE;
             } else if (diff <= timeUnitsInSeconds.day) {
@@ -76,6 +69,8 @@ export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtMode
                 model.dueStatus = DueStatusType.DUE_IN_A_DAY;
             } else if (diff > timeUnitsInSeconds.day * 2 && diff <= timeUnitsInSeconds.week) {
                 model.dueStatus = DueStatusType.DUE_IN_A_WEEK;
+            } else if (diff > timeUnitsInSeconds.week && diff <= timeUnitsInSeconds.month) {
+                model.dueStatus = DueStatusType.DUE_IN_A_MONTH;
             } else {
                 model.dueStatus = DueStatusType.NOT_DUE_YET;
             }

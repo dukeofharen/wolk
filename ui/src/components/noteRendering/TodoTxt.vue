@@ -10,25 +10,9 @@
                     </v-row>
                 </v-col>
                 <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="projectTags"
-                                placeholder="Filter on project tag..."
-                                v-model="projectTagFilter"
-                                clearable
-                        />
-                    </v-row>
+                    <TodoTxtFilter :models="models"/>
                 </v-col>
-                <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="contextTags"
-                                placeholder="Filter on context tag..."
-                                v-model="contextTagFilter"
-                                clearable
-                        />
-                    </v-row>
-                </v-col>
+
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -50,7 +34,7 @@
                     class="todo-item"
                     @click="editMode(i)"
                     v-if="indexEditing !== i">
-                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)" />
+                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)"/>
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
@@ -89,9 +73,6 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        DueStatusType,
-        extractContextTags,
-        extractProjectTags,
         singleTodoTxtToModel,
         todoTxtToModels,
         todoTxtToString
@@ -100,10 +81,14 @@
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
     import moment from "moment";
-    import marked from "marked";
+    import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
+    import {
+        filterTodoItems,
+        getDueStatusColor,
+        parseMarkdown} from "@/utilities/todoTxtUiHelper";
 
     @Component({
-        components: {}
+        components: {TodoTxtFilter}
     })
     export default class TodoTxt extends Vue {
         @Prop()
@@ -115,8 +100,6 @@
         models: TodoTxtModel[] = [];
         indexEditing: number = -1;
         oldText: string = "";
-        projectTagFilter: string = "";
-        contextTagFilter: string = "";
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
@@ -201,46 +184,19 @@
         }
 
         getDueStatusColor(model: TodoTxtModel) {
-            let defaultColor = "#ffffff";
-            if (model.completed) {
-                return defaultColor;
-            }
-
-            switch (model.dueStatus) {
-                case DueStatusType.OVERDUE:
-                    return "#ff8f8f";
-                case DueStatusType.DUE_TODAY:
-                    return "#ffcf8f";
-                case DueStatusType.DUE_IN_A_DAY:
-                    return "#faff8f";
-                default:
-                    return defaultColor;
-            }
+            return getDueStatusColor(model);
         }
-        
+
         parseMarkdown(input: string) {
-            return marked.inlineLexer(input, []);
+            return parseMarkdown(input);
         }
 
-        get projectTags() {
-            return extractProjectTags(this.models);
-        }
-
-        get contextTags() {
-            return extractContextTags(this.models);
+        get todoTxtFilter() {
+            return this.$store.getters.todoTxtFilter
         }
 
         get filteredModels() {
-            let result = this.models;
-            if (this.projectTagFilter) {
-                result = result.filter(r => r.projectTags.indexOf(this.projectTagFilter) > -1);
-            }
-
-            if (this.contextTagFilter) {
-                result = result.filter(r => r.contextTags.indexOf(this.contextTagFilter) > -1);
-            }
-
-            return result;
+            return filterTodoItems(this.models, this.todoTxtFilter);
         }
     }
 </script>

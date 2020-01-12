@@ -6,24 +6,7 @@
                 <v-card-actions>
                     <v-row no-gutters>
                         <v-col cols="12">
-                            <v-row>
-                                <v-select
-                                        :items="projectTags"
-                                        placeholder="Filter on project tag..."
-                                        v-model="projectTagFilter"
-                                        clearable
-                                />
-                            </v-row>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-row>
-                                <v-select
-                                        :items="contextTags"
-                                        placeholder="Filter on context tag..."
-                                        v-model="contextTagFilter"
-                                        clearable
-                                />
-                            </v-row>
+                            <TodoTxtFilter :models="models" />
                         </v-col>
                     </v-row>
                 </v-card-actions>
@@ -58,9 +41,6 @@
     import {Component, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        DueStatusType,
-        extractContextTags,
-        extractProjectTags,
         todoTxtNotesToModels
     } from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
@@ -68,15 +48,18 @@
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import {NoteType} from "@/models/api/enums/noteType";
     import marked from "marked";
+    import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
+    import {
+        filterTodoItems,
+        getDueStatusColor,
+        parseMarkdown} from "@/utilities/todoTxtUiHelper";
 
     @Component({
-        components: {},
+        components: {TodoTxtFilter},
         computed: mapState(["notes"])
     })
     export default class TodoTxtOverview extends Vue {
         notes!: Note[];
-        projectTagFilter: string = "";
-        contextTagFilter: string = "";
 
         mounted() {
             let query: LoadNotesQueryModel = {
@@ -88,21 +71,7 @@
         }
 
         getDueStatusColor(model: TodoTxtModel) {
-            let defaultColor = "#ffffff";
-            if (model.completed) {
-                return defaultColor;
-            }
-
-            switch (model.dueStatus) {
-                case DueStatusType.OVERDUE:
-                    return "#ff8f8f";
-                case DueStatusType.DUE_TODAY:
-                    return "#ffcf8f";
-                case DueStatusType.DUE_IN_A_DAY:
-                    return "#faff8f";
-                default:
-                    return defaultColor;
-            }
+            return getDueStatusColor(model);
         }
 
         goToNote(noteId: number, hashCode: number) {
@@ -114,32 +83,19 @@
         }
 
         parseMarkdown(input: string) {
-            return marked.inlineLexer(input, []);
-        }
-
-        get projectTags() {
-            return extractProjectTags(this.models);
-        }
-
-        get contextTags() {
-            return extractContextTags(this.models);
+            return parseMarkdown(input);
         }
 
         get models() {
             return todoTxtNotesToModels(this.notes);
         }
 
+        get todoTxtFilter() {
+            return this.$store.getters.todoTxtFilter
+        }
+        
         get filteredModels() {
-            let result = this.models;
-            if (this.projectTagFilter) {
-                result = result.filter(r => r.projectTags.indexOf(this.projectTagFilter) > -1);
-            }
-
-            if (this.contextTagFilter) {
-                result = result.filter(r => r.contextTags.indexOf(this.contextTagFilter) > -1);
-            }
-
-            return result;
+            return filterTodoItems(this.models, this.todoTxtFilter);
         }
     }
 </script>
