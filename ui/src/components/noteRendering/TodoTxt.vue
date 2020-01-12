@@ -86,6 +86,7 @@
     import moment from "moment";
     import marked from "marked";
     import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
+    import {filterTodoItems} from "@/utilities/todoTxtUiHelper";
 
     @Component({
         components: {TodoTxtFilter}
@@ -204,26 +205,13 @@
         parseMarkdown(input: string) {
             return marked.inlineLexer(input, []);
         }
-        
-        get projectTagFilter() {
-            return this.$store.getters.todoTxtFilter.projectTagFilter
-        }
-        
-        get contextTagFilter() {
-            return this.$store.getters.todoTxtFilter.contextTagFilter
+
+        get todoTxtFilter() {
+            return this.$store.getters.todoTxtFilter
         }
 
         get filteredModels() {
-            let result = this.models;
-            if (this.projectTagFilter) {
-                result = result.filter(r => r.projectTags.indexOf(this.projectTagFilter) > -1);
-            }
-
-            if (this.contextTagFilter) {
-                result = result.filter(r => r.contextTags.indexOf(this.contextTagFilter) > -1);
-            }
-
-            return result;
+            return filterTodoItems(this.models, this.todoTxtFilter);
         }
     }
 </script>

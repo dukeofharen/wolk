@@ -49,6 +49,12 @@
         @Prop()
         models!: TodoTxtModel[];
         
+        created() {
+            let filter = this.$store.getters.todoTxtFilter;
+            this.projectTag = filter.projectTagFilter;
+            this.contextTag = filter.contextTagFilter;
+        }
+        
         filterChanged() {
             let filterModel: TodoTxtFilterModel = {
                 projectTagFilter: this.projectTag,
