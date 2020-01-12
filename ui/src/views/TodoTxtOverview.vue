@@ -41,9 +41,6 @@
     import {Component, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        DueStatusType,
-        extractContextTags,
-        extractProjectTags,
         todoTxtNotesToModels
     } from "@/services/todoTxtService";
     import {TodoTxtModel} from "@/models/todoTxtModel";
@@ -52,7 +49,10 @@
     import {NoteType} from "@/models/api/enums/noteType";
     import marked from "marked";
     import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
-    import {filterTodoItems} from "@/utilities/todoTxtUiHelper";
+    import {
+        filterTodoItems,
+        getDueStatusColor,
+        parseMarkdown} from "@/utilities/todoTxtUiHelper";
 
     @Component({
         components: {TodoTxtFilter},
@@ -71,21 +71,7 @@
         }
 
         getDueStatusColor(model: TodoTxtModel) {
-            let defaultColor = "#ffffff";
-            if (model.completed) {
-                return defaultColor;
-            }
-
-            switch (model.dueStatus) {
-                case DueStatusType.OVERDUE:
-                    return "#ff8f8f";
-                case DueStatusType.DUE_TODAY:
-                    return "#ffcf8f";
-                case DueStatusType.DUE_IN_A_DAY:
-                    return "#faff8f";
-                default:
-                    return defaultColor;
-            }
+            return getDueStatusColor(model);
         }
 
         goToNote(noteId: number, hashCode: number) {
@@ -97,7 +83,7 @@
         }
 
         parseMarkdown(input: string) {
-            return marked.inlineLexer(input, []);
+            return parseMarkdown(input);
         }
 
         get models() {

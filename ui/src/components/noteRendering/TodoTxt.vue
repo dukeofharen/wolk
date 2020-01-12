@@ -10,7 +10,7 @@
                     </v-row>
                 </v-col>
                 <v-col cols="12">
-                    <TodoTxtFilter :models="models" />
+                    <TodoTxtFilter :models="models"/>
                 </v-col>
 
             </v-row>
@@ -34,7 +34,7 @@
                     class="todo-item"
                     @click="editMode(i)"
                     v-if="indexEditing !== i">
-                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)" />
+                <v-list-item-title class="todo-description" v-html="parseMarkdown(model.description)"/>
                 <v-list-item-subtitle>
                     <span v-if="model.creationDate">created: {{model.creationDate | date}}</span>
                     <span v-if="model.completionDate">, completed: {{model.completionDate | date}}</span>
@@ -73,9 +73,6 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        DueStatusType,
-        extractContextTags,
-        extractProjectTags,
         singleTodoTxtToModel,
         todoTxtToModels,
         todoTxtToString
@@ -84,9 +81,11 @@
     import {UpdateNoteCommand} from "@/store/actions/notes";
     import {resources} from "@/resources";
     import moment from "moment";
-    import marked from "marked";
     import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
-    import {filterTodoItems} from "@/utilities/todoTxtUiHelper";
+    import {
+        filterTodoItems,
+        getDueStatusColor,
+        parseMarkdown} from "@/utilities/todoTxtUiHelper";
 
     @Component({
         components: {TodoTxtFilter}
@@ -185,25 +184,11 @@
         }
 
         getDueStatusColor(model: TodoTxtModel) {
-            let defaultColor = "#ffffff";
-            if (model.completed) {
-                return defaultColor;
-            }
-
-            switch (model.dueStatus) {
-                case DueStatusType.OVERDUE:
-                    return "#ff8f8f";
-                case DueStatusType.DUE_TODAY:
-                    return "#ffcf8f";
-                case DueStatusType.DUE_IN_A_DAY:
-                    return "#faff8f";
-                default:
-                    return defaultColor;
-            }
+            return getDueStatusColor(model);
         }
-        
+
         parseMarkdown(input: string) {
-            return marked.inlineLexer(input, []);
+            return parseMarkdown(input);
         }
 
         get todoTxtFilter() {
