@@ -58,7 +58,8 @@ const state: StateModel = {
     },
     todoTxtFilter: {
         contextTagFilter: "",
-        projectTagFilter: ""
+        projectTagFilter: "",
+        excludeDone: false
     }
 };
 

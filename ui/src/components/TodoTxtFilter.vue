@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-row no-gutters>
+        <v-row no-gutters class="filter">
             <v-col cols="12">
                 <v-row>
                     <v-select
@@ -21,6 +21,14 @@
                             @change="filterChanged"
                             clearable
                     />
+                </v-row>
+            </v-col>
+            <v-col cols="12">
+                <v-row>
+                    <v-switch
+                            v-model="excludeDone"
+                            @change="filterChanged"
+                            label="Exclude finished todo items" />
                 </v-row>
             </v-col>
         </v-row>
@@ -45,6 +53,7 @@
     export default class TodoTxtFilter extends Vue {
         projectTag: string = "";
         contextTag: string = "";
+        excludeDone: boolean = false;
         
         @Prop()
         models!: TodoTxtModel[];
@@ -53,12 +62,14 @@
             let filter = this.$store.getters.todoTxtFilter;
             this.projectTag = filter.projectTagFilter;
             this.contextTag = filter.contextTagFilter;
+            this.excludeDone = filter.excludeDone;
         }
         
         filterChanged() {
             let filterModel: TodoTxtFilterModel = {
                 projectTagFilter: this.projectTag,
-                contextTagFilter: this.contextTag
+                contextTagFilter: this.contextTag,
+                excludeDone: this.excludeDone
             };
             this.$store.commit("SET_TODOTXT_FILTER", filterModel);
         }
@@ -72,3 +83,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .filter {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>

@@ -13,6 +13,10 @@ export function filterTodoItems(models: TodoTxtModel[], filter: TodoTxtFilterMod
         result = result.filter(r => r.contextTags.indexOf(filter.contextTagFilter) > -1);
     }
 
+    if (filter.excludeDone) {
+        result = result.filter(r => !r.completed);
+    }
+
     return result;
 }
 
