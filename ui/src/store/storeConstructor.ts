@@ -9,6 +9,9 @@ const storeTypeEnum = {
 
 const storeMap = [{
     type: storeTypeEnum.GETTER,
+    content: require('@/store/getters/todotxt')
+},{
+    type: storeTypeEnum.GETTER,
     content: require('@/store/getters/users')
 }, {
     type: storeTypeEnum.ACTION,
@@ -37,6 +40,9 @@ const storeMap = [{
 }, {
     type: storeTypeEnum.MUTATION,
     content: require('@/store/mutations/notes')
+}, {
+    type: storeTypeEnum.MUTATION,
+    content: require('@/store/mutations/todotxt')
 }, {
     type: storeTypeEnum.MUTATION,
     content: require('@/store/mutations/ui')

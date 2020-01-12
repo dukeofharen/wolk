@@ -20,7 +20,7 @@ The recommended way of installing Wolk on Windows is by hosting it in IIS by usi
 
 ## Install on Linux
 
-If you want to install Wolk on Linux, you can either use a pre-built [Docker image](https://hub.docker.com/r/dukeofharen/wolk) or you can download and install the Linux binaries. Two [Vagrant](https://www.vagrantup.com/) boxes have been scripted to show how hosting [with Docker](https://github.com/dukeofharen/wolk/tree/fmaster/samples/install/linux-with-docker) and [without Docker](https://github.com/dukeofharen/wolk/tree/master/samples/install/linux-without-docker) is done. In short, the following steps will be executed:
+If you want to install Wolk on Linux, you can either use a pre-built [Docker image](https://hub.docker.com/r/dukeofharen/wolk) or you can download and install the Linux binaries. Two [Vagrant](https://www.vagrantup.com/) boxes have been scripted to show how hosting [with Docker](https://github.com/dukeofharen/wolk/tree/master/samples/install/linux-with-docker) and [without Docker](https://github.com/dukeofharen/wolk/tree/master/samples/install/linux-without-docker) is done. In short, the following steps will be executed:
 
 **With Docker**
 

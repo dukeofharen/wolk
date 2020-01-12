@@ -6,24 +6,7 @@
                 <v-card-actions>
                     <v-row no-gutters>
                         <v-col cols="12">
-                            <v-row>
-                                <v-select
-                                        :items="projectTags"
-                                        placeholder="Filter on project tag..."
-                                        v-model="projectTagFilter"
-                                        clearable
-                                />
-                            </v-row>
-                        </v-col>
-                        <v-col cols="12">
-                            <v-row>
-                                <v-select
-                                        :items="contextTags"
-                                        placeholder="Filter on context tag..."
-                                        v-model="contextTagFilter"
-                                        clearable
-                                />
-                            </v-row>
+                            <TodoTxtFilter :models="models" />
                         </v-col>
                     </v-row>
                 </v-card-actions>
@@ -68,15 +51,14 @@
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import {NoteType} from "@/models/api/enums/noteType";
     import marked from "marked";
+    import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
 
     @Component({
-        components: {},
+        components: {TodoTxtFilter},
         computed: mapState(["notes"])
     })
     export default class TodoTxtOverview extends Vue {
         notes!: Note[];
-        projectTagFilter: string = "";
-        contextTagFilter: string = "";
 
         mounted() {
             let query: LoadNotesQueryModel = {
@@ -129,6 +111,14 @@
             return todoTxtNotesToModels(this.notes);
         }
 
+        get projectTagFilter() {
+            return this.$store.getters.todoTxtFilter.projectTagFilter
+        }
+
+        get contextTagFilter() {
+            return this.$store.getters.todoTxtFilter.contextTagFilter
+        }
+        
         get filteredModels() {
             let result = this.models;
             if (this.projectTagFilter) {

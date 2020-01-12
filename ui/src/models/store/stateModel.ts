@@ -5,6 +5,7 @@ import { SignedInModel } from '@/models/api/signedInModel';
 import Attachment from '@/models/api/attachment';
 import {UiStateModel} from "@/models/store/uiStateModel";
 import {EventModel} from "@/models/store/eventModel";
+import {TodoTxtFilterModel} from "@/models/store/todoTxtFilterModel";
 
 export interface StateModel {
     message: MessageModel;
@@ -18,4 +19,5 @@ export interface StateModel {
     attachmentAccessUrl: string;
     pageSubTitle: string;
     event: EventModel;
+    todoTxtFilter: TodoTxtFilterModel;
 }

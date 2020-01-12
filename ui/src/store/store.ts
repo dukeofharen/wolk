@@ -55,6 +55,10 @@ const state: StateModel = {
     event: {
         key: "",
         timestamp: 0
+    },
+    todoTxtFilter: {
+        contextTagFilter: "",
+        projectTagFilter: ""
     }
 };
 

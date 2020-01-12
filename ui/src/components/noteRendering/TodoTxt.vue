@@ -10,25 +10,9 @@
                     </v-row>
                 </v-col>
                 <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="projectTags"
-                                placeholder="Filter on project tag..."
-                                v-model="projectTagFilter"
-                                clearable
-                        />
-                    </v-row>
+                    <TodoTxtFilter :models="models" />
                 </v-col>
-                <v-col cols="12">
-                    <v-row>
-                        <v-select
-                                :items="contextTags"
-                                placeholder="Filter on context tag..."
-                                v-model="contextTagFilter"
-                                clearable
-                        />
-                    </v-row>
-                </v-col>
+
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -101,9 +85,10 @@
     import {resources} from "@/resources";
     import moment from "moment";
     import marked from "marked";
+    import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
 
     @Component({
-        components: {}
+        components: {TodoTxtFilter}
     })
     export default class TodoTxt extends Vue {
         @Prop()
@@ -115,8 +100,6 @@
         models: TodoTxtModel[] = [];
         indexEditing: number = -1;
         oldText: string = "";
-        projectTagFilter: string = "";
-        contextTagFilter: string = "";
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
@@ -221,13 +204,13 @@
         parseMarkdown(input: string) {
             return marked.inlineLexer(input, []);
         }
-
-        get projectTags() {
-            return extractProjectTags(this.models);
+        
+        get projectTagFilter() {
+            return this.$store.getters.todoTxtFilter.projectTagFilter
         }
-
-        get contextTags() {
-            return extractContextTags(this.models);
+        
+        get contextTagFilter() {
+            return this.$store.getters.todoTxtFilter.contextTagFilter
         }
 
         get filteredModels() {
