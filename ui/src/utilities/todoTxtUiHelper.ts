@@ -59,3 +59,15 @@ export function getDueStatusColor(model: TodoTxtModel) {
 export function parseMarkdown(input: string) {
     return marked.inlineLexer(input, []);
 }
+
+export function getPriorities(): string[] {
+    return [
+        '',
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F'
+    ];
+}

@@ -5,9 +5,9 @@ export interface TodoTxtModel {
     fullText: string;
     priority: string;
     completed: boolean;
-    completionDate?: Date;
-    creationDate?: Date;
-    dueDate?: Date;
+    completionDate?: string;
+    creationDate?: string;
+    dueDate?: string;
     dueStatus?: DueStatusType;
     secondsToDue?: number;
     description: string;
