@@ -12,7 +12,6 @@
                 <v-col cols="12">
                     <TodoTxtFilter :models="models"/>
                 </v-col>
-
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -43,19 +42,32 @@
             </v-list-item-content>
 
             <!-- Edit -->
-            <v-list-item-action v-if="indexEditing === i">
-                <v-btn title="Save" @click="editItem" text>
-                    <v-icon>mdi-content-save</v-icon>
-                </v-btn>
-                <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>
-                    <v-icon>mdi-check</v-icon>
-                </v-btn>
-                <v-btn title="Delete" @click="deleteItem" text>
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
-                <v-btn title="Cancel editing" @click="cancelEditing" text>
-                    <v-icon>mdi-cancel</v-icon>
-                </v-btn>
+            <v-list-item-action class="edit-buttons" v-if="indexEditing === i">
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Save" @click="editItem" text>
+                            <v-icon>mdi-content-save</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-btn :title="model.completed ? 'Set to open' : 'Set to done'"
+                               @click="setCompletedStatus(model)" text>
+                            <v-icon>mdi-check</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Delete" @click="deleteItem" text>
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-btn title="Cancel editing" @click="cancelEditing" text>
+                            <v-icon>mdi-cancel</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-list-item-action>
             <v-list-item-content v-if="indexEditing === i">
                 <v-list-item-subtitle>
@@ -85,7 +97,8 @@
     import {
         filterTodoItems,
         getDueStatusColor,
-        parseMarkdown} from "@/utilities/todoTxtUiHelper";
+        parseMarkdown
+    } from "@/utilities/todoTxtUiHelper";
 
     @Component({
         components: {TodoTxtFilter}
@@ -229,5 +242,10 @@
     textarea {
         width: 100%;
         height: 100px;
+    }
+
+    .edit-buttons {
+        margin-right: 0 !important;
+        width: 100px;
     }
 </style>
