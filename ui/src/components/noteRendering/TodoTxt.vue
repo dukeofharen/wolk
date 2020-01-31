@@ -90,6 +90,7 @@
                                     :items="priorities"
                                     label="Priority..."
                                     v-model="model.priority"
+                                    prepend-icon="mdi-priority-high"
                                     clearable
                             />
                         </v-col>
@@ -100,7 +101,30 @@
                                     label="Description..."
                                     type="text"
                                     v-model="model.description"
+                                    prepend-icon="mdi-lead-pencil"
+                                    clearable
                             />
+                        </v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-menu
+                                    v-model="dueMenu"
+                                    :nudge-right="40"
+                                    transition="scale-transition"
+                                    offset-y
+                                    min-width="290px">
+                                <template v-slot:activator="{on}">
+                                    <v-text-field
+                                            label="Due date..."
+                                            prepend-icon="mdi-calendar"
+                                            type="text"
+                                            v-model="model.dueDate"
+                                            clearable
+                                            v-on="on"/>
+                                </template>
+                                <v-date-picker v-model="model.dueDate" @input="dueMenu = false"/>
+                            </v-menu>
                         </v-col>
                     </v-row>
                 </v-list-item-content>
@@ -144,6 +168,7 @@
         indexEditing: number = -1;
         oldText: string = "";
         showForm: boolean = false;
+        dueMenu: boolean = false;
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
@@ -289,6 +314,7 @@
     .edit-buttons {
         margin-right: 0 !important;
         width: 128px;
+        height: 128px;
     }
 
     .edit-buttons .row {
