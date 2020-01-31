@@ -39,13 +39,13 @@ export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtMode
     let dateReg = /^\d{4}[./-]\d{2}[./-]\d{2}$/;
     if (parts[0].match(dateReg) && parts[1].match(dateReg)) {
         // Both created and completed are set.
-        model.completionDate = new Date(parts[0]);
-        model.creationDate = new Date(parts[1]);
+        model.completionDate = parts[0];
+        model.creationDate = parts[1];
         parts.shift();
         parts.shift();
     } else if (parts[0].match(dateReg)) {
         // Only created is set.
-        model.creationDate = new Date(parts[0]);
+        model.creationDate = parts[0];
         parts.shift();
     }
 
@@ -53,10 +53,10 @@ export function singleTodoTxtToModel(line: string, noteId?: number): TodoTxtMode
     if (duePart) {
         let dueDateText = duePart.replace("due:", "");
         if (dueDateText.match(dateReg)) {
-            let dueDate = new Date(dueDateText);
-            model.dueDate = dueDate;
+            model.dueDate = dueDateText;
 
             // Set due status
+            let dueDate = new Date(dueDateText);
             let actualDue = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate(), 23, 59, 59);
             let now = new Date();
             let diff = Math.round((actualDue.getTime() - now.getTime()) / 1000);

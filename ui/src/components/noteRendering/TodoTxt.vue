@@ -224,7 +224,7 @@
             let model: TodoTxtModel = {
                 fullText: `(A) ${now} note-description +project-tag @context-tag`,
                 completed: false,
-                creationDate: undefined,
+                creationDate: now,
                 completionDate: undefined,
                 description: "",
                 priority: "",
@@ -254,7 +254,7 @@
         }
 
         setCompletedStatus(model: TodoTxtModel) {
-            model.completionDate = model.completed ? undefined : new Date();
+            model.completionDate = model.completed ? undefined : moment(new Date()).format('YYYY-MM-DD');
             model.completed = !model.completed;
             this.save();
         }
