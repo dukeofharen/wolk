@@ -12,7 +12,6 @@
                 <v-col cols="12">
                     <TodoTxtFilter :models="models"/>
                 </v-col>
-
             </v-row>
         </v-card-actions>
         <v-list-item
@@ -43,28 +42,93 @@
             </v-list-item-content>
 
             <!-- Edit -->
-            <v-list-item-action v-if="indexEditing === i">
-                <v-btn title="Save" @click="editItem" text>
-                    <v-icon>mdi-content-save</v-icon>
-                </v-btn>
-                <v-btn :title="model.completed ? 'Set to open' : 'Set to done'" @click="setCompletedStatus(model)" text>
-                    <v-icon>mdi-check</v-icon>
-                </v-btn>
-                <v-btn title="Delete" @click="deleteItem" text>
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
-                <v-btn title="Cancel editing" @click="cancelEditing" text>
-                    <v-icon>mdi-cancel</v-icon>
-                </v-btn>
+            <v-list-item-action class="edit-buttons" v-if="indexEditing === i">
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Save" @click="editItem" text>
+                            <v-icon>mdi-content-save</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-btn :title="model.completed ? 'Set to open' : 'Set to done'"
+                               @click="setCompletedStatus(model)" text>
+                            <v-icon>mdi-check</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Delete" @click="deleteItem" text>
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-btn title="Cancel editing" @click="cancelEditing" text>
+                            <v-icon>mdi-cancel</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Show form" @click="showOrHideForm" text>
+                            <v-icon>mdi-card-text-outline</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-list-item-action>
-            <v-list-item-content v-if="indexEditing === i">
-                <v-list-item-subtitle>
+            <template v-if="indexEditing === i">
+                <v-list-item-content v-if="!showForm">
                     <textarea
-                            v-model="model.fullText"
+                            v-model="modelEditing.fullText"
                             placeholder="Todo item..."
                     />
-                </v-list-item-subtitle>
-            </v-list-item-content>
+                </v-list-item-content>
+                <v-list-item-content v-if="showForm">
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-select
+                                    :items="priorities"
+                                    label="Priority..."
+                                    v-model="modelEditing.priority"
+                                    prepend-icon="mdi-priority-high"
+                                    clearable
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-textarea
+                                    label="Description..."
+                                    type="text"
+                                    v-model="modelEditing.description"
+                                    prepend-icon="mdi-lead-pencil"
+                                    clearable
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-menu
+                                    v-model="dueMenu"
+                                    :nudge-right="40"
+                                    transition="scale-transition"
+                                    offset-y
+                                    min-width="290px">
+                                <template v-slot:activator="{on}">
+                                    <v-text-field
+                                            label="Due date..."
+                                            prepend-icon="mdi-calendar"
+                                            type="text"
+                                            v-model="modelEditing.dueDate"
+                                            clearable
+                                            v-on="on"/>
+                                </template>
+                                <v-date-picker v-model="modelEditing.dueDate" @input="dueMenu = false"/>
+                            </v-menu>
+                        </v-col>
+                    </v-row>
+                </v-list-item-content>
+            </template>
         </v-list-item>
     </v-card>
 </template>
@@ -73,7 +137,7 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        singleTodoTxtToModel,
+        singleTodoTxtToModel, singleTodoTxtToString,
         todoTxtToModels,
         todoTxtToString
     } from "@/services/todoTxtService";
@@ -85,7 +149,9 @@
     import {
         filterTodoItems,
         getDueStatusColor,
-        parseMarkdown} from "@/utilities/todoTxtUiHelper";
+        parseMarkdown,
+        getPriorities
+    } from "@/utilities/todoTxtUiHelper";
 
     @Component({
         components: {TodoTxtFilter}
@@ -97,9 +163,23 @@
         @Prop()
         note!: Note;
 
+        priorities = getPriorities();
         models: TodoTxtModel[] = [];
+        modelEditing: TodoTxtModel = {
+            fullText: "",
+            completed: false,
+            creationDate: undefined,
+            completionDate: undefined,
+            description: "",
+            priority: "",
+            contextTags: [],
+            projectTags: [],
+            hashCode: 0
+        };
         indexEditing: number = -1;
         oldText: string = "";
+        showForm: boolean = false;
+        dueMenu: boolean = false;
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
@@ -116,9 +196,17 @@
         }
 
         editItem() {
-            let model = this.models[this.indexEditing];
-            let newModel = singleTodoTxtToModel(model.fullText);
-            this.models.splice(this.indexEditing, 1, newModel);
+            if (!this.showForm) {
+                // The plain text input is used; create a model based on the full text. 
+                let newModel = singleTodoTxtToModel(this.modelEditing.fullText);
+                this.models.splice(this.indexEditing, 1, newModel);
+            } else {
+                // The form is used; update the fullText based on the model.
+                let newModel = this.modelEditing;
+                newModel.fullText = singleTodoTxtToString(this.modelEditing);
+                this.models.splice(this.indexEditing, 1, newModel);
+            }
+
             this.save();
         }
 
@@ -148,7 +236,7 @@
             let model: TodoTxtModel = {
                 fullText: `(A) ${now} note-description +project-tag @context-tag`,
                 completed: false,
-                creationDate: undefined,
+                creationDate: now,
                 completionDate: undefined,
                 description: "",
                 priority: "",
@@ -156,6 +244,7 @@
                 projectTags: [],
                 hashCode: 0
             };
+            this.modelEditing = model;
             this.models.unshift(model);
             this.indexEditing = 0;
         }
@@ -174,11 +263,12 @@
         editMode(index: number) {
             let model = this.models[index];
             this.oldText = model.fullText;
+            this.modelEditing = model;
             this.indexEditing = index;
         }
 
         setCompletedStatus(model: TodoTxtModel) {
-            model.completionDate = model.completed ? undefined : new Date();
+            model.completionDate = model.completed ? undefined : moment(new Date()).format('YYYY-MM-DD');
             model.completed = !model.completed;
             this.save();
         }
@@ -189,6 +279,16 @@
 
         parseMarkdown(input: string) {
             return parseMarkdown(input);
+        }
+
+        showOrHideForm() {
+            if (this.showForm) {
+                this.modelEditing.fullText = singleTodoTxtToString(this.modelEditing);
+            } else {
+                this.modelEditing = singleTodoTxtToModel(this.modelEditing.fullText);
+            }
+            
+            this.showForm = !this.showForm;
         }
 
         get todoTxtFilter() {
@@ -229,5 +329,15 @@
     textarea {
         width: 100%;
         height: 100px;
+    }
+
+    .edit-buttons {
+        margin-right: 0 !important;
+        width: 128px;
+        height: 128px;
+    }
+
+    .edit-buttons .row {
+        width: 100%;
     }
 </style>

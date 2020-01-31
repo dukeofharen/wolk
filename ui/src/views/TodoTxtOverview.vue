@@ -47,7 +47,6 @@
     import {mapState} from "vuex";
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import {NoteType} from "@/models/api/enums/noteType";
-    import marked from "marked";
     import TodoTxtFilter from "@/components/TodoTxtFilter.vue";
     import {
         filterTodoItems,
