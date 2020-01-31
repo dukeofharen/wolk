@@ -70,20 +70,41 @@
                 </v-row>
                 <v-row no-gutters>
                     <v-col cols="6">
-                        <v-btn title="Show form" @click="showForm" text>
+                        <v-btn title="Show form" @click="showOrHideForm" text>
                             <v-icon>mdi-card-text-outline</v-icon>
                         </v-btn>
                     </v-col>
                 </v-row>
             </v-list-item-action>
-            <v-list-item-content v-if="indexEditing === i">
-                <v-list-item-subtitle>
+            <template v-if="indexEditing === i">
+                <v-list-item-content v-if="!showForm">
                     <textarea
                             v-model="model.fullText"
                             placeholder="Todo item..."
                     />
-                </v-list-item-subtitle>
-            </v-list-item-content>
+                </v-list-item-content>
+                <v-list-item-content v-if="showForm">
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-select
+                                    :items="priorities"
+                                    label="Priority..."
+                                    v-model="model.priority"
+                                    clearable
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col cols="12">
+                            <v-textarea
+                                    label="Description..."
+                                    type="text"
+                                    v-model="model.description"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-list-item-content>
+            </template>
         </v-list-item>
     </v-card>
 </template>
@@ -92,7 +113,7 @@
     import {Component, Prop, Vue} from "vue-property-decorator";
     import Note from "@/models/api/note";
     import {
-        singleTodoTxtToModel,
+        singleTodoTxtToModel, singleTodoTxtToString,
         todoTxtToModels,
         todoTxtToString
     } from "@/services/todoTxtService";
@@ -104,7 +125,8 @@
     import {
         filterTodoItems,
         getDueStatusColor,
-        parseMarkdown
+        parseMarkdown,
+        getPriorities
     } from "@/utilities/todoTxtUiHelper";
 
     @Component({
@@ -117,9 +139,11 @@
         @Prop()
         note!: Note;
 
+        priorities = getPriorities();
         models: TodoTxtModel[] = [];
         indexEditing: number = -1;
         oldText: string = "";
+        showForm: boolean = false;
 
         mounted() {
             this.models = todoTxtToModels(this.contents, undefined);
@@ -137,8 +161,15 @@
 
         editItem() {
             let model = this.models[this.indexEditing];
-            let newModel = singleTodoTxtToModel(model.fullText);
-            this.models.splice(this.indexEditing, 1, newModel);
+            if (!this.showForm) {
+                // The plain text input is used; create a model based on the full text. 
+                let newModel = singleTodoTxtToModel(model.fullText);
+                this.models.splice(this.indexEditing, 1, newModel);
+            } else {
+                // The form is used; update the fullText based on the model.
+                model.fullText = singleTodoTxtToString(model);
+            }
+
             this.save();
         }
 
@@ -211,6 +242,10 @@
             return parseMarkdown(input);
         }
 
+        showOrHideForm() {
+            this.showForm = !this.showForm;
+        }
+
         get todoTxtFilter() {
             return this.$store.getters.todoTxtFilter
         }
@@ -255,7 +290,7 @@
         margin-right: 0 !important;
         width: 128px;
     }
-    
+
     .edit-buttons .row {
         width: 100%;
     }
