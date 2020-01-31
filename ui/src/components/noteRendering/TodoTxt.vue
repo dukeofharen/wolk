@@ -68,6 +68,13 @@
                         </v-btn>
                     </v-col>
                 </v-row>
+                <v-row no-gutters>
+                    <v-col cols="6">
+                        <v-btn title="Show form" @click="showForm" text>
+                            <v-icon>mdi-card-text-outline</v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </v-list-item-action>
             <v-list-item-content v-if="indexEditing === i">
                 <v-list-item-subtitle>
@@ -246,6 +253,10 @@
 
     .edit-buttons {
         margin-right: 0 !important;
-        width: 100px;
+        width: 128px;
+    }
+    
+    .edit-buttons .row {
+        width: 100%;
     }
 </style>
