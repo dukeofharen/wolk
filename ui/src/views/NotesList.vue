@@ -8,7 +8,7 @@
                 <v-col>
                     <transition-group name="fade">
                         <OverviewNote
-                                v-for="note of notes"
+                                v-for="note of filteredNotes"
                                 :key="note.id"
                                 v-bind:note="note"
                         />
@@ -39,6 +39,8 @@
     import {resources} from "@/resources";
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import BackToTop from "@/components/BackToTop.vue";
+    import Note from "@/models/api/note";
+    import {firstBy} from "thenby";
 
     @Component({
         components: {OverviewNote, BackToTop},
@@ -46,6 +48,7 @@
     })
     export default class NotesList extends Vue {
         currentNotebook!: Notebook;
+        notes!: Note[];
 
         constructor() {
             super();
@@ -83,6 +86,12 @@
                 created: new Date(),
                 updated: new Date()
             };
+        }
+
+        get filteredNotes(): Note[] {
+            let filteredNotes = this.notes;
+            filteredNotes.sort(firstBy("opened", -1));
+            return filteredNotes;
         }
 
         private reloadData() {
