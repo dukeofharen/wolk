@@ -178,7 +178,7 @@
         };
         indexEditing: number = -1;
         oldText: string = "";
-        showForm: boolean = false;
+        showForm: boolean = true;
         dueMenu: boolean = false;
 
         mounted() {

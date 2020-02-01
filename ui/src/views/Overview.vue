@@ -1,9 +1,10 @@
+import {firstBy} from "thenby";
 <template>
     <v-row>
         <v-col>
             <h1>Overview</h1>
             <OverviewNote
-                    v-for="note of notes"
+                    v-for="note of filteredNotes"
                     :key="note.id"
                     v-bind:note="note"
             />
@@ -20,12 +21,16 @@
     import OverviewNote from "@/components/OverviewNote.vue";
     import {LoadNotesQueryModel} from "@/models/store/loadNotesQueryModel";
     import BackToTop from "@/components/BackToTop.vue";
+    import Note from "@/models/api/note";
+    import {firstBy} from "thenby";
 
     @Component({
         components: {OverviewNote, BackToTop},
         computed: mapState(["notes"])
     })
     export default class Overview extends Vue {
+        notes!: Note[];
+        
         constructor() {
             super();
         }
@@ -38,6 +43,12 @@
         @Watch("$route")
         onRouteChanged() {
             this.loadNotes();
+        }
+
+        get filteredNotes(): Note[] {
+            let filteredNotes = this.notes;
+            filteredNotes.sort(firstBy("opened", -1));
+            return filteredNotes;
         }
 
         private loadNotes() {
