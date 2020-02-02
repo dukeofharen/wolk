@@ -1,0 +1,14 @@
+{
+  "name": "wolk-testsuite",
+  "version": "1.0.0",
+  "description": "Cypress test suite",
+  "scripts": {
+    "test": "",
+    "cypress:open": "cypress open"
+  },
+  "author": "Ducode",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^3.8.3"
+  }
+}
