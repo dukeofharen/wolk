@@ -25,6 +25,7 @@
                     <v-btn
                             color="primary"
                             @click="logIn"
+                            id="login"
                     >Login
                     </v-btn>
                 </v-card-actions>

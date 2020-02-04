@@ -6,10 +6,11 @@
         label="Notebook name"
         type="text"
         v-model="notebook.name"
+        name="name"
         @keyup="onChange"
       />
       <v-bottom-navigation color="indigo" fixed>
-        <v-btn title="Save notebook" @click="saveNotebook">
+        <v-btn title="Save notebook" @click="saveNotebook" id="save-notebook">
           <v-icon>mdi-content-save</v-icon>
         </v-btn>
       </v-bottom-navigation>

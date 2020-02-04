@@ -16,6 +16,7 @@
                 <v-list-item
                         :to="{ name: 'notebookForm'}"
                         v-if="isSignedIn"
+                        id="add-notebook"
                 >
                     <v-list-item-action>
                         <v-icon>mdi-plus</v-icon>
