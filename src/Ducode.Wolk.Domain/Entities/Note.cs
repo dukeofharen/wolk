@@ -19,5 +19,7 @@ namespace Ducode.Wolk.Domain.Entities
         public Notebook Notebook { get; set; }
 
         public ICollection<Attachment> Attachments { get; set; }
+
+        public ICollection<NoteHistory> NoteHistory { get; set; }
     }
 }
