@@ -1,30 +1,54 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.Interfaces;
 using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
+using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
 {
     public class UpdateNoteCommandHandler : IRequestHandler<UpdateNoteCommand>
     {
+        private readonly ILogger<UpdateNoteCommandHandler> _logger;
+        private readonly WolkConfiguration _configuration;
         private readonly IWolkDbContext _wolkDbContext;
 
-        public UpdateNoteCommandHandler(IWolkDbContext wolkDbContext)
+        public UpdateNoteCommandHandler(
+            ILogger<UpdateNoteCommandHandler> logger,
+            IOptions<WolkConfiguration> options,
+            IWolkDbContext wolkDbContext)
         {
+            _logger = logger;
+            _configuration = options.Value;
             _wolkDbContext = wolkDbContext;
         }
 
         public async Task<Unit> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
         {
             var note =
-                await _wolkDbContext.Notes.FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
+                await _wolkDbContext.Notes
+                    .Include(n => n.NoteHistory)
+                    .FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
             if (note == null)
             {
                 throw new NotFoundException(nameof(Note), request.Id);
+            }
+
+            // Remove older history items.
+            var oldHistory = note.NoteHistory
+                .OrderBy(h => h.Created)
+                .Skip(_configuration.NoteHistoryLength)
+                .ToArray();
+            if (oldHistory.Any())
+            {
+                _logger.LogInformation($"Deleting {oldHistory.Length} old note history items.");
+                _wolkDbContext.NoteHistory.RemoveRange(oldHistory);
             }
 
             var historyNote = new NoteHistory

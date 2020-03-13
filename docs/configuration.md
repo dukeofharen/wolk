@@ -32,3 +32,7 @@ The path where the uploads will be placed. E.g. `/srv/wolk/uploads/` or `C:\data
 **WolkConfiguration:DefaultLoginEmail / WolkConfiguration:DefaultPassword**
 
 When set, a default admin user will be created with this email address and password.
+
+**WolkConfiguration:NoteHistoryLength**
+
+The maximum number of note history items that will be saved. If the number of items exceeds this number, the oldest items will be deleted.

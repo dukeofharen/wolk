@@ -9,5 +9,7 @@ namespace Ducode.Wolk.Configuration
         public string DefaultLoginEmail { get; set; }
 
         public string DefaultPassword { get; set; }
+
+        public int NoteHistoryLength { get; set; }
     }
 }
