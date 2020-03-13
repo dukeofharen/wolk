@@ -12,6 +12,8 @@ namespace Ducode.Wolk.Application.Interfaces
 
         DbSet<Note> Notes { get; set; }
 
+        DbSet<NoteHistory> NoteHistory { get; set; }
+
         DbSet<Notebook> Notebooks { get; set; }
 
         DbSet<User> Users { get; set; }

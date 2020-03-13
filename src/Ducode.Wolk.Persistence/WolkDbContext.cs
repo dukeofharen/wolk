@@ -24,6 +24,8 @@ namespace Ducode.Wolk.Persistence
 
         public DbSet<Note> Notes { get; set; }
 
+        public DbSet<NoteHistory> NoteHistory { get; set; }
+
         public DbSet<Notebook> Notebooks { get; set; }
 
         public DbSet<User> Users { get; set; }

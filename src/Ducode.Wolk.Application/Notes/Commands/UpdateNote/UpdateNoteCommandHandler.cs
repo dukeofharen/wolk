@@ -27,6 +27,17 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
                 throw new NotFoundException(nameof(Note), request.Id);
             }
 
+            var historyNote = new NoteHistory
+            {
+                Content = note.Content,
+                NoteId = note.Id,
+                Title = note.Title,
+                NoteType = note.NoteType,
+                OriginalChanged = note.Changed,
+                OriginalCreated = note.Created
+            };
+            _wolkDbContext.NoteHistory.Add(historyNote);
+
             note.Title = request.Title;
             note.Content = request.Content;
             note.NoteType = request.NoteType;
