@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.Interfaces;
-using Ducode.Wolk.Application.Notebooks.Commands.UpdateNotebook;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
 using MediatR;
@@ -33,7 +32,6 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
         {
             var note =
                 await _wolkDbContext.Notes
-                    .Include(n => n.NoteHistory)
                     .FirstOrDefaultAsync(n => n.Id == request.Id, cancellationToken);
             if (note == null)
             {
@@ -41,10 +39,11 @@ namespace Ducode.Wolk.Application.Notes.Commands.UpdateNote
             }
 
             // Remove older history items.
-            var oldHistory = note.NoteHistory
-                .OrderBy(h => h.Created)
-                .Skip(_configuration.NoteHistoryLength)
-                .ToArray();
+            var oldHistory = await _wolkDbContext.NoteHistory
+                .Where(h => h.NoteId == note.Id)
+                .OrderByDescending(h => h.Id)
+                .Skip(_configuration.NoteHistoryLength - 1) // -1 is needed because a new item will be added after this.
+                .ToArrayAsync(cancellationToken);
             if (oldHistory.Any())
             {
                 _logger.LogInformation($"Deleting {oldHistory.Length} old note history items.");
