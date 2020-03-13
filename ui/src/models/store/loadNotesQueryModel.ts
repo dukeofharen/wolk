@@ -4,5 +4,5 @@ export interface LoadNotesQueryModel {
     notebookId?: number;
     searchTerm?: string;
     noteType?: NoteType;
-    includeFullContents?: boolean;
+    includeFullContent?: boolean;
 };

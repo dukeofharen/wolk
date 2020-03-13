@@ -63,7 +63,7 @@
         mounted() {
             let query: LoadNotesQueryModel = {
                 noteType: NoteType.TodoTxt,
-                includeFullContents: true
+                includeFullContent: true
             };
             this.$store.dispatch("loadNotes", query);
             this.$store.commit("SET_PAGE_SUB_TITLE", "All todo items");
