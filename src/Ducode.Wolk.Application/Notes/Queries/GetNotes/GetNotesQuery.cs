@@ -12,5 +12,7 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNotes
         public string SearchTerm { get; set; }
 
         public NoteType? NoteType { get; set; }
+
+        public bool IncludeFullContent { get; set; }
     }
 }

@@ -39,7 +39,16 @@ namespace Ducode.Wolk.Application.Notes.Queries.GetNotes
                 query = query.Where(n => n.NoteType == request.NoteType.Value);
             }
 
-            return _mapper.Map<IEnumerable<NoteDto>>(await query.ToArrayAsync(cancellationToken));
+            var result = _mapper.Map<IEnumerable<NoteDto>>(await query.ToArrayAsync(cancellationToken));
+            if (!request.IncludeFullContent)
+            {
+                foreach (var note in result)
+                {
+                    note.Content = null;
+                }
+            }
+
+            return result;
         }
     }
 }

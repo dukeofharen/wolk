@@ -30,17 +30,7 @@ namespace Ducode.Wolk.Api.Controllers
         /// <returns>A list of notes.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<NoteOverviewDto>>> GetAll([FromQuery] GetNotesQuery query) =>
-            Ok(Mapper.Map<IEnumerable<NoteOverviewDto>>(await Mediator.Send(query)));
-
-        /// <summary>
-        /// Returns a list of all notes including full note content.
-        /// </summary>
-        /// <param name="query">The query parameters.</param>
-        /// <returns>A list of notes.</returns>
-        [HttpGet("all")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<NoteDto>>> GetAllIncludingContent([FromQuery] GetNotesQuery query) =>
+        public async Task<ActionResult<IEnumerable<NoteDto>>> GetAll([FromQuery] GetNotesQuery query) =>
             Ok(Mapper.Map<IEnumerable<NoteDto>>(await Mediator.Send(query)));
 
         /// <summary>
