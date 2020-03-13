@@ -9,6 +9,8 @@ using Ducode.Wolk.Application.Attachments.Commands.DeleteAttachment;
 using Ducode.Wolk.Application.Attachments.Models;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachments;
+using Ducode.Wolk.Application.NoteHistoryItems.Models;
+using Ducode.Wolk.Application.NoteHistoryItems.Queries.GetNoteHistory;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
 using Ducode.Wolk.Application.Notes.Commands.DeleteNote;
 using Ducode.Wolk.Application.Notes.Commands.UpdateNote;
@@ -136,6 +138,18 @@ namespace Ducode.Wolk.Api.Controllers
             return File(attachment.Contents, attachment.MimeType, attachment.Filename);
         }
 
+        [HttpGet("{noteId}/history")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<NoteHistoryDto>>> GetNoteHistory(
+            [FromRoute] long noteId,
+            [FromQuery] bool includeFullContent) =>
+            Ok(Mapper.Map<IEnumerable<NoteHistoryDto>>(
+                await Mediator.Send(new GetNoteHistoryQuery
+                {
+                    NoteId = noteId, IncludeFullContent = includeFullContent
+                })));
+
         /// <summary>
         /// Deletes a given attachment.
         /// </summary>
@@ -183,7 +197,7 @@ namespace Ducode.Wolk.Api.Controllers
         [HttpGet("{noteId}/attachments/{attachmentId}/accessTokens/{token}/{filename?}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetAttachmentByAccessToken([FromRoute]string token)
+        public async Task<ActionResult> GetAttachmentByAccessToken([FromRoute] string token)
         {
             var query = new GetAttachmentQuery {Token = token};
             var attachment = await Mediator.Send(query);
