@@ -11,11 +11,7 @@ import {LoadNotesQueryModel} from '@/models/store/loadNotesQueryModel';
 import {NoteType} from "@/models/api/enums/noteType";
 
 export function loadNotes({commit}: ActionContext<StateModel, StateModel>, queryModel?: LoadNotesQueryModel) {
-    let url = `${urls.rootUrl}api/note`;
-    if (queryModel && queryModel.includeFullContents) {
-        url += '/all';
-    }
-
+    const url = `${urls.rootUrl}api/note`;
     let instance = createInstance();
     let promise = !!queryModel ? instance.get(url, {
         params: queryModel
