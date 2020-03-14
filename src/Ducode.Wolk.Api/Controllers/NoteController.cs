@@ -138,6 +138,12 @@ namespace Ducode.Wolk.Api.Controllers
             return File(attachment.Contents, attachment.MimeType, attachment.Filename);
         }
 
+        /// <summary>
+        /// Retrieves all past mutations of a specific note.
+        /// </summary>
+        /// <param name="noteId">The ID of the note.</param>
+        /// <param name="includeFullContent">Whether the full content should be returned, or only a preview.</param>
+        /// <returns></returns>
         [HttpGet("{noteId}/history")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -149,6 +155,17 @@ namespace Ducode.Wolk.Api.Controllers
                 {
                     NoteId = noteId, IncludeFullContent = includeFullContent
                 })));
+
+        [HttpPut("{noteId}/history/{noteHistoryId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> RestoreNoteHistory(
+            [FromRoute] long noteId,
+            [FromRoute] long noteHistoryId)
+        {
+            return NoContent();
+        }
 
         /// <summary>
         /// Deletes a given attachment.
