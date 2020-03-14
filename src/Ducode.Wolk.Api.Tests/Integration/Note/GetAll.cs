@@ -33,7 +33,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notes = JsonConvert.DeserializeObject<NoteOverviewDto[]>(content);
+            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
 
             ShouldBeEqual(note1, notes[0]);
             ShouldBeEqual(note2, notes[1]);
@@ -62,7 +62,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var notes = JsonConvert.DeserializeObject<NoteOverviewDto[]>(content);
+            var notes = JsonConvert.DeserializeObject<NoteDto[]>(content);
 
             Assert.AreEqual(2, notes.Length);
 
@@ -76,7 +76,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Note
             // Arrange
             var note1 = await WolkDbContext.CreateAndSaveNote();
             var note2 = await WolkDbContext.CreateAndSaveNote();
-            var url = "/api/note/all";
+            var url = "/api/note?includeFullContent=true";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             var token = await GetJwt();

@@ -29,7 +29,8 @@ namespace Ducode.Wolk.Application.Backup.Models
             configuration.CreateMap<Note, NoteBackupDto>();
             configuration.CreateMap<NoteBackupDto, Note>()
                 .ForMember(dest => dest.Attachments, opt => opt.Ignore())
-                .ForMember(dest => dest.Notebook, opt => opt.Ignore());
+                .ForMember(dest => dest.Notebook, opt => opt.Ignore())
+                .ForMember(dest => dest.NoteHistory, opt => opt.Ignore());
         }
     }
 }

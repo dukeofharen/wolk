@@ -11,21 +11,20 @@ namespace Ducode.Wolk.TestUtilities.Assertions
     {
         public static void ShouldBeEqual(Note note, NoteDto noteDto)
         {
-            Assert.AreEqual(note.Content, noteDto.Content);
+            if (!string.IsNullOrWhiteSpace(noteDto.Preview))
+            {
+                Assert.AreEqual(note.Content.Shorten(100, "...", true), noteDto.Preview);
+            }
+            else
+            {
+                Assert.AreEqual(note.Content, noteDto.Content);
+            }
+
             Assert.AreEqual(note.Title, noteDto.Title);
             Assert.AreEqual(note.NotebookId, noteDto.NotebookId);
             Assert.AreEqual(note.Created, noteDto.Created);
             Assert.AreEqual(note.Changed, noteDto.Changed);
             Assert.AreEqual(note.Opened, noteDto.Opened);
-        }
-
-        public static void ShouldBeEqual(Note note, NoteOverviewDto noteDto)
-        {
-            Assert.AreEqual(note.Content.Shorten(100, "...", true), noteDto.Preview);
-            Assert.AreEqual(note.Title, noteDto.Title);
-            Assert.AreEqual(note.NotebookId, noteDto.NotebookId);
-            Assert.AreEqual(note.Created, noteDto.Created);
-            Assert.AreEqual(note.Changed, noteDto.Changed);
         }
 
         public static void ShouldBeEqual(Note note, MutateNoteModel model)
