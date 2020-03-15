@@ -15,16 +15,16 @@ set-version:
     paths:
       - version.txt
 
-#test:
-#  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
-#  stage: test
-#  tags:
-#    - ducode
-#    - build
-#  script:
-#    - chmod +x ./scripts/build/test.sh
-#    - ./scripts/build/test.sh
-#
+test:
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
+  stage: test
+  tags:
+    - ducode
+    - build
+  script:
+    - chmod +x ./scripts/build/test.sh
+    - ./scripts/build/test.sh
+
 #build:
 #  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
 #  stage: build
