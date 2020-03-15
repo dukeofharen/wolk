@@ -8,7 +8,7 @@ mkdir "$ROOT_PATH/dist"
 
 # Copy UI to project
 mkdir "$API_ROOT_PATH/gui"
-cp "$ROOT_PATH/ui/dist/*" "$API_ROOT_PATH/gui"
+cp "$ROOT_PATH/ui/dist/." "$API_ROOT_PATH/gui"
 
 # Patch .csproj files with new version.
 find src -name "*.csproj" | while read FILENAME; do
