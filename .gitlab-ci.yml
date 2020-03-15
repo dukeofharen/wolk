@@ -1,6 +1,7 @@
 stages:
   - prepare
   - test
+  - build-ui
   - build
   - install
   - deploy
@@ -21,6 +22,13 @@ test:
   script:
     - chmod +x ./scripts/build/test.sh
     - ./scripts/build/test.sh
+      
+build-ui:
+  image: node:13.10.1-alpine3.11
+  stage: build-ui
+  script:
+    - chmod +x ./scripts/build/build-ui.sh
+    - ./scripts/build/build-ui.sh
 
 #build:
 #  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
@@ -31,7 +39,7 @@ test:
 #  artifacts:
 #    paths:
 #      - dist
-#
+
 #docker-build:
 #  image: docker:latest
 #  stage: install

@@ -1,15 +1,10 @@
 #!/bin/bash
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. "$DIR/set-global-vars.sh"
-source ~/.nvm/nvm.sh
-
 # Building user interface
 echo "Building Vue.js user interface"
-GUI_DIST_FOLDER="$GUI_SRC_FOLDER/dist"
-GUI_DESTINATION_FOLDER="$SRC_FOLDER/Ducode.Wolk.Api/gui"
+GUI_DIST_FOLDER="ui/dist"
+GUI_DESTINATION_FOLDER="Ducode.Wolk.Api/gui"
 
-cd "$GUI_SRC_FOLDER"
+cd ui
 npm install
 if ! npm run build; then
     exit 1
