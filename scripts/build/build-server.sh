@@ -1,12 +1,13 @@
 #!/bin/bash
-
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 VERSION=$(cat version.txt)
-API_ROOT_PATH="src/Ducode.Wolk.Api"
+API_ROOT_PATH="$DIR/src/Ducode.Wolk.Api"
 
 mkdir dist
 
 # Copy UI to project
-cp ui/dist/* $API_ROOT_PATH/gui
+mkdir "$API_ROOT_PATH/gui"
+cp "$DIR/ui/dist/*" "$API_ROOT_PATH/gui"
 
 # Patch .csproj files with new version.
 find src -name "*.csproj" | while read FILENAME; do
@@ -14,8 +15,8 @@ find src -name "*.csproj" | while read FILENAME; do
 done
 
 # Build for Windows
-WIN_BIN_DIR="src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
-ZIP_LOCATION="dist/wolk_windows.zip"
+WIN_BIN_DIR="$DIR/src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
+ZIP_LOCATION="$DIR/dist/wolk_windows.zip"
 
 echo "Building Wolk for Windows"
 if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release --runtime=win-x64; then
@@ -27,8 +28,8 @@ cd "$WIN_BIN_DIR"
 zip -r "$ZIP_LOCATION" .
 
 # Build for Linux
-LIN_BIN_DIR="src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
-TAR_LOCATION="dist/wolk_linux.tar.gz"
+LIN_BIN_DIR="$DIR/src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
+TAR_LOCATION="$DIR/dist/wolk_linux.tar.gz"
 
 echo "Building Wolk for Linux"
 if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release --runtime=linux-x64; then
@@ -48,4 +49,4 @@ if ! dotnet run -c Release --project "$SWAGGERGEN_ROOT_PATH"; then
 fi
 
 echo "swagger.json file created successfully!"
-cp "$SWAGGER_PATH" "dist"
+cp "$SWAGGER_PATH" "$DIR/dist"

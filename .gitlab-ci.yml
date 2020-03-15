@@ -37,6 +37,7 @@ build-server:
   image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
   stage: build-server
   script:
+    - apt install zip -y
     - chmod +x ./scripts/build/build-server.sh
     - ./scripts/build/build-server.sh
   artifacts:
