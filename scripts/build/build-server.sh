@@ -3,7 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 VERSION=$(cat version.txt)
 API_ROOT_PATH="$DIR/src/Ducode.Wolk.Api"
 
-mkdir dist
+mkdir "$DIR/dist"
 
 # Copy UI to project
 mkdir "$API_ROOT_PATH/gui"
@@ -26,6 +26,7 @@ fi
 echo "Zipping binaries for Windows"
 cd "$WIN_BIN_DIR"
 zip -r "$ZIP_LOCATION" .
+cd "$DIR"
 
 # Build for Linux
 LIN_BIN_DIR="$DIR/src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
@@ -39,9 +40,10 @@ fi
 echo "Archiving binaries for Linux"
 cd "$LIN_BIN_DIR"
 tar -czvf "$TAR_LOCATION" -C "$LIN_BIN_DIR" .
+cd "$DIR"
 
 # Creating Swagger file
-SWAGGERGEN_ROOT_PATH="$SRC_FOLDER/Ducode.Wolk.SwaggerGenerator"
+SWAGGERGEN_ROOT_PATH="$DIR/src/Ducode.Wolk.SwaggerGenerator"
 SWAGGER_PATH="$SWAGGERGEN_ROOT_PATH/bin/Release/netcoreapp3.1/swagger.json"
 echo "Creating swagger.json file"
 if ! dotnet run -c Release --project "$SWAGGERGEN_ROOT_PATH"; then
