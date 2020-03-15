@@ -9,6 +9,7 @@ using Ducode.Wolk.Application.Attachments.Commands.DeleteAttachment;
 using Ducode.Wolk.Application.Attachments.Models;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachmentBinary;
 using Ducode.Wolk.Application.Attachments.Queries.GetAttachments;
+using Ducode.Wolk.Application.NoteHistoryItems.Commands.RestoreNoteHistory;
 using Ducode.Wolk.Application.NoteHistoryItems.Models;
 using Ducode.Wolk.Application.NoteHistoryItems.Queries.GetNoteHistory;
 using Ducode.Wolk.Application.Notes.Commands.CreateNote;
@@ -156,6 +157,12 @@ namespace Ducode.Wolk.Api.Controllers
                     NoteId = noteId, IncludeFullContent = includeFullContent
                 })));
 
+        /// <summary>
+        /// Restore a note to a previous version.
+        /// </summary>
+        /// <param name="noteId">The note ID.</param>
+        /// <param name="noteHistoryId">The note history ID.</param>
+        /// <returns></returns>
         [HttpPut("{noteId}/history/{noteHistoryId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -164,6 +171,7 @@ namespace Ducode.Wolk.Api.Controllers
             [FromRoute] long noteId,
             [FromRoute] long noteHistoryId)
         {
+            await Mediator.Send(new RestoreNoteHistoryCommand {NoteId = noteId, NoteHistoryId = noteHistoryId});
             return NoContent();
         }
 

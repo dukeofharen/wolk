@@ -44,6 +44,9 @@ namespace Ducode.Wolk.Api.Attributes
                 case UnauthorizedException _:
                     code = HttpStatusCode.Unauthorized;
                     break;
+                case ArgumentException _:
+                    code = HttpStatusCode.BadRequest;
+                    break;
                 default:
                     message = "Unhandled exception thrown!";
                     _logger.LogError(exception, message);

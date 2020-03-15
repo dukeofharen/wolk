@@ -69,7 +69,7 @@ namespace Ducode.Wolk.Application.Tests.NoteHistoryItems.Commands.ResoreNoteHist
 
             // Assert
             Assert.AreEqual(
-                $"Note history with id '{noteHistory.Id}' does not belong to note with ID '{note2.Id}'.",
+                $"Note history with ID '{noteHistory.Id}' does not belong to note with ID '{note2.Id}'.",
                 exception.Message);
         }
 
