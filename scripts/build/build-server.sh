@@ -1,29 +1,24 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. "$DIR/set-global-vars.sh"
-VERSION="$(cat $ROOT_FOLDER/version.txt)"
+VERSION=$(cat version.txt)
+API_ROOT_PATH="src/Ducode.Wolk.Api"
+
+mkdir dist
+
+# Copy UI to project
+cp ui/dist/* $API_ROOT_PATH/gui
 
 # Patch .csproj files with new version.
-find $SRC_FOLDER -name "*.csproj" | while read FILENAME; do
-    python $DIR/patch-csproj.py $VERSION $FILENAME
-done
-
-# Run tests
-find "$SRC_FOLDER" -name "*.Tests.csproj" | while read FILENAME; do
-    echo "Running unit tests in project $FILENAME"
-    if ! dotnet test "$FILENAME"; then
-        echo "Error when executing unit tests for $FILENAME"
-        exit 1
-    fi
+find src -name "*.csproj" | while read FILENAME; do
+    python scripts/build/patch-csproj.py $VERSION $FILENAME
 done
 
 # Build for Windows
-WIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
-ZIP_LOCATION="$DIST_FOLDER/wolk_windows.zip"
+WIN_BIN_DIR="src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
+ZIP_LOCATION="dist/wolk_windows.zip"
 
 echo "Building Wolk for Windows"
-if ! dotnet publish "$MAIN_CSPROJ_PATH" -c release --runtime=win-x64; then
+if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release --runtime=win-x64; then
     exit 1
 fi
 
@@ -32,11 +27,11 @@ cd "$WIN_BIN_DIR"
 zip -r "$ZIP_LOCATION" .
 
 # Build for Linux
-LIN_BIN_DIR="$SRC_FOLDER/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
-TAR_LOCATION="$DIST_FOLDER/wolk_linux.tar.gz"
+LIN_BIN_DIR="src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/linux-x64/publish"
+TAR_LOCATION="dist/wolk_linux.tar.gz"
 
 echo "Building Wolk for Linux"
-if ! dotnet publish "$MAIN_CSPROJ_PATH" -c release --runtime=linux-x64; then
+if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release --runtime=linux-x64; then
     exit 1
 fi
 
@@ -53,4 +48,4 @@ if ! dotnet run -c Release --project "$SWAGGERGEN_ROOT_PATH"; then
 fi
 
 echo "swagger.json file created successfully!"
-cp "$SWAGGER_PATH" "$DIST_FOLDER"
+cp "$SWAGGER_PATH" "dist"

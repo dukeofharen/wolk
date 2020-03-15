@@ -2,7 +2,7 @@ stages:
   - prepare
   - test
   - build-ui
-  - build
+  - build-server
   - install
   - deploy
 
@@ -33,15 +33,15 @@ build-ui:
     paths:
       - ui/dist
 
-#build:
-#  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
-#  stage: build
-#  script:
-#    - chmod +x ./scripts/build/build.sh
-#    - ./scripts/build/build.sh
-#  artifacts:
-#    paths:
-#      - dist
+build-server:
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
+  stage: build-server
+  script:
+    - chmod +x ./scripts/build/build-server.sh
+    - ./scripts/build/build-server.sh
+  artifacts:
+    paths:
+      - dist
 
 #docker-build:
 #  image: docker:latest
