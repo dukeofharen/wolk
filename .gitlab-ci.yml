@@ -16,15 +16,15 @@ set-version:
     paths:
       - version.txt
 
-test:
-  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
-  stage: test
-  script:
-    - chmod +x ./scripts/build/test.sh
-    - ./scripts/build/test.sh
+#test:
+#  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
+#  stage: test
+#  script:
+#    - chmod +x ./scripts/build/test.sh
+#    - ./scripts/build/test.sh
       
 build-ui:
-  image: node:13.10.1-alpine3.11
+  image: node:13.10.1-buster-slim
   stage: build-ui
   script:
     - chmod +x ./scripts/build/build-ui.sh
