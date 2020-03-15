@@ -1,0 +1,56 @@
+stages:
+  - prepare
+  - test
+  - build
+  - install
+  - deploy
+
+set-version:
+  image: debian:stable-slim
+  stage: prepare
+  script:
+    - chmod +x ./scripts/build/set-version.sh
+    - ./scripts/build/set-version.sh "$CI_BUILD_ID"
+  tags:
+    - ducode
+    - build
+  artifacts:
+    paths:
+      - version.txt
+
+#test:
+#  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
+#  stage: test
+#  tags:
+#    - ducode
+#    - build
+#  script:
+#    - chmod +x ./scripts/build/test.sh
+#    - ./scripts/build/test.sh
+#
+#build:
+#  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
+#  stage: build
+#  script:
+#    - chmod +x ./scripts/build/build.sh
+#    - ./scripts/build/build.sh
+#  artifacts:
+#    paths:
+#      - dist
+#
+#docker-build:
+#  image: docker:latest
+#  stage: install
+#  tags:
+#    - ducode
+#    - build
+#  services:
+#    - docker:18.09.7-dind # https://github.com/docker-library/docker/issues/175
+#  when: manual
+#  script:
+#    - export VERSION="$(cat version.txt)"
+#    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+#    - chmod +x ./scripts/build/build-and-push-image.sh
+#    - ./scripts/build/build-and-push-image.sh admin Admin $VERSION
+#    - ./scripts/build/build-and-push-image.sh customer Customer $VERSION
+#    - ./scripts/build/build-and-push-image.sh api Api $VERSION
