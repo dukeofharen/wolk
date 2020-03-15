@@ -16,7 +16,7 @@ done
 
 # Build for Windows
 WIN_BIN_DIR="$DIR/src/Ducode.Wolk.Api/bin/release/netcoreapp3.1/win-x64/publish"
-ZIP_LOCATION="$DIR/dist/wolk_windows.zip"
+TAR_LOCATION="$DIR/dist/wolk_windows.tar.gz"
 
 echo "Building Wolk for Windows"
 if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release --runtime=win-x64; then
@@ -25,7 +25,7 @@ fi
 
 echo "Zipping binaries for Windows"
 cd "$WIN_BIN_DIR"
-zip -r "$ZIP_LOCATION" .
+tar -czvf "$TAR_LOCATION" -C "$WIN_BIN_DIR" .
 cd "$DIR"
 
 # Build for Linux
