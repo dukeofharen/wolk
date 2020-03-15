@@ -29,6 +29,9 @@ build-ui:
   script:
     - chmod +x ./scripts/build/build-ui.sh
     - ./scripts/build/build-ui.sh
+  artifacts:
+    paths:
+      - ui/dist
 
 #build:
 #  image: mcr.microsoft.com/dotnet/core/sdk:3.1.102-buster
