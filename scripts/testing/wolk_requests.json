@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a8afb76e-dadd-4c19-bb0c-3520b7b79ad9",
+		"_postman_id": "a53ef9ae-e0f6-4855-9502-8082c807de66",
 		"name": "Wolk API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -244,7 +244,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Notes",
@@ -265,19 +266,25 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{rootUrl}}api/note",
+							"raw": "{{rootUrl}}api/note?includeFullContent=false",
 							"host": [
 								"{{rootUrl}}api"
 							],
 							"path": [
 								"note"
+							],
+							"query": [
+								{
+									"key": "includeFullContent",
+									"value": "false"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get all notes including content",
+					"name": "Get all notes with content",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -292,13 +299,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{rootUrl}}api/note/all",
+							"raw": "{{rootUrl}}api/note?includeFullContent=true",
 							"host": [
 								"{{rootUrl}}api"
 							],
 							"path": [
-								"note",
-								"all"
+								"note"
+							],
+							"query": [
+								{
+									"key": "includeFullContent",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -398,13 +410,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{rootUrl}}api/note/1",
+							"raw": "{{rootUrl}}api/note/21",
 							"host": [
 								"{{rootUrl}}api"
 							],
 							"path": [
 								"note",
-								"1"
+								"21"
 							]
 						}
 					},
@@ -472,16 +484,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"title\": \"TEST NOTE!!!1!\",\n\t\"content\": \"These are the note contents!!!!!!!!\",\n\t\"notebookId\": 3,\n\t\"noteType\": 2\n}"
+							"raw": "{\n\t\"title\": \"DucoDucoDuco1111111!\",\n\t\"content\": \"ADFsdfsdfafs\",\n\t\"notebookId\": 3,\n\t\"noteType\": 2\n}"
 						},
 						"url": {
-							"raw": "{{rootUrl}}api/note/20",
+							"raw": "{{rootUrl}}api/note/22",
 							"host": [
 								"{{rootUrl}}api"
 							],
 							"path": [
 								"note",
-								"20"
+								"22"
 							]
 						}
 					},
@@ -515,7 +527,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Users",
@@ -606,7 +619,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Attachments",
@@ -818,7 +832,79 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "NoteHistory",
+			"item": [
+				{
+					"name": "Get note history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{rootUrl}}api/note/21/history?includeFullContent=false",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note",
+								"21",
+								"history"
+							],
+							"query": [
+								{
+									"key": "includeFullContent",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore note from history",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{rootUrl}}api/note/21/history/36",
+							"host": [
+								"{{rootUrl}}api"
+							],
+							"path": [
+								"note",
+								"21",
+								"history",
+								"36"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
