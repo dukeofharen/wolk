@@ -72,32 +72,5 @@ namespace Ducode.Wolk.Application.Tests.Notes.Commands.UpdateNote
                 It.Is<SaveNoteHistoryNotification>(n => n.NoteId == note.Id),
                 It.IsAny<CancellationToken>()));
         }
-
-        // [TestMethod]
-        // public async Task Handle_ShouldDeleteOldHistoryItems()
-        // {
-        //     // Arrange
-        //     var notebook = await _wolkDbContext.CreateAndSaveNotebook();
-        //     var note = await _wolkDbContext.CreateAndSaveNote();
-        //     var originalTitle = note.Title;
-        //     var originalContent = note.Content;
-        //
-        //     // Act
-        //     for (var i = 0; i < 7; i++)
-        //     {
-        //         var request = new UpdateNoteCommand
-        //         {
-        //             Id = note.Id,
-        //             Content = Guid.NewGuid().ToString(),
-        //             Title = Guid.NewGuid().ToString(),
-        //             NotebookId = notebook.Id
-        //         };
-        //         await _handler.Handle(request, CancellationToken.None);
-        //     }
-        //
-        //     // Assert
-        //     Assert.AreEqual(_configuration.NoteHistoryLength, note.NoteHistory.Count);
-        //     Assert.IsFalse(note.NoteHistory.Any(h => h.Title == originalTitle || h.Content == originalContent));
-        // }
     }
 }

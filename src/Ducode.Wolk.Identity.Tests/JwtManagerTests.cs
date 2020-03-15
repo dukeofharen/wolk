@@ -6,7 +6,6 @@ using Ducode.Wolk.Common;
 using Ducode.Wolk.Common.Constants;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Identity.Impl;
-using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +31,7 @@ namespace Ducode.Wolk.Identity.Tests
             _mockDateTime
                 .Setup(m => m.Now)
                 .Returns(DateTime.Now);
-            var mockOptions = MockOptions<IdentityConfiguration>.Create(_configuration);
+            var mockOptions = Options.Create(_configuration);
             _manager = new JwtManager(_mockDateTime.Object, mockOptions);
         }
 

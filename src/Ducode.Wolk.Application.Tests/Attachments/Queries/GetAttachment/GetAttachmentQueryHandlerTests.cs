@@ -9,7 +9,6 @@ using Ducode.Wolk.Common;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
 using Ducode.Wolk.Persistence;
-using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Mapping;
@@ -33,7 +32,7 @@ namespace Ducode.Wolk.Application.Tests.Attachments.Queries.GetAttachment
         [TestInitialize]
         public void Initialize()
         {
-            var mockOptions = MockOptions<WolkConfiguration>.Create(_configuration);
+            var mockOptions = Options.Create(_configuration);
             _handler = new GetAttachmentQueryHandler(
                 _mockDateTime.Object,
                 _mockFileService.Object,

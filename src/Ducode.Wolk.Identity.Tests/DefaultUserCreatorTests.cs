@@ -5,11 +5,11 @@ using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Domain.Entities;
 using Ducode.Wolk.Identity.Impl;
 using Ducode.Wolk.Persistence;
-using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -27,7 +27,7 @@ namespace Ducode.Wolk.Identity.Tests
         [TestInitialize]
         public void Setup()
         {
-            var mockOptions = MockOptions<WolkConfiguration>.Create(_configuration);
+            var mockOptions = Options.Create(_configuration);
             _creator = new DefaultUserCreator(
                 new Mock<ILogger<DefaultUserCreator>>().Object,
                 _mockPasswordHasher.Object,

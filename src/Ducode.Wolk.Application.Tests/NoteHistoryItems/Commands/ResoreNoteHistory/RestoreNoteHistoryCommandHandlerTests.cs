@@ -3,24 +3,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Application.NoteHistoryItems.Commands.RestoreNoteHistory;
+using Ducode.Wolk.Application.NoteHistoryItems.Notifications.SaveNoteHistory;
 using Ducode.Wolk.Persistence;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
+using MediatR;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Ducode.Wolk.Application.Tests.NoteHistoryItems.Commands.ResoreNoteHistory
 {
     [TestClass]
     public class RestoreNoteHistoryCommandHandlerTests
     {
+        private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly WolkDbContext _wolkDbContext = InMemoryDbContextFactory.Create();
         private RestoreNoteHistoryCommandHandler _handler;
 
         [TestInitialize]
-        public void Setup() => _handler = new RestoreNoteHistoryCommandHandler(_wolkDbContext);
+        public void Setup() => _handler = new RestoreNoteHistoryCommandHandler(
+            _mockMediator.Object,
+            _wolkDbContext);
 
         [TestCleanup]
-        public void Cleanup() => _wolkDbContext.Destroy();
+        public void Cleanup()
+        {
+            _mockMediator.VerifyAll();
+            _wolkDbContext.Destroy();
+        }
 
         [TestMethod]
         public async Task Handle_NoteNotFound_ShouldThrowNotFoundException()
@@ -89,6 +99,10 @@ namespace Ducode.Wolk.Application.Tests.NoteHistoryItems.Commands.ResoreNoteHist
             Assert.AreEqual(noteHistory.Title, note1.Title);
             Assert.AreEqual(noteHistory.Content, note1.Content);
             Assert.AreEqual(noteHistory.NoteType, note1.NoteType);
+
+            _mockMediator.Verify(m => m.Publish(
+                It.Is<SaveNoteHistoryNotification>(n => n.NoteId == note1.Id),
+                It.IsAny<CancellationToken>()));
         }
     }
 }

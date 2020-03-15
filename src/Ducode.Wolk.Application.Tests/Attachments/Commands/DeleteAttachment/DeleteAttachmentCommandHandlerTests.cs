@@ -7,7 +7,6 @@ using Ducode.Wolk.Application.Exceptions;
 using Ducode.Wolk.Common;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Persistence;
-using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +27,7 @@ namespace Ducode.Wolk.Application.Tests.Attachments.Commands.DeleteAttachment
         [TestInitialize]
         public void Setup()
         {
-            var mockOptions = MockOptions<WolkConfiguration>.Create(_configuration);
+            var mockOptions = Options.Create(_configuration);
             _handler = new DeleteAttachmentCommandHandler(
                 _mockFileService.Object,
                 _wolkDbContext,

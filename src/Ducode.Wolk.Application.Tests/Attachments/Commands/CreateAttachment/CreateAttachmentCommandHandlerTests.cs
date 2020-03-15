@@ -6,7 +6,6 @@ using Ducode.Wolk.Application.Attachments.Commands.CreateAttachment;
 using Ducode.Wolk.Common;
 using Ducode.Wolk.Configuration;
 using Ducode.Wolk.Persistence;
-using Ducode.Wolk.TestUtilities.Config;
 using Ducode.Wolk.TestUtilities.Data;
 using Ducode.Wolk.TestUtilities.FakeData;
 using Ducode.Wolk.TestUtilities.Mapping;
@@ -31,7 +30,7 @@ namespace Ducode.Wolk.Application.Tests.Attachments.Commands.CreateAttachment
         [TestInitialize]
         public void Setup()
         {
-            var mockOptions = MockOptions<WolkConfiguration>.Create(_configuration);
+            var mockOptions = Options.Create(_configuration);
             _handler = new CreateAttachmentCommandHandler(
                 _mockFileService.Object,
                 _mapper,
