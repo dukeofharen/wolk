@@ -11,9 +11,6 @@ set-version:
   script:
     - chmod +x ./scripts/build/set-version.sh
     - ./scripts/build/set-version.sh "$CI_BUILD_ID"
-  tags:
-    - ducode
-    - build
   artifacts:
     paths:
       - version.txt
