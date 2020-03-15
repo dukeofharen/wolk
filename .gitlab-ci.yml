@@ -43,19 +43,12 @@ build-server:
     paths:
       - dist
 
-#docker-build:
-#  image: docker:latest
-#  stage: install
-#  tags:
-#    - ducode
-#    - build
-#  services:
-#    - docker:18.09.7-dind # https://github.com/docker-library/docker/issues/175
-#  when: manual
-#  script:
-#    - export VERSION="$(cat version.txt)"
-#    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
-#    - chmod +x ./scripts/build/build-and-push-image.sh
-#    - ./scripts/build/build-and-push-image.sh admin Admin $VERSION
-#    - ./scripts/build/build-and-push-image.sh customer Customer $VERSION
-#    - ./scripts/build/build-and-push-image.sh api Api $VERSION
+docker-build:
+  image: docker:latest
+  stage: install
+  services:
+    - docker:18.09.7-dind # https://github.com/docker-library/docker/issues/175
+  when: manual
+  script:
+    - chmod +x ./scripts/publish/docker-push.sh
+    - ./scripts/publish/docker-push.sh

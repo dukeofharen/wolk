@@ -43,6 +43,12 @@ cd "$LIN_BIN_DIR"
 tar -czvf "$TAR_LOCATION" -C "$LIN_BIN_DIR" .
 cd "$ROOT_PATH"
 
+# Build only the DLLs for the Docker container
+echo "Building plain DLLs"
+if ! dotnet publish "$API_ROOT_PATH/Ducode.Wolk.Api.csproj" -c release -o "$ROOT_PATH/wolk"; then
+    exit 1
+fi
+
 # Creating Swagger file
 SWAGGERGEN_ROOT_PATH="$ROOT_PATH/src/Ducode.Wolk.SwaggerGenerator"
 SWAGGER_PATH="$SWAGGERGEN_ROOT_PATH/bin/Release/netcoreapp3.1/swagger.json"
