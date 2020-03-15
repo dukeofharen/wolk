@@ -70,9 +70,14 @@ namespace Ducode.Wolk.Api.Tests.Integration.Backup
                 n.Title == "Sticky notes test" ||
                 n.Title == "Todo.txt test"));
 
+            // Assert note history
+            var noteHistory = await WolkDbContext.NoteHistory.ToArrayAsync();
+            Assert.AreEqual(5, noteHistory.Length);
+            Assert.IsTrue(noteHistory.All(h => h.NoteId == 3 || h.NoteId == 4));
+
             // Assert users
             var user = await WolkDbContext.Users.SingleAsync();
-            Assert.AreEqual("wolk@ducode.org", user.Email);
+            Assert.AreEqual("wolk@example.com", user.Email);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Ducode.Wolk.Application.Backup.Models;
 using Ducode.Wolk.Application.Interfaces;
+using Ducode.Wolk.Application.NoteHistoryItems.Models;
 using Ducode.Wolk.Common;
 using Ducode.Wolk.Common.Utilities;
 using Ducode.Wolk.Configuration;
@@ -100,6 +101,15 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
                             _wolkDbContext.Notes.Add(note);
                         }
 
+                        var noteHistoryEntryNames = zip.ReadEntryNames(BackupConstants.NoteHistoryFolder);
+                        foreach (var entryName in noteHistoryEntryNames)
+                        {
+                            var entry = zip.ReadEntryAsText(entryName);
+                            var history =
+                                _mapper.Map<NoteHistory>(JsonConvert.DeserializeObject<NoteHistoryBackupDto>(entry));
+                            _wolkDbContext.NoteHistory.Add(history);
+                        }
+
                         var attachmentEntryNames = zip.ReadEntryNames(BackupConstants.AttachmentsFolder);
                         foreach (var entryName in attachmentEntryNames)
                         {
@@ -118,7 +128,8 @@ namespace Ducode.Wolk.Application.Backup.Commands.UploadBackup
                         foreach (var entryName in accessTokenEntryNames)
                         {
                             var entry = zip.ReadEntryAsText(entryName);
-                            var accessToken = _mapper.Map<AccessToken>(JsonConvert.DeserializeObject<AccessTokenBackupDto>(entry));
+                            var accessToken =
+                                _mapper.Map<AccessToken>(JsonConvert.DeserializeObject<AccessTokenBackupDto>(entry));
                             _wolkDbContext.AccessTokens.Add(accessToken);
                         }
                     }

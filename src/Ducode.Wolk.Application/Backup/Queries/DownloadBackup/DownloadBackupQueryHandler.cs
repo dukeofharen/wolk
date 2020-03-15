@@ -58,6 +58,14 @@ namespace Ducode.Wolk.Application.Backup.Queries.DownloadBackup
                             JsonConvert.SerializeObject(note));
                     }
 
+                    var history = _mapper.Map<IEnumerable<NoteHistoryBackupDto>>(
+                        await _wolkDbContext.NoteHistory.ToArrayAsync(cancellationToken));
+                    foreach (var item in history)
+                    {
+                        zip.AddEntry($"{BackupConstants.NoteHistoryFolder}/{item.Id}.json",
+                            JsonConvert.SerializeObject(item));
+                    }
+
                     var attachments = _mapper.Map<IEnumerable<AttachmentBackupDto>>(
                         await _wolkDbContext.Attachments.ToArrayAsync(cancellationToken));
                     foreach (var attachment in attachments)

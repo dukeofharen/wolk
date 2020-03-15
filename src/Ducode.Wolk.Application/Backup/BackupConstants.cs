@@ -6,6 +6,8 @@ namespace Ducode.Wolk.Application.Backup
 
         public const string NotesFolder = "notes";
 
+        public const string NoteHistoryFolder = "noteHistory";
+
         public const string AttachmentsFolder = "attachments";
 
         public const string AttachmentFilesFolder = "attachmentFiles";

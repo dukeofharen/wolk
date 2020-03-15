@@ -51,7 +51,7 @@ namespace Ducode.Wolk.Api.Tests.Integration.Backup
             Assert.AreEqual(HttpStatusCode.OK, downloadResponse.StatusCode);
 
             var content = await downloadResponse.Content.ReadAsByteArrayAsync();
-            Assert.AreEqual(238268, content.Length);
+            Assert.AreEqual(240115, content.Length);
         }
     }
 }
