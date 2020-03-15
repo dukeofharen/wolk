@@ -30,9 +30,12 @@ namespace Ducode.Wolk.Application.Tests.NoteHistoryItems.Commands.ResoreNoteHist
             var noteHistory = await _wolkDbContext.CreateAndSaveNoteHistory(note);
             var command = new RestoreNoteHistoryCommand {NoteId = note.Id + 1, NoteHistoryId = noteHistory.Id};
 
-            // Act / Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() =>
+            // Act
+            var exception = await Assert.ThrowsExceptionAsync<NotFoundException>(() =>
                 _handler.Handle(command, CancellationToken.None));
+
+            // Assert
+            Assert.IsTrue(exception.Message.Contains("'Note'"));
         }
 
         [TestMethod]
@@ -43,9 +46,12 @@ namespace Ducode.Wolk.Application.Tests.NoteHistoryItems.Commands.ResoreNoteHist
             var noteHistory = await _wolkDbContext.CreateAndSaveNoteHistory(note);
             var command = new RestoreNoteHistoryCommand {NoteId = note.Id, NoteHistoryId = noteHistory.Id + 1};
 
-            // Act / Assert
-            await Assert.ThrowsExceptionAsync<NotFoundException>(() =>
+            // Act
+            var exception = await Assert.ThrowsExceptionAsync<NotFoundException>(() =>
                 _handler.Handle(command, CancellationToken.None));
+
+            // Assert
+            Assert.IsTrue(exception.Message.Contains("'NoteHistory'"));
         }
 
         [TestMethod]
